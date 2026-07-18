@@ -4,9 +4,9 @@
 
 ¿Con qué lenguaje quieres empezar?
 
-- [Python](#python)
-- [JavaScript](#javascript)
-- [Java](#java)
+- [Python](lenguajes/Python.md)
+- [JavaScript](lenguajes/JavaScript.md)
+- [Java](lenguajes/Java.md)
 
 > Elige una opción y verás ejemplos básicos adaptados a ese lenguaje.
 

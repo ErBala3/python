@@ -64,6 +64,7 @@ console.log("Hola mundo");
 
 - `array`: permite guardar varios valores en una sola variable.
 - Se crean con corchetes `[]`.
+- `push()`: añade un elemento al final de la lista.
 
 ```javascript
 let numeros = [1, 2, 3];
@@ -71,20 +72,14 @@ numeros.push(4);
 console.log(numeros);
 ```
 
-## 6. Objetos
-
-- `object`: agrupa datos relacionados mediante pares clave-valor.
-- Se define con llaves `{}`.
-
-```javascript
-let persona = { nombre: "Ana", edad: 25 };
-console.log(persona.nombre);
-```
-
-## 7. Funciones
+## 6. Funciones
 
 - `function`: permite encapsular una tarea y reutilizarla.
 - También se pueden usar funciones flecha.
+- Una función puede recibir parámetros y devolver un valor con `return`.
+- En JavaScript no se usan prefijos como `public` o `private` para funciones normales.
+- Las funciones declaradas con `function` son accesibles desde el contexto donde se definen.
+- Las funciones anónimas o flecha son muy útiles para callbacks y programación más moderna.
 
 ```javascript
 function saludar(nombre) {
@@ -94,7 +89,7 @@ function saludar(nombre) {
 console.log(saludar("Ana"));
 ```
 
-## 8. Cadenas de texto
+## 7. Cadenas de texto
 
 - `string`: sirve para almacenar texto.
 - Se pueden modificar con métodos como `toUpperCase()`.
@@ -104,17 +99,7 @@ let texto = "hola";
 console.log(texto.toUpperCase());
 ```
 
-## 9. Entrada de datos
-
-- `prompt()`: permite pedir información al usuario desde el navegador.
-- El valor recibido suele ser texto.
-
-```javascript
-let nombre = prompt("¿Cómo te llamas?");
-console.log(`Hola ${nombre}`);
-```
-
-## 10. Operadores
+## 8. Operadores
 
 ### Numéricos
 
@@ -341,7 +326,7 @@ let a = 3;
 console.log(a << 1);
 ```
 
-## 11. Estructuras de control
+## 9. Estructuras de control
 
 ### Condicionales
 
@@ -390,7 +375,7 @@ while (contador <= 10) {
 }
 ```
 
-## 12. Manejo de excepciones
+## 10. Manejo de excepciones
 
 - `try`: intenta ejecutar un bloque de código.
 - `catch`: ejecuta otro bloque si ocurre un error.
@@ -406,23 +391,56 @@ try {
 }
 ```
 
-## 13. Clases
+## 11. Clases
 
-- `class`: permite definir un tipo con propiedades y métodos.
-- Se crean objetos a partir de una clase.
+- `class`: permite definir una plantilla para crear objetos.
+- Un objeto es una instancia concreta de una clase.
+- El constructor inicializa el estado del objeto.
+- `this` hace referencia al objeto actual.
+- Los miembros públicos son accesibles por defecto.
+- Los miembros privados se declaran con `#` y no pueden accederse desde fuera.
+- `extends` permite crear clases hijas con herencia.
+- `super()` llama al constructor o métodos de la clase padre.
+- En JavaScript, `public` no se escribe como palabra clave; los miembros son públicos por defecto.
+- `private` se representa con `#nombre` para indicar que solo se puede usar dentro de la clase.
+- `protected` no existe como palabra clave en JavaScript clásico; se suele simular con convenciones de nombres como `_nombre`.
 
 ```javascript
 class Persona {
-  constructor(nombre) {
+  #edad;
+
+  constructor(nombre, edad) {
     this.nombre = nombre;
+    this.#edad = edad;
+  }
+
+  saludar() {
+    return `Hola, soy ${this.nombre}`;
+  }
+
+  getEdad() {
+    return this.#edad;
   }
 }
 
-let persona = new Persona("Ana");
-console.log(persona.nombre);
+class Estudiante extends Persona {
+  constructor(nombre, edad, curso) {
+    super(nombre, edad);
+    this.curso = curso;
+  }
+
+  saludar() {
+    return `${super.saludar()} y estudio ${this.curso}`;
+  }
+}
+
+let persona = new Persona("Ana", 25);
+let estudiante = new Estudiante("Luis", 20, "JavaScript");
+console.log(persona.saludar());
+console.log(estudiante.saludar());
 ```
 
-## 14. Módulos
+## 12. Módulos
 
 - `import`: permite reutilizar código desde otros archivos.
 - Se usa junto con `export` en los módulos.
@@ -433,7 +451,7 @@ export function sumar(a, b) {
 }
 ```
 
-## 15. Ejercicios
+## 13. Ejercicios
 
 Para practicar lo aprendido, puedes hacer varios ejercicios y retos de programación en la siguiente página:
 

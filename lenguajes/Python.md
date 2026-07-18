@@ -82,6 +82,7 @@ print("Hola " + "mundo")
 
 - `list`: permite guardar varios valores en una sola variable.
 - Se crean con corchetes `[]`.
+- `append()`: añade un elemento al final de la lista.
 
 ```python
 numeros = [1, 2, 3]
@@ -89,20 +90,14 @@ numeros.append(4)
 print(numeros)
 ```
 
-## 6. Objetos y diccionarios
-
-- `dict`: guarda datos en forma de clave y valor.
-- Las claves se escriben entre comillas y los valores pueden ser de cualquier tipo.
-
-```python
-persona = {"nombre": "Ana", "edad": 25}
-print(persona["nombre"])
-```
-
-## 7. Funciones
+## 6. Funciones
 
 - `def`: permite agrupar instrucciones y reutilizarlas.
-- Se puede usar `return` para devolver un resultado.
+- `return`: devuelve un valor desde la función.
+- Las funciones ayudan a organizar el código y evitar repeticiones.
+- En Python no existen prefijos como `public`, `private` o `protected` para funciones, pero sí es común usar convenciones de nombres para indicar intención.
+- Un guion bajo simple (`_nombre`) suele indicar que un atributo o método es de uso interno.
+- Un doble guion bajo (`__nombre`) provoca name mangling, que lo hace más difícil de acceder desde fuera.
 
 ```python
 def saludar(nombre):
@@ -111,7 +106,7 @@ def saludar(nombre):
 print(saludar("Ana"))
 ```
 
-## 8. Cadenas de texto
+## 7. Cadenas de texto
 
 - `str`: sirve para almacenar texto.
 - Se pueden concatenar y transformar con métodos.
@@ -122,17 +117,7 @@ print(texto.upper())
 print(texto + " mundo")
 ```
 
-## 9. Entrada de datos
-
-- `input()`: permite pedir información al usuario.
-- El valor introducido se guarda como texto.
-
-```python
-nombre = input("¿Cómo te llamas? ")
-print(f"Hola {nombre}")
-```
-
-## 10. Operadores
+## 8. Operadores
 
 ### Numéricos
 
@@ -390,7 +375,7 @@ a = 3
 print(a << 1)
 ```
 
-## 11. Estructuras de control
+## 10. Estructuras de control
 
 ### Condicionales
 
@@ -436,7 +421,7 @@ while contador <= 10:
     contador += 1
 ```
 
-## 12. Manejo de excepciones
+## 11. Manejo de excepciones
 
 - `try`: intenta ejecutar un bloque de código.
 - `except`: ejecuta otro bloque si ocurre un error.
@@ -451,21 +436,49 @@ finally:
     print("Ha finalizado el manejo de excepciones")
 ```
 
-## 13. Clases
+## 12. Clases
 
-- `class`: permite definir un tipo con propiedades y métodos.
-- Se crean objetos a partir de una clase.
+- `class`: permite definir una plantilla para crear objetos.
+- Un objeto es una instancia concreta de una clase.
+- El método `__init__()` sirve para inicializar los valores del objeto.
+- `self`: hace referencia al objeto actual y permite acceder a sus atributos y métodos.
+- En Python, los atributos públicos se escriben normalmente sin guion bajo.
+- Los atributos protegidos se suelen nombrar con un solo guion bajo (`_atributo`) para indicar que deberían usarse con cuidado.
+- Los atributos privados se suelen nombrar con `__` para indicar que no deberían usarse desde fuera.
+- La herencia permite crear clases nuevas a partir de otras usando `class Hija(Padre):`.
+- `super()` permite reutilizar el constructor o métodos de la clase padre.
+- Python no usa `public`, `private` o `protected` como palabras reservadas, pero sí tiene convenciones y mecanismos de encapsulación.
+- Un método o atributo con un solo guion bajo se considera “protegido” por convención.
+- Un método o atributo con doble guion bajo se convierte en privado por name mangling.
 
 ```python
 class Persona:
-    def __init__(self, nombre):
+    def __init__(self, nombre, edad):
         self.nombre = nombre
+        self._edad = edad
 
-p = Persona("Ana")
-print(p.nombre)
+    def presentarse(self):
+        return f"Hola, soy {self.nombre}"
+
+    def get_edad(self):
+        return self._edad
+
+class Estudiante(Persona):
+    def __init__(self, nombre, edad, curso):
+        super().__init__(nombre, edad)
+        self.curso = curso
+
+    def presentarse(self):
+        return f"Hola, soy {self.nombre} y estudio {self.curso}"
+
+p = Persona("Ana", 25)
+e = Estudiante("Luis", 20, "Python")
+print(p.presentarse())
+print(e.presentarse())
+print(e.get_edad())
 ```
 
-## 14. Módulos
+## 13. Módulos
 
 - `import`: permite reutilizar funciones de otras bibliotecas.
 - Python incluye muchos módulos útiles de forma estándar.
@@ -475,7 +488,7 @@ import math
 print(math.sqrt(16))
 ```
 
-## 15. Ejercicios
+## 14. Ejercicios
 
 Para practicar lo aprendido, puedes hacer varios ejercicios y retos de programación en la siguiente página:
 

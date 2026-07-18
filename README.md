@@ -1,4 +1,16 @@
-# Python para principiantes
+# Guía de lenguajes para principiantes
+
+## Selecciona el lenguaje
+
+¿Con qué lenguaje quieres empezar?
+
+- [Python](#python)
+- [JavaScript](#javascript)
+- [Java](#java)
+
+> Elige una opción y verás ejemplos básicos adaptados a ese lenguaje.
+
+## Python
 
 Este repositorio sirve como una guía breve de estudio para aprender los fundamentos de Python.
 
@@ -402,3 +414,91 @@ Para practicar lo aprendido, puedes hacer varios ejercicios y retos de programac
 [Roadmap de Retos de Programación | by MoureDev](https://retosdeprogramacion.com/roadmap)
 
 Es una buena forma de reforzar conceptos como variables, condicionales, bucles, funciones y estructuras de datos.
+
+## JavaScript
+
+Aquí tienes los mismos conceptos explicados de forma sencilla en JavaScript.
+
+### Comentarios
+
+```javascript
+// Comentario de una línea
+/* Comentario de varias líneas */
+```
+
+### Variables
+
+```javascript
+let nombre = "Ana";
+const edad = 25;
+```
+
+### Mostrar mensajes
+
+```javascript
+console.log("Hola mundo");
+```
+
+### Condicionales
+
+```javascript
+let edad = 18;
+
+if (edad >= 18) {
+  console.log("Eres mayor de edad");
+} else {
+  console.log("Eres menor de edad");
+}
+```
+
+### Bucles
+
+```javascript
+for (let i = 0; i < 3; i++) {
+  console.log(i);
+}
+```
+
+## Java
+
+Aquí tienes los mismos conceptos explicados de forma sencilla en Java.
+
+### Comentarios
+
+```java
+// Comentario de una línea
+/* Comentario de varias líneas */
+```
+
+### Variables
+
+```java
+String nombre = "Ana";
+int edad = 25;
+```
+
+### Mostrar mensajes
+
+```java
+System.out.println("Hola mundo");
+```
+
+### Condicionales
+
+```java
+int edad = 18;
+
+if (edad >= 18) {
+    System.out.println("Eres mayor de edad");
+} else {
+    System.out.println("Eres menor de edad");
+}
+```
+
+### Bucles
+
+```java
+for (int i = 0; i < 3; i++) {
+    System.out.println(i);
+}
+```

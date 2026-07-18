@@ -8,30 +8,33 @@ Aprender los conceptos básicos de forma práctica, con ejemplos sencillos y ord
 
 ## 1. Comentarios
 
+- Los comentarios sirven para explicar partes del código sin que Python las ejecute.
 - Para comentarios largos se usa triple comillas:
 
 ```python
 """
-comentario
+Este es un comentario
+muy largo
 """
 ```
 
 - Para comentarios de una sola línea se usa `#`:
 
 ```python
-# comentario
+# Este es un comentario de una línea
 ```
 
 ## 2. Variables y constantes
 
-- No hace falta indicar el tipo al crear una variable.
+- Una variable es un nombre que almacena un valor.
+- En Python no hace falta indicar el tipo al crear una variable.
 
 ```python
 variable = "valor"
 variable = 10
 ```
 
-- No existen constantes reales, pero se suelen escribir en mayúsculas.
+- No existen constantes reales como en otros lenguajes, pero se suelen escribir en mayúsculas para indicar que no deberían cambiar.
 
 ```python
 CONSTANTE = "valor"
@@ -39,10 +42,10 @@ CONSTANTE = "valor"
 
 ## 3. Tipos de datos
 
-- `int`: enteros
-- `float`: decimales
-- `bool`: booleanos (`True` / `False`)
-- `str`: cadenas de texto
+- `int`: números enteros.
+- `float`: números decimales.
+- `bool`: valores booleanos (`True` o `False`).
+- `str`: cadenas de texto.
 
 ```python
 entero = 10
@@ -53,20 +56,21 @@ texto = "Hola mundo"
 
 ## 4. Mostrar mensajes
 
-- Se usa `print()` para mostrar texto.
+- `print()` sirve para mostrar información en pantalla.
+- El texto que se muestra debe ir entre comillas.
 
 ```python
 print("Hola mundo")
 ```
 
-- Para meter variables dentro de una cadena se usa `f` y `{}`.
+- Para insertar variables dentro de una cadena se usa `f` y `{}`.
 
 ```python
 numero = 2
 print(f"1 + 1 = {1 + 1}")
 ```
 
-- Para unir cadenas se usa `+`.
+- Para unir varias cadenas se usa `+`.
 
 ```python
 print("Hola " + "mundo")
@@ -76,43 +80,43 @@ print("Hola " + "mundo")
 
 ### Numéricos
 
-- Suma `+`:
+- `+`: suma dos valores.
 
 ```python
 suma = 1 + 2
 ```
 
-- Resta `-`:
+- `-`: resta dos valores.
 
 ```python
 resta = 1 - 2
 ```
 
-- Multiplicación `*`:
+- `*`: multiplica dos valores.
 
 ```python
 multiplicacion = 1 * 2
 ```
 
-- Exponente `**`:
+- `**`: eleva una variable a otra.
 
 ```python
 exponente = 1 ** 2
 ```
 
-- División `/`:
+- `/`: divide y devuelve decimales.
 
 ```python
 division = 1 / 2
 ```
 
-- División entera `//`:
+- `//`: divide y devuelve el resultado sin decimales.
 
 ```python
 division_entera = 1 // 2
 ```
 
-- Módulo `%`:
+- `%`: devuelve el resto de una división.
 
 ```python
 modulo = 1 % 2
@@ -120,8 +124,7 @@ modulo = 1 % 2
 
 ### Comparación
 
-- Igualdad `==`:
-  - Compara si dos variables son iguales.
+- `==`: compara si dos variables son iguales.
 
 ```python
 a = 5
@@ -129,8 +132,7 @@ b = 8
 print(a == b)
 ```
 
-- Desigualdad `!=`:
-  - Compara si dos variables son diferentes.
+- `!=`: compara si dos variables son diferentes.
 
 ```python
 a = 5
@@ -138,8 +140,7 @@ b = 8
 print(a != b)
 ```
 
-- Mayor que `>`:
-  - Compara si una variable es mayor que otra.
+- `>`: compara si una variable es mayor que otra.
 
 ```python
 a = 5
@@ -147,8 +148,7 @@ b = 8
 print(a > b)
 ```
 
-- Menor que `<`:
-  - Compara si una variable es menor que otra.
+- `<`: compara si una variable es menor que otra.
 
 ```python
 a = 5
@@ -156,8 +156,7 @@ b = 8
 print(a < b)
 ```
 
-- Mayor o igual que `>=`:
-  - Compara si una variable es mayor o igual que otra.
+- `>=`: compara si una variable es mayor o igual que otra.
 
 ```python
 a = 5
@@ -165,8 +164,7 @@ b = 8
 print(a >= b)
 ```
 
-- Menor o igual que `<=`:
-  - Compara si una variable es menor o igual que otra.
+- `<=`: compara si una variable es menor o igual que otra.
 
 ```python
 a = 5
@@ -176,8 +174,7 @@ print(a <= b)
 
 ### Lógicos
 
-- `and`:
-  - Comprueba que dos condiciones son correctas.
+- `and`: comprueba que dos condiciones son correctas.
 
 ```python
 a = 2
@@ -186,8 +183,7 @@ c = 5
 print(a + b == c and b + c == 8)
 ```
 
-- `or`:
-  - Comprueba que al menos una condición es correcta.
+- `or`: comprueba que al menos una condición es correcta.
 
 ```python
 a = 2
@@ -196,8 +192,7 @@ c = 5
 print(a + b == 4 or b + c == 8)
 ```
 
-- `not`:
-  - Comprueba si se cumple la condición y devuelve lo contrario.
+- `not`: devuelve lo contrario de una condición.
 
 ```python
 print(not (2 + 3 == 5))
@@ -205,63 +200,55 @@ print(not (2 + 3 == 5))
 
 ### Asignación
 
-- `=`:
-  - Asigna un valor.
+- `=`: asigna un valor.
 
 ```python
 variable = 1
 ```
 
-- `+=`:
-  - Sumar y asignar un valor.
+- `+=`: suma y asigna el resultado.
 
 ```python
 variable = 1
 variable += 1
 ```
 
-- `-=`:
-  - Restar y asignar un valor.
+- `-=`: resta y asigna el resultado.
 
 ```python
 variable = 1
 variable -= 1
 ```
 
-- `*=`:
-  - Multiplicar y asignar un valor.
+- `*=`: multiplica y asigna el resultado.
 
 ```python
 variable = 1
 variable *= 2
 ```
 
-- `**=`:
-  - Elevar y asignar un valor.
+- `**=`: eleva y asigna el resultado.
 
 ```python
 variable = 1
 variable **= 2
 ```
 
-- `/=`:
-  - Dividir y asignar un valor.
+- `/=`: divide y asigna el resultado.
 
 ```python
 variable = 1
 variable /= 2
 ```
 
-- `//=`:
-  - Dividir entero y asignar un valor.
+- `//=`: divide entera y asigna el resultado.
 
 ```python
 variable = 1
 variable //= 2
 ```
 
-- `%=`:
-  - Sacar el módulo y asignar un valor.
+- `%=`: calcula el módulo y asigna el resultado.
 
 ```python
 variable = 1
@@ -270,8 +257,7 @@ variable %= 2
 
 ### Identidad
 
-- `is`:
-  - Comprueba si dos variables ocupan el mismo espacio en memoria.
+- `is`: comprueba si dos variables ocupan el mismo espacio en memoria.
 
 ```python
 a = [1, 2]
@@ -279,8 +265,7 @@ b = a
 print(a is b)
 ```
 
-- `is not`:
-  - Comprueba si dos variables ocupan distinto espacio en memoria.
+- `is not`: comprueba si dos variables ocupan distinto espacio en memoria.
 
 ```python
 a = [1, 2]
@@ -290,15 +275,13 @@ print(a is not b)
 
 ### Pertenencia
 
-- `in`:
-  - Comprueba si una variable contiene otra variable.
+- `in`: comprueba si una variable contiene otra variable.
 
 ```python
 print('a' in 'avion')
 ```
 
-- `not in`:
-  - Comprueba si una variable no contiene otra variable.
+- `not in`: comprueba si una variable no contiene otra variable.
 
 ```python
 print('a' not in 'avion')
@@ -306,8 +289,7 @@ print('a' not in 'avion')
 
 ### BITS
 
-- `&`:
-  - Comprueba bit a bit si ambos son 1 y lo cambia por uno y da el resultado.
+- `&`: comprueba bit a bit si ambos son 1 y devuelve 1.
 
 ```python
 a = 3
@@ -315,8 +297,7 @@ b = 1
 print(a & b)
 ```
 
-- `|`:
-  - Comprueba bit a bit si al menos uno es 1 y lo cambia por uno y da el resultado.
+- `|`: comprueba bit a bit si al menos uno es 1.
 
 ```python
 a = 3
@@ -324,8 +305,7 @@ b = 1
 print(a | b)
 ```
 
-- `^`:
-  - Comprueba bit a bit si ambos son diferentes y lo cambia por uno y da el resultado.
+- `^`: comprueba bit a bit si ambos son diferentes.
 
 ```python
 a = 3
@@ -333,24 +313,21 @@ b = 1
 print(a ^ b)
 ```
 
-- `~`:
-  - Cambia los valores bit a bit y muestra el resultado.
+- `~`: cambia los valores bit a bit y muestra el resultado contrario.
 
 ```python
 a = 3
 print(~a)
 ```
 
-- `>>`:
-  - Desplaza los bits x números a la derecha y rellena lo demás con 0.
+- `>>`: desplaza los bits a la derecha y rellena con 0.
 
 ```python
 a = 3
 print(a >> 1)
 ```
 
-- `<<`:
-  - Desplaza los bits x números a la izquierda y rellena lo demás con 0.
+- `<<`: desplaza los bits a la izquierda y rellena con 0.
 
 ```python
 a = 3
@@ -360,6 +337,10 @@ print(a << 1)
 ## 6. Estructuras de control
 
 ### Condicionales
+
+- `if`: ejecuta un bloque de código si la condición es verdadera.
+- `else`: ejecuta otro bloque si la condición no se cumple.
+- `elif`: permite añadir más condiciones intermedias.
 
 ```python
 edad = 18
@@ -383,14 +364,13 @@ else:
 
 ### Bucles
 
-- `for`:
+- `for`: repite una acción un número fijo de veces.
+- `while`: repite una acción mientras se cumpla una condición.
 
 ```python
 for i in range(10):
     print(i)
 ```
-
-- `while`:
 
 ```python
 contador = 0
@@ -402,26 +382,9 @@ while contador <= 10:
 
 ## 7. Manejo de excepciones
 
-- `try`:
-  - Intenta ejecutar código.
-
-```python
-try:
-    print(10 / 0)
-```
-
-- `except`:
-  - Si no se puede ejecutar el código, ejecuta otra línea de código.
-
-```python
-try:
-    print(10 / 0)
-except:
-    print("Se ha producido un error")
-```
-
-- `finally`:
-  - Se ejecuta siempre al finalizar el manejo de excepciones, haya o no errores.
+- `try`: intenta ejecutar un bloque de código.
+- `except`: ejecuta otro bloque si ocurre un error.
+- `finally`: se ejecuta siempre, haya o no error.
 
 ```python
 try:
@@ -435,8 +398,8 @@ finally:
 ## 8. Consejos para aprender
 
 1. Practica cada día con pequeños ejercicios.
-2. Lee los errores que aparecen en la consola.
-3. Escribe tus propios ejemplos.
+2. Lee con atención los errores que aparecen en la consola.
+3. Escribe tus propios ejemplos para fijar lo aprendido.
 4. Divide los problemas en partes más pequeñas.
 
 ## 9. Siguiente paso

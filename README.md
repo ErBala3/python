@@ -8,30 +8,44 @@ Aprender los conceptos básicos de Python de forma práctica y didáctica.
 
 ## 1. Comentarios
 
-Los comentarios sirven para explicar partes del código.
+Para hacer comentarios grandes se usa triple comillas: `"""` o `'''`.
 
 ```python
-"""Este es un comentario de varias líneas"""
+"""
+Este es un comentario
+de varias líneas
+"""
+```
+
+Para comentar una sola línea se usa `#`.
+
+```python
 # Este es un comentario de una línea
 ```
 
-## 2. Variables
+## 2. Variables y constantes
 
 En Python no hace falta declarar el tipo de una variable explícitamente.
 
 ```python
-nombre = "Ana"
-edad = 25
-precio = 19.99
-activo = True
+variable = "valor"
+variable = 10
+```
+
+No existen constantes en el sentido estricto, pero se suelen representar con letras mayúsculas.
+
+```python
+CONSTANTE = "valor"
 ```
 
 ## 3. Tipos de datos básicos
 
+Hay cuatro tipos básicos de datos:
+
 - `int`: números enteros
 - `float`: números decimales
 - `bool`: valores booleanos (`True` o `False`)
-- `str`: cadenas de texto
+- `str`: cadenas de texto con comillas `""` o `''`
 
 ```python
 entero = 10
@@ -42,65 +56,202 @@ texto = "Hola mundo"
 
 ## 4. Mostrar mensajes por pantalla
 
-Para mostrar información en la consola se usa `print()`.
+Para imprimir información en pantalla se usa `print()` y el mensaje debe ir entre comillas.
 
 ```python
 print("Hola mundo")
 ```
 
-También se puede insertar variables dentro de una cadena usando `f-strings`.
+Para incluir variables dentro de una cadena se usa `f` delante de la cadena y se escriben las variables entre llaves `{}`.
 
 ```python
-nombre = "Luis"
-print(f"Hola, {nombre}")
+numero = 2
+print(f"1 + 1 = {1 + 1}")
+```
+
+También se pueden concatenar cadenas con `+`.
+
+```python
+print("Hola " + "mundo")
 ```
 
 ## 5. Operadores
 
-### Aritméticos
+### Operadores numéricos
+
+Cada uno se explica por separado, como en el archivo de teoría.
 
 ```python
 suma = 1 + 2
-resta = 5 - 3
-multiplicacion = 4 * 2
-exponente = 2 ** 3
-division = 10 / 2
-division_entera = 10 // 3
-modulo = 10 % 3
 ```
 
-### Comparación
+```python
+resta = 1 - 2
+```
+
+```python
+multiplicacion = 1 * 2
+```
+
+```python
+exponente = 1 ** 2
+```
+
+```python
+division = 1 / 2
+```
+
+```python
+division_entera = 1 // 2
+```
+
+```python
+modulo = 1 % 2
+```
+
+### Operadores de comparación
 
 ```python
 a = 5
 b = 8
-
-print(a == b)  # Igualdad
-print(a != b)  # Desigualdad
-print(a > b)   # Mayor que
-print(a < b)   # Menor que
-print(a >= b)  # Mayor o igual
-print(a <= b)  # Menor o igual
+print(a == b)
 ```
 
-### Lógicos
+```python
+a = 5
+b = 8
+print(a != b)
+```
+
+```python
+a = 5
+b = 8
+print(a > b)
+```
+
+```python
+a = 5
+b = 8
+print(a < b)
+```
+
+```python
+a = 5
+b = 8
+print(a >= b)
+```
+
+```python
+a = 5
+b = 8
+print(a <= b)
+```
+
+### Operadores lógicos
 
 ```python
 print(True and False)
+```
+
+```python
 print(True or False)
+```
+
+```python
 print(not True)
 ```
 
-### Asignación
+### Operadores de asignación
 
 ```python
-valor = 1
-valor += 1
-valor -= 1
-valor *= 2
-valor /= 2
-valor //= 2
-valor %= 2
+variable = 1
+```
+
+```python
+variable += 1
+```
+
+```python
+variable -= 1
+```
+
+```python
+variable *= 1
+```
+
+```python
+variable **= 1
+```
+
+```python
+variable /= 1
+```
+
+```python
+variable //= 1
+```
+
+```python
+variable %= 1
+```
+
+### Operadores de identidad
+
+```python
+a = [1, 2]
+b = [1, 2]
+print(a is b)
+```
+
+```python
+a = [1, 2]
+b = [1, 2]
+print(a is not b)
+```
+
+### Operadores de pertenencia
+
+```python
+print('a' in 'avion')
+```
+
+```python
+print('a' not in 'avion')
+```
+
+### Operadores a nivel de bits
+
+```python
+a = 3
+b = 1
+print(a & b)
+```
+
+```python
+a = 3
+b = 1
+print(a | b)
+```
+
+```python
+a = 3
+b = 1
+print(a ^ b)
+```
+
+```python
+a = 3
+print(~a)
+```
+
+```python
+a = 3
+print(a >> 1)
+```
+
+```python
+a = 3
+print(a << 1)
 ```
 
 ## 6. Estructuras de control
@@ -132,7 +283,7 @@ else:
 #### `for`
 
 ```python
-for i in range(5):
+for i in range(10):
     print(i)
 ```
 
@@ -141,7 +292,7 @@ for i in range(5):
 ```python
 contador = 0
 
-while contador < 3:
+while contador <= 10:
     print(contador)
     contador += 1
 ```
@@ -150,11 +301,11 @@ while contador < 3:
 
 ```python
 try:
-    resultado = 10 / 0
-except ZeroDivisionError:
-    print("No se puede dividir entre cero")
+    print(10 / 0)
+except:
+    print("Se ha producido un error")
 finally:
-    print("Fin del bloque")
+    print("Ha finalizado el manejo de excepciones")
 ```
 
 ## 8. Consejos para aprender
@@ -181,4 +332,3 @@ python main.py
 ## 10. Resumen rápido
 
 Python es un lenguaje fácil de leer, muy usado en desarrollo web, automatización, ciencia de datos e inteligencia artificial. Con esta guía básica podrás empezar a familiarizarte con su sintaxis y sus conceptos fundamentales.
-

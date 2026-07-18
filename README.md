@@ -395,27 +395,10 @@ finally:
     print("Ha finalizado el manejo de excepciones")
 ```
 
-## 8. Consejos para aprender
+## 8. Ejercicios
 
-1. Practica cada día con pequeños ejercicios.
-2. Lee con atención los errores que aparecen en la consola.
-3. Escribe tus propios ejemplos para fijar lo aprendido.
-4. Divide los problemas en partes más pequeñas.
+Para practicar lo aprendido, puedes hacer varios ejercicios y retos de programación en la siguiente página:
 
-## 9. Siguiente paso
+[Roadmap de Retos de Programación | by MoureDev](https://retosdeprogramacion.com/roadmap)
 
-Crea un archivo llamado `main.py` y prueba este ejemplo:
-
-```python
-print("¡Estoy aprendiendo Python!")
-```
-
-Ejecuta el archivo con:
-
-```bash
-python main.py
-```
-
-## 10. Resumen rápido
-
-Python es un lenguaje simple y fácil de leer. Se usa mucho en desarrollo web, automatización, ciencia de datos e inteligencia artificial.
+Es una buena forma de reforzar conceptos como variables, condicionales, bucles, funciones y estructuras de datos.

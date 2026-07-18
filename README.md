@@ -121,6 +121,7 @@ modulo = 1 % 2
 ### Comparación
 
 - Igualdad `==`:
+  - Compara si dos variables son iguales.
 
 ```python
 a = 5
@@ -129,6 +130,7 @@ print(a == b)
 ```
 
 - Desigualdad `!=`:
+  - Compara si dos variables son diferentes.
 
 ```python
 a = 5
@@ -137,6 +139,7 @@ print(a != b)
 ```
 
 - Mayor que `>`:
+  - Compara si una variable es mayor que otra.
 
 ```python
 a = 5
@@ -145,6 +148,7 @@ print(a > b)
 ```
 
 - Menor que `<`:
+  - Compara si una variable es menor que otra.
 
 ```python
 a = 5
@@ -153,6 +157,7 @@ print(a < b)
 ```
 
 - Mayor o igual que `>=`:
+  - Compara si una variable es mayor o igual que otra.
 
 ```python
 a = 5
@@ -161,6 +166,7 @@ print(a >= b)
 ```
 
 - Menor o igual que `<=`:
+  - Compara si una variable es menor o igual que otra.
 
 ```python
 a = 5
@@ -171,74 +177,91 @@ print(a <= b)
 ### Lógicos
 
 - `and`:
+  - Comprueba que dos condiciones son correctas.
 
 ```python
-print(True and False)
+a = 2
+b = 3
+c = 5
+print(a + b == c and b + c == 8)
 ```
 
 - `or`:
+  - Comprueba que al menos una condición es correcta.
 
 ```python
-print(True or False)
+a = 2
+b = 3
+c = 5
+print(a + b == 4 or b + c == 8)
 ```
 
 - `not`:
+  - Comprueba si se cumple la condición y devuelve lo contrario.
 
 ```python
-print(not True)
+print(not (2 + 3 == 5))
 ```
 
 ### Asignación
 
-- Asignar un valor `=`:
+- `=`:
+  - Asigna un valor.
 
 ```python
 variable = 1
 ```
 
-- Sumar y asignar `+=`:
+- `+=`:
+  - Sumar y asignar un valor.
 
 ```python
 variable = 1
 variable += 1
 ```
 
-- Restar y asignar `-=`:
+- `-=`:
+  - Restar y asignar un valor.
 
 ```python
 variable = 1
 variable -= 1
 ```
 
-- Multiplicar y asignar `*=`:
+- `*=`:
+  - Multiplicar y asignar un valor.
 
 ```python
 variable = 1
 variable *= 2
 ```
 
-- Elevar y asignar `**=`:
+- `**=`:
+  - Elevar y asignar un valor.
 
 ```python
 variable = 1
 variable **= 2
 ```
 
-- Dividir y asignar `/=`:
+- `/=`:
+  - Dividir y asignar un valor.
 
 ```python
 variable = 1
 variable /= 2
 ```
 
-- Dividir entero y asignar `//=`:
+- `//=`:
+  - Dividir entero y asignar un valor.
 
 ```python
 variable = 1
 variable //= 2
 ```
 
-- Sacar el módulo y asignar `%=`:
+- `%=`:
+  - Sacar el módulo y asignar un valor.
 
 ```python
 variable = 1
@@ -248,14 +271,16 @@ variable %= 2
 ### Identidad
 
 - `is`:
+  - Comprueba si dos variables ocupan el mismo espacio en memoria.
 
 ```python
 a = [1, 2]
-b = [1, 2]
+b = a
 print(a is b)
 ```
 
 - `is not`:
+  - Comprueba si dos variables ocupan distinto espacio en memoria.
 
 ```python
 a = [1, 2]
@@ -266,12 +291,14 @@ print(a is not b)
 ### Pertenencia
 
 - `in`:
+  - Comprueba si una variable contiene otra variable.
 
 ```python
 print('a' in 'avion')
 ```
 
 - `not in`:
+  - Comprueba si una variable no contiene otra variable.
 
 ```python
 print('a' not in 'avion')
@@ -280,6 +307,7 @@ print('a' not in 'avion')
 ### BITS
 
 - `&`:
+  - Comprueba bit a bit si ambos son 1 y lo cambia por uno y da el resultado.
 
 ```python
 a = 3
@@ -288,6 +316,7 @@ print(a & b)
 ```
 
 - `|`:
+  - Comprueba bit a bit si al menos uno es 1 y lo cambia por uno y da el resultado.
 
 ```python
 a = 3
@@ -296,6 +325,7 @@ print(a | b)
 ```
 
 - `^`:
+  - Comprueba bit a bit si ambos son diferentes y lo cambia por uno y da el resultado.
 
 ```python
 a = 3
@@ -304,6 +334,7 @@ print(a ^ b)
 ```
 
 - `~`:
+  - Cambia los valores bit a bit y muestra el resultado.
 
 ```python
 a = 3
@@ -311,6 +342,7 @@ print(~a)
 ```
 
 - `>>`:
+  - Desplaza los bits x números a la derecha y rellena lo demás con 0.
 
 ```python
 a = 3
@@ -318,6 +350,7 @@ print(a >> 1)
 ```
 
 - `<<`:
+  - Desplaza los bits x números a la izquierda y rellena lo demás con 0.
 
 ```python
 a = 3
@@ -368,6 +401,27 @@ while contador <= 10:
 ```
 
 ## 7. Manejo de excepciones
+
+- `try`:
+  - Intenta ejecutar código.
+
+```python
+try:
+    print(10 / 0)
+```
+
+- `except`:
+  - Si no se puede ejecutar el código, ejecuta otra línea de código.
+
+```python
+try:
+    print(10 / 0)
+except:
+    print("Se ha producido un error")
+```
+
+- `finally`:
+  - Se ejecuta siempre al finalizar el manejo de excepciones, haya o no errores.
 
 ```python
 try:

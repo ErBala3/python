@@ -77,39 +77,53 @@ print("Hola " + "mundo")
 
 ## 5. Operadores
 
-### Operadores numéricos
+### Numéricos
 
-Cada uno se explica por separado, como en el archivo de teoría.
+Suma +:
 
 ```python
 suma = 1 + 2
 ```
 
+Resta -:
+
 ```python
 resta = 1 - 2
 ```
+
+Multiplicación *:
 
 ```python
 multiplicacion = 1 * 2
 ```
 
+Exponente **:
+
 ```python
 exponente = 1 ** 2
 ```
+
+Division /:
 
 ```python
 division = 1 / 2
 ```
 
+Division Entera //:
+
 ```python
 division_entera = 1 // 2
 ```
+
+Módulo %:
 
 ```python
 modulo = 1 % 2
 ```
 
-### Operadores de comparación
+### Comparación
+
+Igualdad ==:
 
 ```python
 a = 5
@@ -117,11 +131,15 @@ b = 8
 print(a == b)
 ```
 
+Desigualdad !=:
+
 ```python
 a = 5
 b = 8
 print(a != b)
 ```
+
+Mayor que >:
 
 ```python
 a = 5
@@ -129,11 +147,15 @@ b = 8
 print(a > b)
 ```
 
+Menor que <:
+
 ```python
 a = 5
 b = 8
 print(a < b)
 ```
+
+Mayor o igual que >=:
 
 ```python
 a = 5
@@ -141,61 +163,94 @@ b = 8
 print(a >= b)
 ```
 
+Menor o igual que <=:
+
 ```python
 a = 5
 b = 8
 print(a <= b)
 ```
 
-### Operadores lógicos
+### Lógicos
+
+AND and:
 
 ```python
 print(True and False)
 ```
 
+OR or:
+
 ```python
 print(True or False)
 ```
+
+NOT not:
 
 ```python
 print(not True)
 ```
 
-### Operadores de asignación
+### Asignación
+
+Asignar un valor =:
 
 ```python
 variable = 1
 ```
 
+Sumar y asignar un valor +=:
+
 ```python
+variable = 1
 variable += 1
 ```
 
+Restar y asignar un valor -=:
+
 ```python
+variable = 1
 variable -= 1
 ```
 
-```python
-variable *= 1
-```
+Multiplicar y asignar un valor *=:
 
 ```python
-variable **= 1
+variable = 1
+variable *= 2
 ```
+
+Elevar y asignar un valor **=:
 
 ```python
-variable /= 1
+variable = 1
+variable **= 2
 ```
+
+Dividir y asignar un valor /=:
 
 ```python
-variable //= 1
+variable = 1
+variable /= 2
 ```
+
+Dividir entero y asignar un valor //=:
 
 ```python
-variable %= 1
+variable = 1
+variable //= 2
 ```
 
-### Operadores de identidad
+Sacar el módulo y asignar un valor %=:
+
+```python
+variable = 1
+variable %= 2
+```
+
+### Identidad
+
+IS:
 
 ```python
 a = [1, 2]
@@ -203,23 +258,31 @@ b = [1, 2]
 print(a is b)
 ```
 
+IS NOT:
+
 ```python
 a = [1, 2]
 b = [1, 2]
 print(a is not b)
 ```
 
-### Operadores de pertenencia
+### Pertenencia
+
+IN:
 
 ```python
 print('a' in 'avion')
 ```
 
+NOT IN:
+
 ```python
 print('a' not in 'avion')
 ```
 
-### Operadores a nivel de bits
+### BITS
+
+AND &:
 
 ```python
 a = 3
@@ -227,11 +290,15 @@ b = 1
 print(a & b)
 ```
 
+OR |:
+
 ```python
 a = 3
 b = 1
 print(a | b)
 ```
+
+XOR ^:
 
 ```python
 a = 3
@@ -239,15 +306,21 @@ b = 1
 print(a ^ b)
 ```
 
+NOT ~:
+
 ```python
 a = 3
 print(~a)
 ```
 
+Desplazamiento a la derecha >>:
+
 ```python
 a = 3
 print(a >> 1)
 ```
+
+Desplazamiento a la izquierda <<:
 
 ```python
 a = 3

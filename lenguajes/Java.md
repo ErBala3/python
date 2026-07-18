@@ -61,62 +61,211 @@ System.out.println("Hola mundo");
 
 ## 5. Operadores
 
-### Aritméticos
+### Numéricos
+
+- `+`: suma dos valores.
 
 ```java
 int suma = 1 + 2;
-int resta = 5 - 3;
-int multiplicacion = 4 * 2;
-int division = 10 / 2;
-int modulo = 10 % 3;
+```
+
+- `-`: resta dos valores.
+
+```java
+int resta = 1 - 2;
+```
+
+- `*`: multiplica dos valores.
+
+```java
+int multiplicacion = 1 * 2;
+```
+
+- `**`: eleva una variable a otra.
+
+```java
+int exponente = 1 * 1;
+```
+
+- `/`: divide y devuelve decimales.
+
+```java
+double division = 1 / 2.0;
+```
+
+- `%`: devuelve el resto de una división.
+
+```java
+int modulo = 1 % 2;
 ```
 
 ### Comparación
+
+- `==`: compara si dos variables son iguales.
 
 ```java
 int a = 5;
 int b = 8;
 System.out.println(a == b);
+```
+
+- `!=`: compara si dos variables son diferentes.
+
+```java
+int a = 5;
+int b = 8;
 System.out.println(a != b);
+```
+
+- `>`: compara si una variable es mayor que otra.
+
+```java
+int a = 5;
+int b = 8;
 System.out.println(a > b);
+```
+
+- `<`: compara si una variable es menor que otra.
+
+```java
+int a = 5;
+int b = 8;
 System.out.println(a < b);
+```
+
+- `>=`: compara si una variable es mayor o igual que otra.
+
+```java
+int a = 5;
+int b = 8;
+System.out.println(a >= b);
+```
+
+- `<=`: compara si una variable es menor o igual que otra.
+
+```java
+int a = 5;
+int b = 8;
+System.out.println(a <= b);
 ```
 
 ### Lógicos
 
+- `&&`: comprueba que dos condiciones son correctas.
+
 ```java
 System.out.println(true && false);
+```
+
+- `||`: comprueba que al menos una condición es correcta.
+
+```java
 System.out.println(true || false);
+```
+
+- `!`: devuelve lo contrario de una condición.
+
+```java
 System.out.println(!true);
 ```
 
 ### Asignación
 
+- `=`: asigna un valor.
+
+```java
+int variable = 1;
+```
+
+- `+=`: suma y asigna el resultado.
+
 ```java
 int variable = 1;
 variable += 1;
+```
+
+- `-=`: resta y asigna el resultado.
+
+```java
+int variable = 1;
 variable -= 1;
+```
+
+- `*=`: multiplica y asigna el resultado.
+
+```java
+int variable = 1;
 variable *= 2;
+```
+
+- `/=`: divide y asigna el resultado.
+
+```java
+int variable = 1;
 variable /= 2;
+```
+
+- `%=`: calcula el módulo y asigna el resultado.
+
+```java
+int variable = 1;
 variable %= 2;
 ```
 
 ### BITS
 
+- `&`: comprueba bit a bit si ambos son 1.
+
 ```java
 int a = 3;
 int b = 1;
 System.out.println(a & b);
+```
+
+- `|`: comprueba bit a bit si al menos uno es 1.
+
+```java
+int a = 3;
+int b = 1;
 System.out.println(a | b);
+```
+
+- `^`: comprueba bit a bit si ambos son diferentes.
+
+```java
+int a = 3;
+int b = 1;
 System.out.println(a ^ b);
+```
+
+- `~`: cambia los valores bit a bit y muestra el resultado contrario.
+
+```java
+int a = 3;
 System.out.println(~a);
+```
+
+- `>>`: desplaza los bits a la derecha y rellena con 0.
+
+```java
+int a = 3;
 System.out.println(a >> 1);
+```
+
+- `<<`: desplaza los bits a la izquierda y rellena con 0.
+
+```java
+int a = 3;
 System.out.println(a << 1);
 ```
 
 ## 6. Estructuras de control
 
 ### Condicionales
+
+- `if`: ejecuta un bloque si la condición es verdadera.
+- `else`: ejecuta otro bloque si la condición no se cumple.
+- `else if`: añade más condiciones intermedias.
 
 ```java
 int edad = 18;
@@ -128,23 +277,42 @@ if (edad >= 18) {
 }
 ```
 
+```java
+int numero = 5;
+
+if (numero > 0) {
+    System.out.println("Es positivo");
+} else if (numero == 0) {
+    System.out.println("Es cero");
+} else {
+    System.out.println("Es negativo");
+}
+```
+
 ### Bucles
 
+- `for`: repite una acción un número fijo de veces.
+- `while`: repite una acción mientras se cumpla una condición.
+
 ```java
-for (int i = 0; i < 3; i++) {
+for (int i = 0; i < 10; i++) {
     System.out.println(i);
 }
 ```
 
 ```java
 int contador = 0;
-while (contador < 3) {
+while (contador <= 10) {
     System.out.println(contador);
     contador += 1;
 }
 ```
 
 ## 7. Manejo de excepciones
+
+- `try`: intenta ejecutar un bloque de código.
+- `catch`: ejecuta otro bloque si ocurre un error.
+- `finally`: se ejecuta siempre, haya o no error.
 
 ```java
 try {

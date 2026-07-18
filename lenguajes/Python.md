@@ -77,47 +77,7 @@ print(f"1 + 1 = {1 + 1}")
 ```python
 print("Hola " + "mundo")
 ```
-
-## 5. Arrays y listas
-
-- `list`: permite guardar varios valores en una sola variable.
-- Se crean con corchetes `[]`.
-- `append()`: añade un elemento al final de la lista.
-
-```python
-numeros = [1, 2, 3]
-numeros.append(4)
-print(numeros)
-```
-
-## 6. Funciones
-
-- `def`: permite agrupar instrucciones y reutilizarlas.
-- `return`: devuelve un valor desde la función.
-- Las funciones ayudan a organizar el código y evitar repeticiones.
-- En Python no existen prefijos como `public`, `private` o `protected` para funciones, pero sí es común usar convenciones de nombres para indicar intención.
-- Un guion bajo simple (`_nombre`) suele indicar que un atributo o método es de uso interno.
-- Un doble guion bajo (`__nombre`) provoca name mangling, que lo hace más difícil de acceder desde fuera.
-
-```python
-def saludar(nombre):
-    return f"Hola {nombre}"
-
-print(saludar("Ana"))
-```
-
-## 7. Cadenas de texto
-
-- `str`: sirve para almacenar texto.
-- Se pueden concatenar y transformar con métodos.
-
-```python
-texto = "hola"
-print(texto.upper())
-print(texto + " mundo")
-```
-
-## 8. Operadores
+## 5. Operadores
 
 ### Numéricos
 
@@ -421,7 +381,47 @@ while contador <= 10:
     contador += 1
 ```
 
-## 11. Manejo de excepciones
+## 6. Arrays y listas
+
+- `list`: permite guardar varios valores en una sola variable.
+- Se crean con corchetes `[]`.
+- `append()`: añade un elemento al final de la lista.
+
+```python
+numeros = [1, 2, 3]
+numeros.append(4)
+print(numeros)
+```
+
+## 7. Funciones
+
+- `def`: permite agrupar instrucciones y reutilizarlas.
+- `return`: devuelve un valor desde la función.
+- Las funciones ayudan a organizar el código y evitar repeticiones.
+- En Python no existen prefijos como `public`, `private` o `protected` para funciones, pero sí es común usar convenciones de nombres para indicar intención.
+- Un guion bajo simple (`_nombre`) suele indicar que un atributo o método es de uso interno.
+- Un doble guion bajo (`__nombre`) provoca name mangling, que lo hace más difícil de acceder desde fuera.
+
+```python
+def saludar(nombre):
+    return f"Hola {nombre}"
+
+print(saludar("Ana"))
+```
+
+## 8. Cadenas de texto
+
+- `str`: sirve para almacenar texto.
+- Se pueden concatenar y transformar con métodos.
+
+```python
+texto = "hola"
+print(texto.upper())
+print(texto + " mundo")
+```
+
+
+## 9. Manejo de excepciones
 
 - `try`: intenta ejecutar un bloque de código.
 - `except`: ejecuta otro bloque si ocurre un error.
@@ -436,7 +436,7 @@ finally:
     print("Ha finalizado el manejo de excepciones")
 ```
 
-## 12. Clases
+## 10. Clases
 
 - `class`: permite definir una plantilla para crear objetos.
 - Un objeto es una instancia concreta de una clase.
@@ -478,7 +478,7 @@ print(e.presentarse())
 print(e.get_edad())
 ```
 
-## 13. Módulos
+## 11. Módulos
 
 - `import`: permite reutilizar funciones de otras bibliotecas.
 - Python incluye muchos módulos útiles de forma estándar.
@@ -488,7 +488,7 @@ import math
 print(math.sqrt(16))
 ```
 
-## 14. Ejercicios
+## 12. Ejercicios
 
 Para practicar lo aprendido, puedes hacer varios ejercicios y retos de programación en la siguiente página:
 

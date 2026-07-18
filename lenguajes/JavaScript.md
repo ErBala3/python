@@ -60,46 +60,7 @@ let lista = [1, 2, 3];
 console.log("Hola mundo");
 ```
 
-## 5. Arrays y listas
-
-- `array`: permite guardar varios valores en una sola variable.
-- Se crean con corchetes `[]`.
-- `push()`: añade un elemento al final de la lista.
-
-```javascript
-let numeros = [1, 2, 3];
-numeros.push(4);
-console.log(numeros);
-```
-
-## 6. Funciones
-
-- `function`: permite encapsular una tarea y reutilizarla.
-- También se pueden usar funciones flecha.
-- Una función puede recibir parámetros y devolver un valor con `return`.
-- En JavaScript no se usan prefijos como `public` o `private` para funciones normales.
-- Las funciones declaradas con `function` son accesibles desde el contexto donde se definen.
-- Las funciones anónimas o flecha son muy útiles para callbacks y programación más moderna.
-
-```javascript
-function saludar(nombre) {
-  return `Hola ${nombre}`;
-}
-
-console.log(saludar("Ana"));
-```
-
-## 7. Cadenas de texto
-
-- `string`: sirve para almacenar texto.
-- Se pueden modificar con métodos como `toUpperCase()`.
-
-```javascript
-let texto = "hola";
-console.log(texto.toUpperCase());
-```
-
-## 8. Operadores
+## 5. Operadores
 
 ### Numéricos
 
@@ -324,6 +285,45 @@ console.log(a >> 1);
 ```javascript
 let a = 3;
 console.log(a << 1);
+```
+
+## 6. Arrays y listas
+
+- `array`: permite guardar varios valores en una sola variable.
+- Se crean con corchetes `[]`.
+- `push()`: añade un elemento al final de la lista.
+
+```javascript
+let numeros = [1, 2, 3];
+numeros.push(4);
+console.log(numeros);
+```
+
+## 7. Funciones
+
+- `function`: permite encapsular una tarea y reutilizarla.
+- También se pueden usar funciones flecha.
+- Una función puede recibir parámetros y devolver un valor con `return`.
+- En JavaScript no se usan prefijos como `public` o `private` para funciones normales.
+- Las funciones declaradas con `function` son accesibles desde el contexto donde se definen.
+- Las funciones anónimas o flecha son muy útiles para callbacks y programación más moderna.
+
+```javascript
+function saludar(nombre) {
+  return `Hola ${nombre}`;
+}
+
+console.log(saludar("Ana"));
+```
+
+## 7. Cadenas de texto
+
+- `string`: sirve para almacenar texto.
+- Se pueden modificar con métodos como `toUpperCase()`.
+
+```javascript
+let texto = "hola";
+console.log(texto.toUpperCase());
 ```
 
 ## 9. Estructuras de control

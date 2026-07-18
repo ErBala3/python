@@ -59,48 +59,7 @@ String texto = "Hola mundo";
 System.out.println("Hola mundo");
 ```
 
-## 5. Arrays y listas
-
-- Un array guarda varios valores del mismo tipo.
-- Se define escribiendo el tipo seguido de `[]`.
-- Se puede acceder a cada elemento con su índice numérico.
-
-```java
-int[] numeros = {1, 2, 3};
-System.out.println(numeros[0]);
-```
-
-## 6. Funciones
-
-- `method`: es una función dentro de una clase.
-- Puede recibir parámetros y devolver un valor con `return`.
-- Se invoca usando el nombre del método.
-- En Java, `public` significa que el método o atributo es accesible desde cualquier clase.
-- `private` limita el acceso solo a la clase donde está declarado.
-- `protected` permite acceder desde la clase, subclases y clases del mismo paquete.
-- `static` indica que el método o atributo pertenece a la clase, no a una instancia concreta.
-
-```java
-class Ejemplo {
-    static String saludar(String nombre) {
-        return "Hola " + nombre;
-    }
-}
-
-System.out.println(Ejemplo.saludar("Ana"));
-```
-
-## 7. Cadenas de texto
-
-- `String`: sirve para almacenar texto.
-- Se pueden comparar, concatenar y transformar con métodos.
-
-```java
-String texto = "hola";
-System.out.println(texto.toUpperCase());
-```
-
-## 8. Operadores
+## 5. Operadores
 
 ### Numéricos
 
@@ -299,6 +258,47 @@ System.out.println(a >> 1);
 ```java
 int a = 3;
 System.out.println(a << 1);
+```
+
+## 6. Arrays y listas
+
+- Un array guarda varios valores del mismo tipo.
+- Se define escribiendo el tipo seguido de `[]`.
+- Se puede acceder a cada elemento con su índice numérico.
+
+```java
+int[] numeros = {1, 2, 3};
+System.out.println(numeros[0]);
+```
+
+## 7. Funciones
+
+- `method`: es una función dentro de una clase.
+- Puede recibir parámetros y devolver un valor con `return`.
+- Se invoca usando el nombre del método.
+- En Java, `public` significa que el método o atributo es accesible desde cualquier clase.
+- `private` limita el acceso solo a la clase donde está declarado.
+- `protected` permite acceder desde la clase, subclases y clases del mismo paquete.
+- `static` indica que el método o atributo pertenece a la clase, no a una instancia concreta.
+
+```java
+class Ejemplo {
+    static String saludar(String nombre) {
+        return "Hola " + nombre;
+    }
+}
+
+System.out.println(Ejemplo.saludar("Ana"));
+```
+
+## 8. Cadenas de texto
+
+- `String`: sirve para almacenar texto.
+- Se pueden comparar, concatenar y transformar con métodos.
+
+```java
+String texto = "hola";
+System.out.println(texto.toUpperCase());
 ```
 
 ## 9. Estructuras de control

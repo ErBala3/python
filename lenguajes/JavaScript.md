@@ -344,7 +344,7 @@ while (contador <= 10) {
 
 ```javascript
 try {
-  console.log(10 / 0);
+  JSON.parse("texto no válido");
 } catch (error) {
   console.log("Se ha producido un error");
 } finally {

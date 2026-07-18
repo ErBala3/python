@@ -81,10 +81,11 @@ int resta = 1 - 2;
 int multiplicacion = 1 * 2;
 ```
 
-- `**`: eleva una variable a otra.
+- `Math.pow()`: eleva un valor a una potencia.
 
 ```java
-int exponente = 1 * 1;
+double exponente = Math.pow(2, 3);
+System.out.println(exponente);
 ```
 
 - `/`: divide y devuelve decimales.

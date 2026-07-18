@@ -60,7 +60,61 @@ let lista = [1, 2, 3];
 console.log("Hola mundo");
 ```
 
-## 5. Operadores
+## 5. Arrays y listas
+
+- `array`: permite guardar varios valores en una sola variable.
+- Se crean con corchetes `[]`.
+
+```javascript
+let numeros = [1, 2, 3];
+numeros.push(4);
+console.log(numeros);
+```
+
+## 6. Objetos
+
+- `object`: agrupa datos relacionados mediante pares clave-valor.
+- Se define con llaves `{}`.
+
+```javascript
+let persona = { nombre: "Ana", edad: 25 };
+console.log(persona.nombre);
+```
+
+## 7. Funciones
+
+- `function`: permite encapsular una tarea y reutilizarla.
+- También se pueden usar funciones flecha.
+
+```javascript
+function saludar(nombre) {
+  return `Hola ${nombre}`;
+}
+
+console.log(saludar("Ana"));
+```
+
+## 8. Cadenas de texto
+
+- `string`: sirve para almacenar texto.
+- Se pueden modificar con métodos como `toUpperCase()`.
+
+```javascript
+let texto = "hola";
+console.log(texto.toUpperCase());
+```
+
+## 9. Entrada de datos
+
+- `prompt()`: permite pedir información al usuario desde el navegador.
+- El valor recibido suele ser texto.
+
+```javascript
+let nombre = prompt("¿Cómo te llamas?");
+console.log(`Hola ${nombre}`);
+```
+
+## 10. Operadores
 
 ### Numéricos
 
@@ -287,7 +341,7 @@ let a = 3;
 console.log(a << 1);
 ```
 
-## 6. Estructuras de control
+## 11. Estructuras de control
 
 ### Condicionales
 
@@ -336,7 +390,7 @@ while (contador <= 10) {
 }
 ```
 
-## 7. Manejo de excepciones
+## 12. Manejo de excepciones
 
 - `try`: intenta ejecutar un bloque de código.
 - `catch`: ejecuta otro bloque si ocurre un error.
@@ -352,7 +406,34 @@ try {
 }
 ```
 
-## 8. Ejercicios
+## 13. Clases
+
+- `class`: permite definir un tipo con propiedades y métodos.
+- Se crean objetos a partir de una clase.
+
+```javascript
+class Persona {
+  constructor(nombre) {
+    this.nombre = nombre;
+  }
+}
+
+let persona = new Persona("Ana");
+console.log(persona.nombre);
+```
+
+## 14. Módulos
+
+- `import`: permite reutilizar código desde otros archivos.
+- Se usa junto con `export` en los módulos.
+
+```javascript
+export function sumar(a, b) {
+  return a + b;
+}
+```
+
+## 15. Ejercicios
 
 Para practicar lo aprendido, puedes hacer varios ejercicios y retos de programación en la siguiente página:
 

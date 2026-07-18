@@ -59,7 +59,72 @@ String texto = "Hola mundo";
 System.out.println("Hola mundo");
 ```
 
-## 5. Operadores
+## 5. Arrays y listas
+
+- Un array guarda varios valores del mismo tipo.
+- Se define escribiendo el tipo seguido de `[]`.
+
+```java
+int[] numeros = {1, 2, 3};
+System.out.println(numeros[0]);
+```
+
+## 6. Objetos
+
+- `class`: define un tipo con propiedades y métodos.
+- Un objeto se crea con `new`.
+
+```java
+class Persona {
+    String nombre;
+    int edad;
+}
+
+Persona persona = new Persona();
+persona.nombre = "Ana";
+persona.edad = 25;
+System.out.println(persona.nombre);
+```
+
+## 7. Funciones
+
+- `method`: es una función dentro de una clase.
+- Se invoca usando el nombre del método.
+
+```java
+class Ejemplo {
+    static String saludar(String nombre) {
+        return "Hola " + nombre;
+    }
+}
+
+System.out.println(Ejemplo.saludar("Ana"));
+```
+
+## 8. Cadenas de texto
+
+- `String`: sirve para almacenar texto.
+- Se pueden comparar, concatenar y transformar con métodos.
+
+```java
+String texto = "hola";
+System.out.println(texto.toUpperCase());
+```
+
+## 9. Entrada de datos
+
+- `Scanner`: permite leer datos introducidos por el usuario.
+- Se usa para capturar texto o números desde consola.
+
+```java
+import java.util.Scanner;
+
+Scanner scanner = new Scanner(System.in);
+String nombre = scanner.nextLine();
+System.out.println("Hola " + nombre);
+```
+
+## 10. Operadores
 
 ### Numéricos
 
@@ -260,7 +325,7 @@ int a = 3;
 System.out.println(a << 1);
 ```
 
-## 6. Estructuras de control
+## 11. Estructuras de control
 
 ### Condicionales
 
@@ -309,7 +374,7 @@ while (contador <= 10) {
 }
 ```
 
-## 7. Manejo de excepciones
+## 12. Manejo de excepciones
 
 - `try`: intenta ejecutar un bloque de código.
 - `catch`: ejecuta otro bloque si ocurre un error.
@@ -325,7 +390,38 @@ try {
 }
 ```
 
-## 8. Ejercicios
+## 13. Clases
+
+- `class`: define un tipo con propiedades y métodos.
+- Se crean objetos con `new`.
+
+```java
+class Persona {
+    String nombre;
+
+    Persona(String nombre) {
+        this.nombre = nombre;
+    }
+}
+
+Persona persona = new Persona("Ana");
+System.out.println(persona.nombre);
+```
+
+## 14. Paquetes y bibliotecas
+
+- `import`: permite reutilizar clases ya definidas.
+- Java incluye muchas bibliotecas estándar para tareas comunes.
+
+```java
+import java.util.ArrayList;
+
+ArrayList<String> nombres = new ArrayList<>();
+nombres.add("Ana");
+System.out.println(nombres.get(0));
+```
+
+## 15. Ejercicios
 
 Para practicar lo aprendido, puedes hacer varios ejercicios y retos de programación en la siguiente página:
 

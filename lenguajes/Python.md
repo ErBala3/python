@@ -78,7 +78,61 @@ print(f"1 + 1 = {1 + 1}")
 print("Hola " + "mundo")
 ```
 
-## 5. Operadores
+## 5. Arrays y listas
+
+- `list`: permite guardar varios valores en una sola variable.
+- Se crean con corchetes `[]`.
+
+```python
+numeros = [1, 2, 3]
+numeros.append(4)
+print(numeros)
+```
+
+## 6. Objetos y diccionarios
+
+- `dict`: guarda datos en forma de clave y valor.
+- Las claves se escriben entre comillas y los valores pueden ser de cualquier tipo.
+
+```python
+persona = {"nombre": "Ana", "edad": 25}
+print(persona["nombre"])
+```
+
+## 7. Funciones
+
+- `def`: permite agrupar instrucciones y reutilizarlas.
+- Se puede usar `return` para devolver un resultado.
+
+```python
+def saludar(nombre):
+    return f"Hola {nombre}"
+
+print(saludar("Ana"))
+```
+
+## 8. Cadenas de texto
+
+- `str`: sirve para almacenar texto.
+- Se pueden concatenar y transformar con métodos.
+
+```python
+texto = "hola"
+print(texto.upper())
+print(texto + " mundo")
+```
+
+## 9. Entrada de datos
+
+- `input()`: permite pedir información al usuario.
+- El valor introducido se guarda como texto.
+
+```python
+nombre = input("¿Cómo te llamas? ")
+print(f"Hola {nombre}")
+```
+
+## 10. Operadores
 
 ### Numéricos
 
@@ -336,7 +390,7 @@ a = 3
 print(a << 1)
 ```
 
-## 6. Estructuras de control
+## 11. Estructuras de control
 
 ### Condicionales
 
@@ -382,7 +436,7 @@ while contador <= 10:
     contador += 1
 ```
 
-## 7. Manejo de excepciones
+## 12. Manejo de excepciones
 
 - `try`: intenta ejecutar un bloque de código.
 - `except`: ejecuta otro bloque si ocurre un error.
@@ -397,7 +451,31 @@ finally:
     print("Ha finalizado el manejo de excepciones")
 ```
 
-## 8. Ejercicios
+## 13. Clases
+
+- `class`: permite definir un tipo con propiedades y métodos.
+- Se crean objetos a partir de una clase.
+
+```python
+class Persona:
+    def __init__(self, nombre):
+        self.nombre = nombre
+
+p = Persona("Ana")
+print(p.nombre)
+```
+
+## 14. Módulos
+
+- `import`: permite reutilizar funciones de otras bibliotecas.
+- Python incluye muchos módulos útiles de forma estándar.
+
+```python
+import math
+print(math.sqrt(16))
+```
+
+## 15. Ejercicios
 
 Para practicar lo aprendido, puedes hacer varios ejercicios y retos de programación en la siguiente página:
 

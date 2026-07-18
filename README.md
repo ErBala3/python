@@ -1,51 +1,48 @@
 # Python para principiantes
 
-Este repositorio está pensado como una guía sencilla para aprender los fundamentos de Python desde cero. Aquí encontrarás ejemplos básicos de sintaxis, variables, tipos de datos, operadores, estructuras de control y manejo de excepciones.
+Este repositorio sirve como una guía breve de estudio para aprender los fundamentos de Python.
 
 ## Objetivo
 
-Aprender los conceptos básicos de Python de forma práctica y didáctica.
+Aprender los conceptos básicos de forma práctica, con ejemplos sencillos y ordenados como una nota de estudio.
 
 ## 1. Comentarios
 
-Para hacer comentarios grandes se usa triple comillas: `"""` o `'''`.
+- Para comentarios largos se usa triple comillas:
 
 ```python
 """
-Este es un comentario
-de varias líneas
+comentario
 """
 ```
 
-Para comentar una sola línea se usa `#`.
+- Para comentarios de una sola línea se usa `#`:
 
 ```python
-# Este es un comentario de una línea
+# comentario
 ```
 
 ## 2. Variables y constantes
 
-En Python no hace falta declarar el tipo de una variable explícitamente.
+- No hace falta indicar el tipo al crear una variable.
 
 ```python
 variable = "valor"
 variable = 10
 ```
 
-No existen constantes en el sentido estricto, pero se suelen representar con letras mayúsculas.
+- No existen constantes reales, pero se suelen escribir en mayúsculas.
 
 ```python
 CONSTANTE = "valor"
 ```
 
-## 3. Tipos de datos básicos
+## 3. Tipos de datos
 
-Hay cuatro tipos básicos de datos:
-
-- `int`: números enteros
-- `float`: números decimales
-- `bool`: valores booleanos (`True` o `False`)
-- `str`: cadenas de texto con comillas `""` o `''`
+- `int`: enteros
+- `float`: decimales
+- `bool`: booleanos (`True` / `False`)
+- `str`: cadenas de texto
 
 ```python
 entero = 10
@@ -54,22 +51,22 @@ booleano = True
 texto = "Hola mundo"
 ```
 
-## 4. Mostrar mensajes por pantalla
+## 4. Mostrar mensajes
 
-Para imprimir información en pantalla se usa `print()` y el mensaje debe ir entre comillas.
+- Se usa `print()` para mostrar texto.
 
 ```python
 print("Hola mundo")
 ```
 
-Para incluir variables dentro de una cadena se usa `f` delante de la cadena y se escriben las variables entre llaves `{}`.
+- Para meter variables dentro de una cadena se usa `f` y `{}`.
 
 ```python
 numero = 2
 print(f"1 + 1 = {1 + 1}")
 ```
 
-También se pueden concatenar cadenas con `+`.
+- Para unir cadenas se usa `+`.
 
 ```python
 print("Hola " + "mundo")
@@ -79,43 +76,43 @@ print("Hola " + "mundo")
 
 ### Numéricos
 
-Suma +:
+- Suma `+`:
 
 ```python
 suma = 1 + 2
 ```
 
-Resta -:
+- Resta `-`:
 
 ```python
 resta = 1 - 2
 ```
 
-Multiplicación *:
+- Multiplicación `*`:
 
 ```python
 multiplicacion = 1 * 2
 ```
 
-Exponente **:
+- Exponente `**`:
 
 ```python
 exponente = 1 ** 2
 ```
 
-Division /:
+- División `/`:
 
 ```python
 division = 1 / 2
 ```
 
-Division Entera //:
+- División entera `//`:
 
 ```python
 division_entera = 1 // 2
 ```
 
-Módulo %:
+- Módulo `%`:
 
 ```python
 modulo = 1 % 2
@@ -123,7 +120,7 @@ modulo = 1 % 2
 
 ### Comparación
 
-Igualdad ==:
+- Igualdad `==`:
 
 ```python
 a = 5
@@ -131,7 +128,7 @@ b = 8
 print(a == b)
 ```
 
-Desigualdad !=:
+- Desigualdad `!=`:
 
 ```python
 a = 5
@@ -139,7 +136,7 @@ b = 8
 print(a != b)
 ```
 
-Mayor que >:
+- Mayor que `>`:
 
 ```python
 a = 5
@@ -147,7 +144,7 @@ b = 8
 print(a > b)
 ```
 
-Menor que <:
+- Menor que `<`:
 
 ```python
 a = 5
@@ -155,7 +152,7 @@ b = 8
 print(a < b)
 ```
 
-Mayor o igual que >=:
+- Mayor o igual que `>=`:
 
 ```python
 a = 5
@@ -163,7 +160,7 @@ b = 8
 print(a >= b)
 ```
 
-Menor o igual que <=:
+- Menor o igual que `<=`:
 
 ```python
 a = 5
@@ -173,19 +170,19 @@ print(a <= b)
 
 ### Lógicos
 
-AND and:
+- `and`:
 
 ```python
 print(True and False)
 ```
 
-OR or:
+- `or`:
 
 ```python
 print(True or False)
 ```
 
-NOT not:
+- `not`:
 
 ```python
 print(not True)
@@ -193,55 +190,55 @@ print(not True)
 
 ### Asignación
 
-Asignar un valor =:
+- Asignar un valor `=`:
 
 ```python
 variable = 1
 ```
 
-Sumar y asignar un valor +=:
+- Sumar y asignar `+=`:
 
 ```python
 variable = 1
 variable += 1
 ```
 
-Restar y asignar un valor -=:
+- Restar y asignar `-=`:
 
 ```python
 variable = 1
 variable -= 1
 ```
 
-Multiplicar y asignar un valor *=:
+- Multiplicar y asignar `*=`:
 
 ```python
 variable = 1
 variable *= 2
 ```
 
-Elevar y asignar un valor **=:
+- Elevar y asignar `**=`:
 
 ```python
 variable = 1
 variable **= 2
 ```
 
-Dividir y asignar un valor /=:
+- Dividir y asignar `/=`:
 
 ```python
 variable = 1
 variable /= 2
 ```
 
-Dividir entero y asignar un valor //=:
+- Dividir entero y asignar `//=`:
 
 ```python
 variable = 1
 variable //= 2
 ```
 
-Sacar el módulo y asignar un valor %=:
+- Sacar el módulo y asignar `%=`:
 
 ```python
 variable = 1
@@ -250,7 +247,7 @@ variable %= 2
 
 ### Identidad
 
-IS:
+- `is`:
 
 ```python
 a = [1, 2]
@@ -258,7 +255,7 @@ b = [1, 2]
 print(a is b)
 ```
 
-IS NOT:
+- `is not`:
 
 ```python
 a = [1, 2]
@@ -268,13 +265,13 @@ print(a is not b)
 
 ### Pertenencia
 
-IN:
+- `in`:
 
 ```python
 print('a' in 'avion')
 ```
 
-NOT IN:
+- `not in`:
 
 ```python
 print('a' not in 'avion')
@@ -282,7 +279,7 @@ print('a' not in 'avion')
 
 ### BITS
 
-AND &:
+- `&`:
 
 ```python
 a = 3
@@ -290,7 +287,7 @@ b = 1
 print(a & b)
 ```
 
-OR |:
+- `|`:
 
 ```python
 a = 3
@@ -298,7 +295,7 @@ b = 1
 print(a | b)
 ```
 
-XOR ^:
+- `^`:
 
 ```python
 a = 3
@@ -306,21 +303,21 @@ b = 1
 print(a ^ b)
 ```
 
-NOT ~:
+- `~`:
 
 ```python
 a = 3
 print(~a)
 ```
 
-Desplazamiento a la derecha >>:
+- `>>`:
 
 ```python
 a = 3
 print(a >> 1)
 ```
 
-Desplazamiento a la izquierda <<:
+- `<<`:
 
 ```python
 a = 3
@@ -353,14 +350,14 @@ else:
 
 ### Bucles
 
-#### `for`
+- `for`:
 
 ```python
 for i in range(10):
     print(i)
 ```
 
-#### `while`
+- `while`:
 
 ```python
 contador = 0
@@ -390,13 +387,13 @@ finally:
 
 ## 9. Siguiente paso
 
-Para empezar a practicar, crea un archivo llamado `main.py` y prueba el siguiente ejemplo:
+Crea un archivo llamado `main.py` y prueba este ejemplo:
 
 ```python
 print("¡Estoy aprendiendo Python!")
 ```
 
-Luego ejecútalo con:
+Ejecuta el archivo con:
 
 ```bash
 python main.py
@@ -404,4 +401,4 @@ python main.py
 
 ## 10. Resumen rápido
 
-Python es un lenguaje fácil de leer, muy usado en desarrollo web, automatización, ciencia de datos e inteligencia artificial. Con esta guía básica podrás empezar a familiarizarte con su sintaxis y sus conceptos fundamentales.
+Python es un lenguaje simple y fácil de leer. Se usa mucho en desarrollo web, automatización, ciencia de datos e inteligencia artificial.

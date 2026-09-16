@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estudio de Python — Índice de guías</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #f6f7f9;
+    --panel: #ffffff;
+    --panel-2: #eef0f3;
+    --border: #dde1e7;
+    --text: #171a1f;
+    --muted: #5b6270;
+    --code-bg: #0d1117;
+    --code-text: #d7dee8;
+    --code-comment: #7c8594;
+    --accent: #2f6f4f;
+    --accent-soft: rgba(47,111,79,0.12);
+    --py: #2f6fb0;
+    --py-soft: rgba(47,111,176,0.12);
+    --js: #a3790c;
+    --js-soft: rgba(163,121,12,0.12);
+    --java: #b3492a;
+    --java-soft: rgba(179,73,42,0.12);
+    --shadow: 0 1px 2px rgba(20,22,26,0.04), 0 8px 24px rgba(20,22,26,0.06);
+    --radius: 10px;
+  }
+  :root:not([data-theme="light"]) {
+    --bg: #0f1216;
+    --panel: #161a20;
+    --panel-2: #1c2129;
+    --border: #2a303a;
+    --text: #e7eaee;
+    --muted: #929aa6;
+    --code-bg: #0a0d12;
+    --code-text: #d7dee8;
+    --code-comment: #6d7686;
+    --accent: #5fb98a;
+    --accent-soft: rgba(95,185,138,0.14);
+    --py: #6fa8dc;
+    --py-soft: rgba(111,168,220,0.14);
+    --js: #e0b84a;
+    --js-soft: rgba(224,184,74,0.14);
+    --java: #e0785a;
+    --java-soft: rgba(224,120,90,0.14);
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) {
+      --bg: #0f1216;
+      --panel: #161a20;
+      --panel-2: #1c2129;
+      --border: #2a303a;
+      --text: #e7eaee;
+      --muted: #929aa6;
+      --code-bg: #0a0d12;
+      --code-text: #d7dee8;
+      --code-comment: #6d7686;
+      --accent: #5fb98a;
+      --accent-soft: rgba(95,185,138,0.14);
+      --py: #6fa8dc;
+      --py-soft: rgba(111,168,220,0.14);
+      --js: #e0b84a;
+      --js-soft: rgba(224,184,74,0.14);
+      --java: #e0785a;
+      --java-soft: rgba(224,120,90,0.14);
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1216;
+    --panel: #161a20;
+    --panel-2: #1c2129;
+    --border: #2a303a;
+    --text: #e7eaee;
+    --muted: #929aa6;
+    --code-bg: #0a0d12;
+    --code-text: #d7dee8;
+    --code-comment: #6d7686;
+    --accent: #5fb98a;
+    --accent-soft: rgba(95,185,138,0.14);
+    --py: #6fa8dc;
+    --py-soft: rgba(111,168,220,0.14);
+    --js: #e0b84a;
+    --js-soft: rgba(224,184,74,0.14);
+    --java: #e0785a;
+    --java-soft: rgba(224,120,90,0.14);
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  code, pre, .mono{
+    font-family:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:40;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px;
+    padding:14px 22px;
+    background:var(--panel);
+    border-bottom:1px solid var(--border);
+  }
+  .brand{display:flex; align-items:center; gap:10px; min-width:0;}
+  .brand .mark{
+    width:30px; height:30px; border-radius:8px;
+    background:linear-gradient(135deg, var(--py), var(--accent));
+    display:flex; align-items:center; justify-content:center;
+    font-family:"JetBrains Mono", monospace; font-weight:700; color:#fff; font-size:14px;
+    flex:none;
+  }
+  .brand-text{min-width:0;}
+  .brand-text .title{font-weight:700; font-size:15px; letter-spacing:-0.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .brand-text .subtitle{font-size:12.5px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .topbar-actions{display:flex; align-items:center; gap:8px; flex:none;}
+  .repo-link{
+    display:flex; align-items:center; gap:6px;
+    font-size:13px; font-weight:600; color:var(--text);
+    text-decoration:none;
+    padding:7px 12px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    background:var(--panel-2);
+    white-space:nowrap;
+  }
+  .repo-link:hover{border-color:var(--accent);}
+
+  /* ---------- Layout ---------- */
+  .layout{
+    display:grid;
+    grid-template-columns: 260px minmax(0,1fr);
+    max-width:1180px;
+    margin:0 auto;
+  }
+  .sidebar{
+    border-right:1px solid var(--border);
+    padding:20px 14px 60px;
+    position:sticky;
+    top:61px;
+    height:calc(100vh - 61px);
+    overflow-y:auto;
+  }
+  .lang-switch{
+    display:flex; flex-direction:column; gap:6px;
+    margin-bottom:20px;
+  }
+  .lang-btn{
+    display:flex; align-items:center; gap:10px;
+    width:100%;
+    padding:9px 10px;
+    border-radius:8px;
+    border:1px solid transparent;
+    background:transparent;
+    color:var(--text);
+    font-family:inherit; font-size:13.5px; font-weight:600;
+    cursor:pointer;
+    text-align:left;
+  }
+  .lang-btn .dot{width:9px; height:9px; border-radius:50%; flex:none;}
+  .lang-btn .count{margin-left:auto; font-size:11px; color:var(--muted); font-weight:500;}
+  .lang-btn:hover{background:var(--panel-2);}
+  .lang-btn.active{background:var(--panel-2); border-color:var(--border);}
+  .lang-btn[data-lang="python"] .dot{background:var(--py);}
+  .lang-btn[data-lang="javascript"] .dot{background:var(--js);}
+  .lang-btn[data-lang="java"] .dot{background:var(--java);}
+
+  .toc-label{
+    font-size:11px; text-transform:uppercase; letter-spacing:0.06em;
+    color:var(--muted); margin:18px 8px 8px; font-weight:600;
+  }
+  .toc{list-style:none; margin:0; padding:0;}
+  .toc li{margin:0;}
+  .toc a{
+    display:block;
+    padding:6px 10px;
+    border-radius:7px;
+    font-size:13px;
+    color:var(--muted);
+    text-decoration:none;
+    border-left:2px solid transparent;
+  }
+  .toc a:hover{color:var(--text); background:var(--panel-2);}
+  .toc a.active{color:var(--text); border-left-color:var(--accent); background:var(--panel-2); font-weight:600;}
+  .toc .sub a{padding-left:22px; font-size:12.5px;}
+
+  /* ---------- Main content ---------- */
+  main{padding:28px 32px 100px; min-width:0;}
+  .lang-header{
+    display:flex; align-items:flex-start; justify-content:space-between; gap:16px;
+    padding-bottom:20px; margin-bottom:26px;
+    border-bottom:1px solid var(--border);
+    flex-wrap:wrap;
+  }
+  .lang-header h1{
+    font-size:26px; margin:0 0 6px; letter-spacing:-0.01em;
+  }
+  .lang-header p{margin:0; color:var(--muted); font-size:14.5px; max-width:60ch;}
+  .lang-header .external{
+    flex:none;
+    font-size:12.5px; font-weight:600;
+    color:var(--text);
+    text-decoration:none;
+    border:1px solid var(--border);
+    padding:7px 12px; border-radius:8px;
+    background:var(--panel);
+  }
+  .lang-header .external:hover{border-color:var(--accent);}
+
+  section.topic{
+    margin-bottom:34px;
+    scroll-margin-top:72px;
+  }
+  section.topic h2{
+    font-size:18.5px;
+    display:flex; align-items:baseline; gap:10px;
+    margin:0 0 6px;
+  }
+  section.topic h2 .num{
+    font-family:"JetBrains Mono", monospace;
+    font-size:13px;
+    color:var(--muted);
+    font-weight:600;
+  }
+  section.topic > p.lead{color:var(--muted); margin:0 0 14px; font-size:14.5px;}
+
+  h3.sub-h{
+    font-size:14px; margin:18px 0 8px; color:var(--muted);
+    text-transform:uppercase; letter-spacing:0.04em; font-weight:700;
+  }
+
+  ul.points{margin:0 0 12px; padding-left:20px;}
+  ul.points li{margin:4px 0; font-size:14.5px;}
+  ul.points code{
+    background:var(--panel-2);
+    padding:1.5px 6px; border-radius:5px; font-size:12.5px;
+    border:1px solid var(--border);
+  }
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:16px 18px;
+    margin-bottom:14px;
+  }
+
+  pre.code{
+    background:var(--code-bg);
+    color:var(--code-text);
+    border-radius:9px;
+    padding:14px 16px;
+    overflow-x:auto;
+    font-size:13px;
+    line-height:1.55;
+    margin:10px 0 0;
+    border:1px solid var(--border);
+  }
+  pre.code .c{color:var(--code-comment); font-style:italic;}
+
+  .ex-link{
+    display:inline-flex; align-items:center; gap:8px;
+    margin-top:6px;
+    padding:12px 16px;
+    border-radius:9px;
+    border:1px dashed var(--border);
+    color:var(--text);
+    text-decoration:none;
+    font-size:13.5px;
+    font-weight:600;
+  }
+  .ex-link:hover{border-color:var(--accent); background:var(--panel-2);}
+
+  footer.pagefoot{
+    border-top:1px solid var(--border);
+    padding:22px 32px 40px;
+    color:var(--muted);
+    font-size:12.5px;
+    max-width:1180px;
+    margin:0 auto;
+  }
+
+  [data-lang-panel]{display:none;}
+  [data-lang-panel].active{display:block;}
+
+  /* mobile */
+  .menu-toggle{display:none;}
+  @media (max-width: 860px){
+    .layout{grid-template-columns: 1fr;}
+    .sidebar{
+      position:static; height:auto; width:100%;
+      border-right:none; border-bottom:1px solid var(--border);
+      display:none;
+    }
+    .sidebar.open{display:block;}
+    .menu-toggle{
+      display:inline-flex; align-items:center; gap:6px;
+      background:var(--panel-2); border:1px solid var(--border);
+      color:var(--text); font-family:inherit; font-size:13px; font-weight:600;
+      padding:7px 12px; border-radius:8px; cursor:pointer;
+    }
+    main{padding:22px 16px 80px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="mark">{}</div>
+    <div class="brand-text">
+      <div class="title">Estudio de Python</div>
+      <div class="subtitle">Índice de guías · ErBala3/python</div>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <button class="menu-toggle" id="menuToggle">☰ Índice</button>
+    <a class="repo-link" href="https://github.com/ErBala3/python" target="_blank" rel="noopener">Ver en GitHub ↗</a>
+  </div>
+</div>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="python"><span class="dot"></span>Python<span class="count">13 secciones</span></button>
+      <button class="lang-btn" data-lang="javascript"><span class="dot"></span>JavaScript<span class="count">13 secciones</span></button>
+      <button class="lang-btn" data-lang="java"><span class="dot"></span>Java<span class="count">13 secciones</span></button>
+    </div>
+
+    <div id="tocContainer"></div>
+  </aside>
+
+  <main>
+
+    <!-- ============ PYTHON ============ -->
+    <div data-lang-panel="python" class="active">
+      <div class="lang-header">
+        <div>
+          <h1>Python para principiantes</h1>
+          <p>Notas de estudio con los fundamentos del lenguaje: sintaxis, tipos, operadores, control de flujo, funciones y clases.</p>
+        </div>
+        <a class="external" href="https://github.com/ErBala3/python/blob/main/lenguajes/Python.md" target="_blank" rel="noopener">Fuente original ↗</a>
+      </div>
+
+      <section class="topic" id="py-1"><h2><span class="num">01</span>Comentarios</h2>
+        <ul class="points">
+          <li>Un comentario es texto que el intérprete ignora; sirve para dejar notas dentro del código.</li>
+          <li>Con una <code>#</code> se comenta una sola línea.</li>
+          <li>Con comillas triples se puede comentar un bloque de varias líneas.</li>
+        </ul>
+        <pre class="code"><span class="c"># comentario de una línea</span>
+
+"""
+comentario
+de varias líneas
+"""</pre>
+      </section>
+
+      <section class="topic" id="py-2"><h2><span class="num">02</span>Variables y constantes</h2>
+        <ul class="points">
+          <li>Una variable guarda un valor bajo un nombre; en Python no se declara su tipo.</li>
+          <li>No existen constantes reales: por convención se escriben en mayúsculas para indicar que no deberían modificarse.</li>
+        </ul>
+        <pre class="code">ciudad = "Madrid"
+ciudad = 42        <span class="c"># el mismo nombre puede cambiar de tipo</span>
+
+VELOCIDAD_LUZ = 299792</pre>
+      </section>
+
+      <section class="topic" id="py-3"><h2><span class="num">03</span>Tipos de datos</h2>
+        <ul class="points">
+          <li><code>int</code> números enteros · <code>float</code> decimales · <code>bool</code> verdadero/falso · <code>str</code> texto.</li>
+        </ul>
+        <pre class="code">edad = 30
+altura = 1.78
+activo = False
+nombre = "Ana"</pre>
+      </section>
+
+      <section class="topic" id="py-4"><h2><span class="num">04</span>Mostrar mensajes</h2>
+        <ul class="points">
+          <li><code>print()</code> escribe en pantalla.</li>
+          <li>Con <code>f""</code> se pueden insertar variables directamente dentro del texto.</li>
+        </ul>
+        <pre class="code">print("Hola mundo")
+
+dia = "lunes"
+print(f"Hoy es {dia}")</pre>
+      </section>
+
+      <section class="topic" id="py-5"><h2><span class="num">05</span>Operadores</h2>
+        <h3 class="sub-h">Numéricos</h3>
+        <ul class="points"><li><code>+ - * / // % **</code> suma, resta, multiplicación, división, división entera, resto y potencia.</li></ul>
+        <pre class="code">7 // 2   <span class="c"># 3  (división sin decimales)</span>
+7 % 2    <span class="c"># 1  (resto)</span>
+2 ** 5   <span class="c"># 32 (potencia)</span></pre>
+        <h3 class="sub-h">Comparación</h3>
+        <ul class="points"><li><code>== != &gt; &lt; &gt;= &lt;=</code> comparan dos valores y devuelven <code>True</code> o <code>False</code>.</li></ul>
+        <h3 class="sub-h">Lógicos</h3>
+        <ul class="points"><li><code>and</code> exige que ambas condiciones se cumplan, <code>or</code> exige al menos una, <code>not</code> invierte el resultado.</li></ul>
+        <h3 class="sub-h">Asignación</h3>
+        <ul class="points"><li><code>+= -= *= /= //= **= %=</code> operan sobre la variable y guardan el resultado en ella misma.</li></ul>
+        <h3 class="sub-h">Identidad</h3>
+        <ul class="points"><li><code>is</code> / <code>is not</code> comprueban si dos variables apuntan al mismo objeto en memoria (distinto de comparar su valor).</li></ul>
+        <h3 class="sub-h">Pertenencia</h3>
+        <ul class="points"><li><code>in</code> / <code>not in</code> comprueban si un elemento está dentro de una secuencia.</li></ul>
+        <h3 class="sub-h">Bits</h3>
+        <ul class="points"><li><code>&amp; | ^ ~ &gt;&gt; &lt;&lt;</code> operan sobre la representación binaria de los números.</li></ul>
+      </section>
+
+      <section class="topic" id="py-6"><h2><span class="num">06</span>Arrays y listas</h2>
+        <ul class="points">
+          <li>Una <code>list</code> guarda varios valores en una sola variable, entre corchetes.</li>
+          <li><code>.append()</code> agrega un elemento al final.</li>
+        </ul>
+        <pre class="code">frutas = ["manzana", "pera"]
+frutas.append("uva")
+print(frutas)   <span class="c"># ['manzana', 'pera', 'uva']</span></pre>
+      </section>
+
+      <section class="topic" id="py-7"><h2><span class="num">07</span>Funciones</h2>
+        <ul class="points">
+          <li><code>def</code> agrupa instrucciones reutilizables; <code>return</code> devuelve un resultado.</li>
+          <li>No existen modificadores de acceso, pero un guion bajo inicial (<code>_nombre</code>) sugiere uso interno y un doble guion bajo (<code>__nombre</code>) dificulta el acceso desde fuera.</li>
+        </ul>
+        <pre class="code">def area_circulo(radio):
+    return 3.1416 * radio ** 2
+
+print(area_circulo(4))</pre>
+      </section>
+
+      <section class="topic" id="py-8"><h2><span class="num">08</span>Cadenas de texto</h2>
+        <ul class="points">
+          <li><code>str</code> almacena texto y admite métodos y concatenación con <code>+</code>.</li>
+        </ul>
+        <pre class="code">saludo = "hola"
+print(saludo.upper())     <span class="c"># HOLA</span>
+print(saludo + " mundo")</pre>
+      </section>
+
+      <section class="topic" id="py-9"><h2><span class="num">09</span>Estructuras de control</h2>
+        <h3 class="sub-h">Condicionales</h3>
+        <ul class="points"><li><code>if</code> / <code>elif</code> / <code>else</code> ejecutan un bloque según se cumpla o no una condición.</li></ul>
+        <pre class="code">nota = 6
+if nota >= 5:
+    print("Aprobado")
+else:
+    print("Suspenso")</pre>
+        <h3 class="sub-h">Bucles</h3>
+        <ul class="points"><li><code>for</code> recorre un número fijo de iteraciones; <code>while</code> repite mientras la condición sea verdadera.</li></ul>
+        <pre class="code">for i in range(5):
+    print(i)
+
+restantes = 3
+while restantes > 0:
+    print(restantes)
+    restantes -= 1</pre>
+      </section>
+
+      <section class="topic" id="py-10"><h2><span class="num">10</span>Manejo de excepciones</h2>
+        <ul class="points">
+          <li><code>try</code> intenta ejecutar el código; <code>except</code> captura el error; <code>finally</code> se ejecuta siempre.</li>
+        </ul>
+        <pre class="code">try:
+    resultado = 10 / 0
+except:
+    print("Ha ocurrido un error")
+finally:
+    print("Fin del bloque")</pre>
+      </section>
+
+      <section class="topic" id="py-11"><h2><span class="num">11</span>Clases</h2>
+        <ul class="points">
+          <li><code>class</code> define una plantilla para crear objetos; <code>__init__()</code> inicializa sus atributos y <code>self</code> los referencia.</li>
+          <li>Por convención, un guion bajo indica un atributo "protegido" y doble guion bajo uno "privado".</li>
+          <li><code>class Hija(Padre):</code> crea herencia; <code>super()</code> reutiliza el constructor de la clase padre.</li>
+        </ul>
+        <pre class="code">class Animal:
+    def __init__(self, nombre):
+        self.nombre = nombre
+
+    def hablar(self):
+        return f"{self.nombre} hace un sonido"
+
+class Perro(Animal):
+    def hablar(self):
+        return f"{self.nombre} ladra"
+
+print(Perro("Rex").hablar())</pre>
+      </section>
+
+      <section class="topic" id="py-12"><h2><span class="num">12</span>Módulos</h2>
+        <ul class="points"><li><code>import</code> permite reutilizar funciones de la biblioteca estándar o de otros archivos.</li></ul>
+        <pre class="code">import math
+print(math.sqrt(81))</pre>
+      </section>
+
+      <section class="topic" id="py-13"><h2><span class="num">13</span>Ejercicios</h2>
+        <p class="lead">Para reforzar variables, condicionales, bucles y funciones con retos prácticos:</p>
+        <a class="ex-link" href="https://retosdeprogramacion.com/roadmap" target="_blank" rel="noopener">Roadmap de Retos de Programación — MoureDev ↗</a>
+      </section>
+    </div>
+
+    <!-- ============ JAVASCRIPT ============ -->
+    <div data-lang-panel="javascript">
+      <div class="lang-header">
+        <div>
+          <h1>JavaScript para principiantes</h1>
+          <p>Notas de estudio con los fundamentos del lenguaje: sintaxis, tipos, operadores, control de flujo, funciones y clases.</p>
+        </div>
+        <a class="external" href="https://github.com/ErBala3/python/blob/main/lenguajes/JavaScript.md" target="_blank" rel="noopener">Fuente original ↗</a>
+      </div>
+
+      <section class="topic" id="js-1"><h2><span class="num">01</span>Comentarios</h2>
+        <ul class="points">
+          <li><code>//</code> comenta una sola línea.</li>
+          <li><code>/* ... */</code> comenta un bloque de varias líneas.</li>
+        </ul>
+        <pre class="code"><span class="c">// comentario de una línea</span>
+
+/*
+comentario
+de varias líneas
+*/</pre>
+      </section>
+
+      <section class="topic" id="js-2"><h2><span class="num">02</span>Variables</h2>
+        <ul class="points">
+          <li><code>let</code> declara una variable cuyo valor puede cambiar.</li>
+          <li><code>const</code> declara un valor que no debe reasignarse.</li>
+        </ul>
+        <pre class="code">let ciudad = "Madrid";
+const velocidadLuz = 299792;</pre>
+      </section>
+
+      <section class="topic" id="js-3"><h2><span class="num">03</span>Tipos de datos</h2>
+        <ul class="points">
+          <li><code>string</code> texto · <code>number</code> números · <code>boolean</code> verdadero/falso · <code>object</code> objetos · <code>array</code> listas.</li>
+        </ul>
+        <pre class="code">let nombre = "Ana";
+let edad = 30;
+let activo = false;
+let persona = { nombre: "Ana" };
+let numeros = [1, 2, 3];</pre>
+      </section>
+
+      <section class="topic" id="js-4"><h2><span class="num">04</span>Mostrar mensajes</h2>
+        <ul class="points"><li><code>console.log()</code> escribe en la consola del navegador o de Node.</li></ul>
+        <pre class="code">console.log("Hola mundo");</pre>
+      </section>
+
+      <section class="topic" id="js-5"><h2><span class="num">05</span>Operadores</h2>
+        <h3 class="sub-h">Numéricos</h3>
+        <ul class="points"><li><code>+ - * / % **</code> suma, resta, multiplicación, división, resto y potencia.</li></ul>
+        <h3 class="sub-h">Comparación</h3>
+        <ul class="points"><li><code>== != &gt; &lt; &gt;= &lt;=</code> comparan valores; <code>==</code> no comprueba el tipo.</li></ul>
+        <h3 class="sub-h">Lógicos</h3>
+        <ul class="points"><li><code>&amp;&amp;</code> exige que ambas condiciones se cumplan, <code>||</code> exige al menos una, <code>!</code> invierte el resultado.</li></ul>
+        <h3 class="sub-h">Asignación</h3>
+        <ul class="points"><li><code>+= -= *= /= %=</code> operan sobre la variable y guardan el resultado en ella misma.</li></ul>
+        <h3 class="sub-h">Identidad</h3>
+        <ul class="points"><li><code>===</code> / <code>!==</code> comparan valor y tipo a la vez, sin conversión implícita.</li></ul>
+        <h3 class="sub-h">Pertenencia</h3>
+        <ul class="points"><li><code>in</code> comprueba si una propiedad existe dentro de un objeto.</li></ul>
+        <h3 class="sub-h">Bits</h3>
+        <ul class="points"><li><code>&amp; | ^ ~ &gt;&gt; &lt;&lt;</code> operan sobre la representación binaria de los números.</li></ul>
+      </section>
+
+      <section class="topic" id="js-6"><h2><span class="num">06</span>Arrays y listas</h2>
+        <ul class="points">
+          <li>Un <code>array</code> guarda varios valores en una sola variable, entre corchetes.</li>
+          <li><code>.push()</code> agrega un elemento al final.</li>
+        </ul>
+        <pre class="code">let frutas = ["manzana", "pera"];
+frutas.push("uva");
+console.log(frutas);</pre>
+      </section>
+
+      <section class="topic" id="js-7"><h2><span class="num">07</span>Funciones</h2>
+        <ul class="points">
+          <li><code>function</code> encapsula una tarea reutilizable; también existen las funciones flecha, muy usadas en callbacks.</li>
+          <li>Los miembros son accesibles por defecto: JavaScript no usa modificadores como <code>public</code> o <code>private</code> en funciones sueltas.</li>
+        </ul>
+        <pre class="code">function areaCirculo(radio) {
+  return 3.1416 * radio ** 2;
+}
+
+console.log(areaCirculo(4));</pre>
+      </section>
+
+      <section class="topic" id="js-8"><h2><span class="num">08</span>Cadenas de texto</h2>
+        <ul class="points"><li><code>string</code> almacena texto; se transforma con métodos como <code>toUpperCase()</code>.</li></ul>
+        <pre class="code">let saludo = "hola";
+console.log(saludo.toUpperCase());</pre>
+      </section>
+
+      <section class="topic" id="js-9"><h2><span class="num">09</span>Estructuras de control</h2>
+        <h3 class="sub-h">Condicionales</h3>
+        <ul class="points"><li><code>if</code> / <code>else if</code> / <code>else</code> ejecutan un bloque según se cumpla o no una condición.</li></ul>
+        <pre class="code">let nota = 6;
+if (nota >= 5) {
+  console.log("Aprobado");
+} else {
+  console.log("Suspenso");
+}</pre>
+        <h3 class="sub-h">Bucles</h3>
+        <ul class="points"><li><code>for</code> recorre un número fijo de iteraciones; <code>while</code> repite mientras la condición sea verdadera.</li></ul>
+        <pre class="code">for (let i = 0; i < 5; i++) {
+  console.log(i);
+}</pre>
+      </section>
+
+      <section class="topic" id="js-10"><h2><span class="num">10</span>Manejo de excepciones</h2>
+        <ul class="points"><li><code>try</code> intenta ejecutar el código; <code>catch</code> captura el error; <code>finally</code> se ejecuta siempre.</li></ul>
+        <pre class="code">try {
+  JSON.parse("no es json");
+} catch (error) {
+  console.log("Ha ocurrido un error");
+} finally {
+  console.log("Fin del bloque");
+}</pre>
+      </section>
+
+      <section class="topic" id="js-11"><h2><span class="num">11</span>Clases</h2>
+        <ul class="points">
+          <li><code>class</code> define una plantilla para crear objetos; el <code>constructor</code> inicializa el estado y <code>this</code> referencia al objeto actual.</li>
+          <li>Los miembros son públicos por defecto; con <code>#nombre</code> se declaran privados.</li>
+          <li><code>extends</code> crea herencia; <code>super()</code> llama al constructor de la clase padre.</li>
+        </ul>
+        <pre class="code">class Animal {
+  constructor(nombre) { this.nombre = nombre; }
+  hablar() { return `${this.nombre} hace un sonido`; }
+}
+
+class Perro extends Animal {
+  hablar() { return `${this.nombre} ladra`; }
+}
+
+console.log(new Perro("Rex").hablar());</pre>
+      </section>
+
+      <section class="topic" id="js-12"><h2><span class="num">12</span>Módulos</h2>
+        <ul class="points"><li><code>export</code> expone código desde un archivo; <code>import</code> lo reutiliza en otro.</li></ul>
+        <pre class="code">export function sumar(a, b) {
+  return a + b;
+}</pre>
+      </section>
+
+      <section class="topic" id="js-13"><h2><span class="num">13</span>Ejercicios</h2>
+        <p class="lead">Para reforzar variables, condicionales, bucles y funciones con retos prácticos:</p>
+        <a class="ex-link" href="https://retosdeprogramacion.com/roadmap" target="_blank" rel="noopener">Roadmap de Retos de Programación — MoureDev ↗</a>
+      </section>
+    </div>
+
+    <!-- ============ JAVA ============ -->
+    <div data-lang-panel="java">
+      <div class="lang-header">
+        <div>
+          <h1>Java para principiantes</h1>
+          <p>Notas de estudio con los fundamentos del lenguaje: sintaxis, tipos, operadores, control de flujo, funciones y clases.</p>
+        </div>
+        <a class="external" href="https://github.com/ErBala3/python/blob/main/lenguajes/Java.md" target="_blank" rel="noopener">Fuente original ↗</a>
+      </div>
+
+      <section class="topic" id="java-1"><h2><span class="num">01</span>Comentarios</h2>
+        <ul class="points">
+          <li><code>//</code> comenta una sola línea.</li>
+          <li><code>/* ... */</code> comenta un bloque de varias líneas.</li>
+        </ul>
+        <pre class="code"><span class="c">// comentario de una línea</span>
+
+/*
+comentario
+de varias líneas
+*/</pre>
+      </section>
+
+      <section class="topic" id="java-2"><h2><span class="num">02</span>Variables y constantes</h2>
+        <ul class="points">
+          <li>Java es un lenguaje tipado: hay que indicar el tipo al declarar una variable.</li>
+          <li><code>final</code> se usa para valores que no deben cambiar.</li>
+        </ul>
+        <pre class="code">String ciudad = "Madrid";
+int edad = 30;
+final double PI = 3.1416;</pre>
+      </section>
+
+      <section class="topic" id="java-3"><h2><span class="num">03</span>Tipos de datos</h2>
+        <ul class="points">
+          <li><code>int</code> enteros · <code>double</code> decimales · <code>boolean</code> verdadero/falso · <code>String</code> texto.</li>
+        </ul>
+        <pre class="code">int entero = 10;
+double decimal = 3.14;
+boolean activo = true;
+String texto = "Hola mundo";</pre>
+      </section>
+
+      <section class="topic" id="java-4"><h2><span class="num">04</span>Mostrar mensajes</h2>
+        <ul class="points"><li><code>System.out.println()</code> escribe en la consola.</li></ul>
+        <pre class="code">System.out.println("Hola mundo");</pre>
+      </section>
+
+      <section class="topic" id="java-5"><h2><span class="num">05</span>Operadores</h2>
+        <h3 class="sub-h">Numéricos</h3>
+        <ul class="points"><li><code>+ - * /</code> operaciones básicas; <code>%</code> resto; <code>Math.pow()</code> potencia, al no existir un operador propio.</li></ul>
+        <h3 class="sub-h">Comparación</h3>
+        <ul class="points"><li><code>== != &gt; &lt; &gt;= &lt;=</code> comparan valores primitivos.</li></ul>
+        <h3 class="sub-h">Lógicos</h3>
+        <ul class="points"><li><code>&amp;&amp;</code> exige que ambas condiciones se cumplan, <code>||</code> exige al menos una, <code>!</code> invierte el resultado.</li></ul>
+        <h3 class="sub-h">Asignación</h3>
+        <ul class="points"><li><code>+= -= *= /= %=</code> operan sobre la variable y guardan el resultado en ella misma.</li></ul>
+        <h3 class="sub-h">Bits</h3>
+        <ul class="points"><li><code>&amp; | ^ ~ &gt;&gt; &lt;&lt;</code> operan sobre la representación binaria de los números.</li></ul>
+      </section>
+
+      <section class="topic" id="java-6"><h2><span class="num">06</span>Arrays y listas</h2>
+        <ul class="points">
+          <li>Un array guarda varios valores del mismo tipo; se declara con <code>[]</code> y se accede por índice.</li>
+        </ul>
+        <pre class="code">int[] numeros = {1, 2, 3};
+System.out.println(numeros[0]);</pre>
+      </section>
+
+      <section class="topic" id="java-7"><h2><span class="num">07</span>Funciones (métodos)</h2>
+        <ul class="points">
+          <li>Un <code>method</code> es una función definida dentro de una clase; puede recibir parámetros y devolver un valor con <code>return</code>.</li>
+          <li><code>public</code> lo hace accesible desde cualquier clase, <code>private</code> lo limita a la propia clase y <code>protected</code> a la clase, sus hijas y el mismo paquete.</li>
+          <li><code>static</code> indica que pertenece a la clase, no a una instancia concreta.</li>
+        </ul>
+        <pre class="code">class Geometria {
+    static double areaCirculo(double radio) {
+        return Math.PI * Math.pow(radio, 2);
+    }
+}
+
+System.out.println(Geometria.areaCirculo(4));</pre>
+      </section>
+
+      <section class="topic" id="java-8"><h2><span class="num">08</span>Cadenas de texto</h2>
+        <ul class="points"><li><code>String</code> almacena texto y admite comparación, concatenación y métodos como <code>toUpperCase()</code>.</li></ul>
+        <pre class="code">String saludo = "hola";
+System.out.println(saludo.toUpperCase());</pre>
+      </section>
+
+      <section class="topic" id="java-9"><h2><span class="num">09</span>Estructuras de control</h2>
+        <h3 class="sub-h">Condicionales</h3>
+        <ul class="points"><li><code>if</code> / <code>else if</code> / <code>else</code> ejecutan un bloque según se cumpla o no una condición.</li></ul>
+        <pre class="code">int nota = 6;
+if (nota >= 5) {
+    System.out.println("Aprobado");
+} else {
+    System.out.println("Suspenso");
+}</pre>
+        <h3 class="sub-h">Bucles</h3>
+        <ul class="points"><li><code>for</code> recorre un número fijo de iteraciones; <code>while</code> repite mientras la condición sea verdadera.</li></ul>
+        <pre class="code">for (int i = 0; i < 5; i++) {
+    System.out.println(i);
+}</pre>
+      </section>
+
+      <section class="topic" id="java-10"><h2><span class="num">10</span>Manejo de excepciones</h2>
+        <ul class="points"><li><code>try</code> intenta ejecutar el código; <code>catch</code> captura el error; <code>finally</code> se ejecuta siempre.</li></ul>
+        <pre class="code">try {
+    System.out.println(10 / 0);
+} catch (Exception e) {
+    System.out.println("Ha ocurrido un error");
+} finally {
+    System.out.println("Fin del bloque");
+}</pre>
+      </section>
+
+      <section class="topic" id="java-11"><h2><span class="num">11</span>Clases</h2>
+        <ul class="points">
+          <li><code>class</code> define una plantilla para crear objetos; el constructor inicializa el estado y <code>this</code> referencia al objeto actual.</li>
+          <li><code>public</code>, <code>private</code> y <code>protected</code> controlan quién puede acceder a cada miembro; <code>final</code> impide heredar o sobrescribir; <code>abstract</code> obliga a implementar en una subclase.</li>
+          <li><code>extends</code> crea herencia; <code>super()</code> llama al constructor padre; <code>@Override</code> marca un método que sobrescribe al de la clase padre.</li>
+        </ul>
+        <pre class="code">class Animal {
+    protected String nombre;
+    public Animal(String nombre) { this.nombre = nombre; }
+    public String hablar() { return nombre + " hace un sonido"; }
+}
+
+class Perro extends Animal {
+    public Perro(String nombre) { super(nombre); }
+    @Override
+    public String hablar() { return nombre + " ladra"; }
+}
+
+System.out.println(new Perro("Rex").hablar());</pre>
+      </section>
+
+      <section class="topic" id="java-12"><h2><span class="num">12</span>Paquetes y bibliotecas</h2>
+        <ul class="points"><li><code>import</code> permite reutilizar clases ya definidas en la biblioteca estándar de Java.</li></ul>
+        <pre class="code">import java.util.ArrayList;
+
+ArrayList<String> nombres = new ArrayList<>();
+nombres.add("Ana");
+System.out.println(nombres.get(0));</pre>
+      </section>
+
+      <section class="topic" id="java-13"><h2><span class="num">13</span>Ejercicios</h2>
+        <p class="lead">Para reforzar variables, condicionales, bucles y funciones con retos prácticos:</p>
+        <a class="ex-link" href="https://retosdeprogramacion.com/roadmap" target="_blank" rel="noopener">Roadmap de Retos de Programación — MoureDev ↗</a>
+      </section>
+    </div>
+
+  </main>
+</div>
+
+<footer class="pagefoot">
+  Índice generado a partir del repositorio <a href="https://github.com/ErBala3/python" target="_blank" rel="noopener" style="color:var(--muted)">ErBala3/python</a> — contenido reorganizado para facilitar la navegación. El material original y con más detalle vive en el propio repositorio.
+</footer>
+
+<script>
+  const topics = {
+    python: [
+      ["py-1","Comentarios"], ["py-2","Variables y constantes"], ["py-3","Tipos de datos"],
+      ["py-4","Mostrar mensajes"], ["py-5","Operadores"], ["py-6","Arrays y listas"],
+      ["py-7","Funciones"], ["py-8","Cadenas de texto"], ["py-9","Estructuras de control"],
+      ["py-10","Manejo de excepciones"], ["py-11","Clases"], ["py-12","Módulos"], ["py-13","Ejercicios"]
+    ],
+    javascript: [
+      ["js-1","Comentarios"], ["js-2","Variables"], ["js-3","Tipos de datos"],
+      ["js-4","Mostrar mensajes"], ["js-5","Operadores"], ["js-6","Arrays y listas"],
+      ["js-7","Funciones"], ["js-8","Cadenas de texto"], ["js-9","Estructuras de control"],
+      ["js-10","Manejo de excepciones"], ["js-11","Clases"], ["js-12","Módulos"], ["js-13","Ejercicios"]
+    ],
+    java: [
+      ["java-1","Comentarios"], ["java-2","Variables y constantes"], ["java-3","Tipos de datos"],
+      ["java-4","Mostrar mensajes"], ["java-5","Operadores"], ["java-6","Arrays y listas"],
+      ["java-7","Funciones (métodos)"], ["java-8","Cadenas de texto"], ["java-9","Estructuras de control"],
+      ["java-10","Manejo de excepciones"], ["java-11","Clases"], ["java-12","Paquetes y bibliotecas"], ["java-13","Ejercicios"]
+    ]
+  };
+
+  const tocContainer = document.getElementById('tocContainer');
+  const langBtns = document.querySelectorAll('.lang-btn');
+  const langPanels = document.querySelectorAll('[data-lang-panel]');
+  const sidebar = document.getElementById('sidebar');
+  const menuToggle = document.getElementById('menuToggle');
+
+  function renderToc(lang){
+    const label = document.createElement('div');
+    label.className = 'toc-label';
+    label.textContent = 'En esta guía';
+    const ul = document.createElement('ul');
+    ul.className = 'toc';
+    topics[lang].forEach(([id, name]) => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = '#' + id;
+      a.textContent = name;
+      a.dataset.target = id;
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+    tocContainer.innerHTML = '';
+    tocContainer.appendChild(label);
+    tocContainer.appendChild(ul);
+  }
+
+  function setLang(lang){
+    langBtns.forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+    langPanels.forEach(p => p.classList.toggle('active', p.dataset.langPanel === lang));
+    renderToc(lang);
+    window.scrollTo({top:0, behavior:'instant' in window ? 'instant' : 'auto'});
+    if (window.innerWidth <= 860) sidebar.classList.remove('open');
+  }
+
+  langBtns.forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.dataset.lang));
+  });
+
+  menuToggle && menuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+  });
+
+  tocContainer.addEventListener('click', (e) => {
+    const a = e.target.closest('a[data-target]');
+    if (!a) return;
+    e.preventDefault();
+    const el = document.getElementById(a.dataset.target);
+    if (el) {
+      el.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+    if (window.innerWidth <= 860) sidebar.classList.remove('open');
+  });
+
+  renderToc('python');
+
+  // highlight active TOC entry on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        const id = entry.target.id;
+        document.querySelectorAll('.toc a').forEach(a => {
+          a.classList.toggle('active', a.dataset.target === id);
+        });
+      }
+    });
+  }, {rootMargin: '-20% 0px -70% 0px'});
+
+  function observeCurrentSections(){
+    document.querySelectorAll('section.topic').forEach(s => observer.observe(s));
+  }
+  observeCurrentSections();
+</script>
+
+</body>
+</html>

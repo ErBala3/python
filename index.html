@@ -401,6 +401,12 @@
   .ex-lang-badge.other{ color:var(--muted); background:var(--panel-2); }
   .ex-lang-badge.drawio{ color:#7c6fea; background:rgba(124,111,234,0.14); }
 
+  .ex-del-btn{
+    flex:none; background:none; border:1px solid transparent; color:var(--muted);
+    font-size:13px; padding:4px 7px; border-radius:6px; cursor:pointer; line-height:1;
+  }
+  .ex-del-btn:hover{ color:#e0785a; border-color:#e0785a; background:rgba(224,120,90,0.1); }
+
   /* file viewer modal */
   .ex-modal-backdrop, .ex-upload-backdrop{
     display:none; position:fixed; inset:0; z-index:200;
@@ -458,12 +464,12 @@
     font-family:"JetBrains Mono", monospace; font-size:10.5px; color:var(--muted);
     text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:5px;
   }
-  .ex-upload-modal input[type=text], .ex-upload-modal input[type=file]{
+  .ex-upload-modal input[type=text], .ex-upload-modal input[type=file], .ex-upload-modal select{
     width:100%; background:var(--panel-2); border:1px solid var(--border); border-radius:8px;
     padding:9px 11px; font-family:"JetBrains Mono", monospace; font-size:12px; color:var(--text);
     outline:none; box-sizing:border-box;
   }
-  .ex-upload-modal input[type=text]:focus{ border-color:var(--accent); }
+  .ex-upload-modal input[type=text]:focus, .ex-upload-modal select:focus{ border-color:var(--accent); }
   .ex-upload-tabs{ display:flex; gap:8px; }
   .ex-upload-tab{
     flex:1; text-align:center; padding:8px; border-radius:8px; border:1px solid var(--border);
@@ -1050,8 +1056,12 @@ System.out.println(nombres.get(0));</pre>
       <button class="ex-upload-tab" data-tab="folder" id="exTabFolder">Carpeta completa</button>
     </div>
     <div>
-      <label>Carpeta destino (opcional)</label>
-      <input type="text" id="exUploadFolder" placeholder="Ej: Python/Ejercicio-1">
+      <label>Carpeta destino</label>
+      <select id="exUploadFolderSelect">
+        <option value="">📁 Raíz (sin carpeta)</option>
+        <option value="__new__">🆕 Nueva carpeta…</option>
+      </select>
+      <input type="text" id="exUploadFolderNew" placeholder="Ej: Python/Ejercicio-1" style="display:none; margin-top:8px;">
     </div>
     <div id="exUploadPanelFiles">
       <label>Selecciona uno o varios archivos</label>
@@ -1178,7 +1188,7 @@ System.out.println(nombres.get(0));</pre>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import {
-    getFirestore, collection, getDocs, setDoc, doc, onSnapshot
+    getFirestore, collection, getDocs, setDoc, doc, onSnapshot, deleteDoc
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   // Mismo proyecto y misma colección que usa index.html en ErBala3/DAM,
@@ -1266,26 +1276,31 @@ System.out.println(nombres.get(0));</pre>
     return root;
   }
 
-  function renderNode(node, name, depth){
+  function renderNode(node, name, path){
     const wrap = document.createElement('div');
     if (name !== null){
       wrap.className = 'ex-folder';
       const header = document.createElement('div');
       header.className = 'ex-folder-header';
       const total = countFiles(node);
-      header.innerHTML = `<span>📁</span><span class="ex-folder-name">${name}</span><span class="ex-count-pill">${total} archivo${total!==1?'s':''}</span><span class="ex-chevron">▶</span>`;
+      header.innerHTML = `<span>📁</span><span class="ex-folder-name">${name}</span><span class="ex-count-pill">${total} archivo${total!==1?'s':''}</span><button class="ex-del-btn" title="Eliminar carpeta y todo su contenido" data-role="del-folder">🗑️</button><span class="ex-chevron">▶</span>`;
       const body = document.createElement('div');
       body.className = 'ex-folder-body';
-      fillBody(body, node, depth+1);
-      header.addEventListener('click', () => {
+      fillBody(body, node, path);
+      header.addEventListener('click', (e) => {
+        if (e.target.closest('[data-role="del-folder"]')) return;
         const open = body.classList.toggle('open');
         header.querySelector('.ex-chevron').classList.toggle('open', open);
+      });
+      header.querySelector('[data-role="del-folder"]').addEventListener('click', (e) => {
+        e.stopPropagation();
+        deleteFolder(path, name, total);
       });
       wrap.appendChild(header);
       wrap.appendChild(body);
     } else {
       wrap.className = 'ex-tree-root';
-      fillBody(wrap, node, depth, true);
+      fillBody(wrap, node, path);
     }
     return wrap;
   }
@@ -1296,10 +1311,11 @@ System.out.println(nombres.get(0));</pre>
     return c;
   }
 
-  function fillBody(container, node, depth, isRoot){
+  function fillBody(container, node, parentPath){
     if (node.children){
       Object.keys(node.children).sort((a,b)=>a.localeCompare(b,'es')).forEach(name => {
-        container.appendChild(renderNode(node.children[name], name, depth));
+        const fullPath = parentPath ? parentPath + '/' + name : name;
+        container.appendChild(renderNode(node.children[name], name, fullPath));
       });
     }
     (node.files || []).sort((a,b)=>a.name.localeCompare(b.name,'es')).forEach(f => {
@@ -1313,9 +1329,34 @@ System.out.println(nombres.get(0));</pre>
     row.dataset.name = (f.name || '').toLowerCase();
     row.dataset.lang = getLang(f.name || '');
     const lang = getLang(f.name || '');
-    row.innerHTML = `<span class="ex-file-icon">${getIcon(f.name||'')}</span><span class="ex-file-name">${f.name}</span>${lang!=='other' ? `<span class="ex-lang-badge ${lang}">${lang}</span>` : ''}`;
-    row.addEventListener('click', () => openExFile(f));
+    row.innerHTML = `<span class="ex-file-icon">${getIcon(f.name||'')}</span><span class="ex-file-name">${f.name}</span>${lang!=='other' ? `<span class="ex-lang-badge ${lang}">${lang}</span>` : ''}<button class="ex-del-btn" title="Eliminar archivo" data-role="del-file">🗑️</button>`;
+    row.addEventListener('click', (e) => {
+      if (e.target.closest('[data-role="del-file"]')) return;
+      openExFile(f);
+    });
+    row.querySelector('[data-role="del-file"]').addEventListener('click', (e) => {
+      e.stopPropagation();
+      deleteFile(f);
+    });
     return row;
+  }
+
+  async function deleteFile(f){
+    if (!f._docId) return;
+    if (!confirm(`¿Eliminar "${f.name}"? Esta acción no se puede deshacer.`)) return;
+    try{ await deleteDoc(doc(db, 'Codigo', 'Codigos', 'Archivos', f._docId)); }
+    catch(e){ alert('No se pudo eliminar el archivo: ' + e.message); }
+  }
+
+  async function deleteFolder(path, name, total){
+    if (!confirm(`¿Eliminar la carpeta "${name}" y sus ${total} archivo${total!==1?'s':''}? Esta acción no se puede deshacer.`)) return;
+    const toDelete = allFiles.filter(f => {
+      const c = f.carpeta || '';
+      return c === path || c.startsWith(path + '/');
+    });
+    try{
+      await Promise.all(toDelete.map(f => deleteDoc(doc(db, 'Codigo', 'Codigos', 'Archivos', f._docId))));
+    } catch(e){ alert('No se pudieron eliminar algunos archivos: ' + e.message); }
   }
 
   function renderTree(){
@@ -1330,7 +1371,7 @@ System.out.println(nombres.get(0));</pre>
       return;
     }
     const tree = buildTree(files);
-    treeEl.appendChild(renderNode(tree, null, 0, true));
+    treeEl.appendChild(renderNode(tree, null, ''));
   }
 
   document.getElementById('exSearchInput').addEventListener('input', renderTree);
@@ -1363,136 +1404,26 @@ System.out.println(nombres.get(0));</pre>
       setTimeout(() => btn.textContent = '📋 Copiar', 1600);
     });
   });
+  const MIME_BY_EXT = {
+    drawio:'application/xml', xml:'application/xml', json:'application/json',
+    html:'text/html', css:'text/css', js:'text/javascript', py:'text/x-python',
+    java:'text/x-java-source', md:'text/markdown', txt:'text/plain', sql:'application/sql'
+  };
   document.getElementById('exModalDownload').addEventListener('click', () => {
     if (!exRawCode) return;
-    const blob = new Blob([exRawCode], {type:'text/plain'});
+    const ext = getExt(exRawName);
+    const mime = MIME_BY_EXT[ext] || 'application/octet-stream';
+    const blob = new Blob([exRawCode], {type: mime});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url; a.download = exRawName;
-    document.body.appendChild(a); a.click(); a.remove();
-    URL.revokeObjectURL(url);
+    a.href = url; a.download = exRawName; a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   });
 
-  // ---- Renderizado de diagramas .drawio a imagen (PNG/SVG), 100% en el navegador ----
-  let _drawioViewerReady = null;
-  function loadDrawioViewer(){
-    if (_drawioViewerReady) return _drawioViewerReady;
-    _drawioViewerReady = new Promise((resolve, reject) => {
-      if (window.GraphViewer){ resolve(); return; }
-      const s = document.createElement('script');
-      s.src = 'https://viewer.diagrams.net/js/viewer-static.min.js';
-      s.onload = () => resolve();
-      s.onerror = () => reject(new Error('No se pudo cargar el visor de diagrams.net (¿sin conexión?)'));
-      document.head.appendChild(s);
-    });
-    return _drawioViewerReady;
-  }
-
-  async function renderDrawioToSvg(xml){
-    await loadDrawioViewer();
-    return new Promise((resolve, reject) => {
-      const holder = document.createElement('div');
-      holder.style.cssText = 'position:fixed; left:-9999px; top:-9999px; width:1200px;';
-      holder.className = 'mxgraph';
-      holder.setAttribute('data-mxgraph', JSON.stringify({ highlight:'#0000ff', nav:false, resize:true, toolbar:'', edit:null, xml }));
-      document.body.appendChild(holder);
-      try{ window.GraphViewer && GraphViewer.processElements && GraphViewer.processElements(); }
-      catch(e){ /* seguimos con el polling por si acaso */ }
-      let tries = 0;
-      const poll = setInterval(() => {
-        tries++;
-        const svg = holder.querySelector('svg');
-        if (svg){
-          clearInterval(poll);
-          const clone = svg.cloneNode(true);
-          document.body.removeChild(holder);
-          resolve(clone);
-        } else if (tries > 50){
-          clearInterval(poll);
-          document.body.removeChild(holder);
-          reject(new Error('No se pudo generar la vista previa del diagrama.'));
-        }
-      }, 150);
-    });
-  }
-
-  function svgElToPngBlob(svgEl, scale){
-    return new Promise((resolve, reject) => {
-      const clone = svgEl.cloneNode(true);
-      if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-      let w = (clone.viewBox && clone.viewBox.baseVal && clone.viewBox.baseVal.width) || (clone.width && clone.width.baseVal && clone.width.baseVal.value) || 900;
-      let h = (clone.viewBox && clone.viewBox.baseVal && clone.viewBox.baseVal.height) || (clone.height && clone.height.baseVal && clone.height.baseVal.value) || 600;
-      const svgData = new XMLSerializer().serializeToString(clone);
-      const svgBlob = new Blob([svgData], {type:'image/svg+xml;charset=utf-8'});
-      const url = URL.createObjectURL(svgBlob);
-      const img = new Image();
-      img.onload = () => {
-        const s = scale || 2;
-        const canvas = document.createElement('canvas');
-        canvas.width = Math.max(1, Math.round(w * s));
-        canvas.height = Math.max(1, Math.round(h * s));
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        URL.revokeObjectURL(url);
-        canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('No se pudo generar el PNG.')), 'image/png');
-      };
-      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('No se pudo cargar la vista previa como imagen.')); };
-      img.src = url;
-    });
-  }
-
-  function downloadBlob(blob, filename){
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = filename;
-    document.body.appendChild(a); a.click(); a.remove();
-    URL.revokeObjectURL(url);
-  }
-
-  let _exOpenToken = 0;
-  async function renderDrawioPreview(xml, baseName, token){
-    const holder = document.getElementById('exDrawioPreview');
-    if (!holder) return;
-    try{
-      const svg = await renderDrawioToSvg(xml);
-      if (token !== _exOpenToken) return; // se abrió otro archivo mientras tanto
-      svg.style.maxWidth = '100%';
-      svg.style.height = 'auto';
-      svg.style.display = 'block';
-      const wrap = document.createElement('div');
-      wrap.style.cssText = 'background:#fff; border:1px solid var(--border); border-radius:9px; padding:14px; overflow:auto;';
-      wrap.appendChild(svg);
-      const btnRow = document.createElement('div');
-      btnRow.style.cssText = 'display:flex; gap:8px; margin-top:10px;';
-      const btnPng = document.createElement('button');
-      btnPng.className = 'ex-modal-btn'; btnPng.textContent = '🖼️ Descargar PNG';
-      btnPng.addEventListener('click', async () => {
-        btnPng.textContent = 'Generando…';
-        try{ const blob = await svgElToPngBlob(svg, 2); downloadBlob(blob, baseName.replace(/\.drawio$/i,'') + '.png'); }
-        catch(e){ alert('No se pudo generar el PNG: ' + e.message); }
-        btnPng.textContent = '🖼️ Descargar PNG';
-      });
-      const btnSvg = document.createElement('button');
-      btnSvg.className = 'ex-modal-btn'; btnSvg.textContent = '📐 Descargar SVG';
-      btnSvg.addEventListener('click', () => {
-        const data = new XMLSerializer().serializeToString(svg);
-        downloadBlob(new Blob([data], {type:'image/svg+xml'}), baseName.replace(/\.drawio$/i,'') + '.svg');
-      });
-      btnRow.appendChild(btnPng); btnRow.appendChild(btnSvg);
-      holder.innerHTML = '';
-      holder.appendChild(wrap);
-      holder.appendChild(btnRow);
-    } catch(err){
-      if (token !== _exOpenToken) return;
-      holder.innerHTML = `<div class="ex-empty" style="text-align:left;padding:10px 0;">No se pudo generar la vista previa del diagrama (${err.message}). Puedes descargar el archivo original y abrirlo en <a href="https://app.diagrams.net" target="_blank" rel="noopener" style="color:var(--accent);">app.diagrams.net</a>.</div>`;
-    }
-  }
-
   async function openExFile(f){
-    _exOpenToken++;
-    const myToken = _exOpenToken;
     exBackdrop.classList.add('open');
     document.getElementById('exModalIcon').textContent = getIcon(f.name || '');
     document.getElementById('exModalTitle').textContent = f.name || 'archivo';
@@ -1508,13 +1439,12 @@ System.out.println(nombres.get(0));</pre>
       body.innerHTML = `<img src="${f.download_url}" style="max-width:100%;border-radius:8px;" alt="${f.name}">`;
       return;
     }
-    const drawioBlock = ext === 'drawio'
-      ? `<div id="exDrawioPreview" style="margin-bottom:14px;"><div class="ex-loading"><div class="ex-spinner"></div><span>Generando vista previa del diagrama…</span></div></div>`
+    const drawioNote = ext === 'drawio'
+      ? `<div style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);margin-top:10px;">📐 Archivo de <strong>draw.io / diagrams.net</strong>. Pulsa "⬇ Descargar" y ábrelo con la extensión <strong>Draw.io Integration</strong> en VS Code, o arrástralo a <a href="https://app.diagrams.net" target="_blank" rel="noopener" style="color:var(--accent);">app.diagrams.net</a>.</div>`
       : '';
     if (f.content){
       exRawCode = f.content;
-      body.innerHTML = `${drawioBlock}<pre>${highlightCode(exRawCode, getLang(f.name||''))}</pre>`;
-      if (ext === 'drawio') renderDrawioPreview(exRawCode, exRawName, myToken);
+      body.innerHTML = `<pre>${highlightCode(exRawCode, getLang(f.name||''))}</pre>${drawioNote}`;
       return;
     }
     if (f.download_url){
@@ -1523,11 +1453,8 @@ System.out.println(nombres.get(0));</pre>
         const r = await fetch(f.download_url);
         if (!r.ok) throw new Error(r.statusText);
         exRawCode = await r.text();
-        if (myToken !== _exOpenToken) return;
-        body.innerHTML = `${drawioBlock}<pre>${highlightCode(exRawCode, getLang(f.name||''))}</pre>`;
-        if (ext === 'drawio') renderDrawioPreview(exRawCode, exRawName, myToken);
+        body.innerHTML = `<pre>${highlightCode(exRawCode, getLang(f.name||''))}</pre>${drawioNote}`;
       } catch(err){
-        if (myToken !== _exOpenToken) return;
         body.innerHTML = `<div class="ex-empty">No se pudo cargar el archivo.<br>${err.message}</div>`;
       }
       return;
@@ -1538,10 +1465,36 @@ System.out.println(nombres.get(0));</pre>
 
   // ---- Modal: subir archivo ----
   const upBackdrop = document.getElementById('exUploadBackdrop');
+
+  function populateFolderSelect(){
+    const sel = document.getElementById('exUploadFolderSelect');
+    const folders = new Set();
+    allFiles.forEach(f => {
+      const c = (f.carpeta && f.carpeta !== '/') ? f.carpeta : '';
+      if (!c) return;
+      const parts = c.split('/').filter(Boolean);
+      let acc = '';
+      parts.forEach(p => { acc = acc ? acc + '/' + p : p; folders.add(acc); });
+    });
+    const sorted = Array.from(folders).sort((a,b) => a.localeCompare(b,'es'));
+    sel.innerHTML = '<option value="">📁 Raíz (sin carpeta)</option>' +
+      sorted.map(f => `<option value="${f}">📁 ${f}</option>`).join('') +
+      '<option value="__new__">🆕 Nueva carpeta…</option>';
+  }
+
+  document.getElementById('exUploadFolderSelect').addEventListener('change', function(){
+    const newInput = document.getElementById('exUploadFolderNew');
+    newInput.style.display = this.value === '__new__' ? '' : 'none';
+    if (this.value === '__new__') newInput.focus();
+  });
+
   document.getElementById('exUploadOpenBtn').addEventListener('click', () => {
     document.getElementById('exUploadMsg').textContent = '';
     document.getElementById('exUploadMsg').className = 'ex-upload-msg';
-    document.getElementById('exUploadFolder').value = '';
+    populateFolderSelect();
+    document.getElementById('exUploadFolderSelect').value = '';
+    document.getElementById('exUploadFolderNew').value = '';
+    document.getElementById('exUploadFolderNew').style.display = 'none';
     document.getElementById('exUploadFileInput').value = '';
     document.getElementById('exUploadFolderInput').value = '';
     document.getElementById('exUploadPreview').style.display = 'none';
@@ -1594,7 +1547,12 @@ System.out.println(nombres.get(0));</pre>
     const input = tab === 'folder' ? document.getElementById('exUploadFolderInput') : document.getElementById('exUploadFileInput');
     const files = Array.from(input.files || []);
     if (!files.length){ setExUploadMsg('Selecciona uno o varios archivos primero.', 'err'); return; }
-    const baseFolder = document.getElementById('exUploadFolder').value.trim().replace(/^\/+|\/+$/g, '');
+    const selVal = document.getElementById('exUploadFolderSelect').value;
+    const baseFolder = (selVal === '__new__'
+      ? document.getElementById('exUploadFolderNew').value.trim()
+      : selVal
+    ).replace(/^\/+|\/+$/g, '');
+    if (selVal === '__new__' && !baseFolder){ setExUploadMsg('Escribe un nombre para la nueva carpeta.', 'err'); return; }
     const btn = document.getElementById('exUploadSubmit');
     btn.disabled = true;
     let done = 0, errors = 0;

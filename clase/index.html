@@ -24,7 +24,6 @@ nav button[aria-selected="true"],.btn.pri{background:var(--acc);color:var(--acci
 main{max-width:1100px;margin:auto;padding:8px 16px 40px}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
 .hide{display:none!important}
-/* horario */
 .grid{display:grid;grid-template-columns:62px repeat(5,1fr);gap:6px}
 .dh{text-align:center;font-weight:600;padding:8px 0;border-radius:8px;color:var(--mut)}
 .dh.hoy{background:var(--acc);color:var(--accink)}
@@ -39,7 +38,6 @@ main{max-width:1100px;margin:auto;padding:8px 16px 40px}
 .lista .cl{margin-bottom:8px;display:flex;gap:12px;align-items:center}.lista .hr{width:50px;padding:0}
 @media (min-width:760px){.lista,.dias{display:none!important}}
 @media (max-width:759px){.grid{display:none}}
-/* ejercicios y tareas */
 .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
 input,select,textarea{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:7px 10px}
 textarea{width:100%;min-height:140px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px}
@@ -71,7 +69,7 @@ h2{font-size:17px;margin:14px 0 8px}
       </div>
       <textarea id="e-cod" placeholder="Pega aquí el código o los apuntes"></textarea>
       <div class="row" style="margin-top:8px"><button class="btn pri" id="e-guardar">Guardar en GitHub</button><button class="btn" id="e-recargar">Recargar lista</button></div>
-      <div class="msg" id="e-msg"></div>
+      <div class="msg" id="e-msg">La primera vez te pedirá tu token de GitHub.</div>
     </div>
     <h2>Ejercicios del repositorio</h2>
     <div class="panel" id="e-lista">Cargando…</div>
@@ -89,17 +87,6 @@ h2{font-size:17px;margin:14px 0 8px}
       <div id="t-lista"></div>
     </div>
   </section>
-
-  <section id="v-ajustes" class="hide">
-    <div class="panel">
-      <h2 style="margin-top:0">Conexión con GitHub</h2>
-      <p class="msg">Para guardar ejercicios y tareas desde la app necesitas un token personal. Créalo en GitHub → Settings → Developer settings → Fine-grained tokens, solo para el repositorio indicado y con permiso <b>Contents: Read and write</b>. Se guarda solo en este dispositivo.</p>
-      <div class="row"><input id="c-repo" placeholder="usuario/repositorio" style="min-width:220px"><input id="c-rama" placeholder="rama" style="width:90px"></div>
-      <div class="row"><input id="c-tok" type="password" placeholder="Token github_pat_…" style="flex:1;min-width:240px"></div>
-      <button class="btn pri" id="c-guardar">Guardar ajustes</button>
-      <div class="msg" id="c-msg"></div>
-    </div>
-  </section>
 </main>
 
 <script>
@@ -115,7 +102,6 @@ const MAT={
  'PROY':{n:'Proyecto Intermodular',p:'Patricia Pazos',h:35}
 };
 const DIAS=['Lunes','Martes','Miércoles','Jueves','Viernes'];
-// 6 franjas por día (el recreo va entre la 3ª y la 4ª)
 const HOR=[['ING-PRO','DI','SGE','AD','PSP','PSP'],
            ['ITE-II','PMDM','AD','OPT_PY','PROY','DI'],
            ['DI','AD','OPT_PY','SGE','PMDM','ITE-II'],
@@ -125,19 +111,17 @@ const FR=[[8,0,9,0],[9,0,10,0],[10,0,11,0],[11,30,12,30],[12,30,13,30],[13,30,14
 const hh=(a,b)=>a+':'+String(b).padStart(2,'0');
 const $=s=>document.querySelector(s);
 const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-const cfg=Object.assign({repo:'ErBala3/python',rama:'main',tok:''},store.get('cfg',{}));
+const cfg={repo:'ErBala3/python',rama:'main',tok:store.get('tok','')};
 const hoy=(()=>{const d=new Date().getDay();return d>=1&&d<=5?d-1:0})();
 
-/* pestañas */
-const TABS=[['horario','Horario'],['ejercicios','Ejercicios'],['tareas','Tareas'],['ajustes','Ajustes']];
+const TABS=[['horario','Horario'],['ejercicios','Ejercicios'],['tareas','Tareas']];
 TABS.forEach(([id,t])=>{const b=document.createElement('button');b.textContent=t;b.setAttribute('role','tab');b.dataset.id=id;b.onclick=()=>ver(id);$('#tabs').append(b)});
 function ver(id){TABS.forEach(([i])=>$('#v-'+i).classList.toggle('hide',i!==id));
  document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.id===id));
  if(id==='ejercicios'&&!ejCargado)cargarEj()}
 
-/* horario */
 function bloques(d){const r=[];let i=0;while(i<6){let j=i;while(j+1<6&&HOR[d][j+1]===HOR[d][i])j++;r.push([HOR[d][i],i,j]);i=j+1}return r}
-const fila=i=>i<3?i+2:i+3; // filas del grid (fila 1 = cabecera, fila 5 = recreo)
+const fila=i=>i<3?i+2:i+3;
 function ahora(d,i){const n=new Date(),m=n.getHours()*60+n.getMinutes();if(n.getDay()-1!==d)return false;const f=FR[i];return m>=f[0]*60+f[1]&&m<f[2]*60+f[3]}
 function clase(c,extra=''){const m=MAT[c];return `<div class="cl ${extra}" style="--h:${m.h}"><small>${c}</small><b>${m.n}</b><br><span>${m.p}</span></div>`}
 function pintaHorario(){
@@ -153,16 +137,15 @@ function pintaHorario(){
  $('#lista').innerHTML=h}
 let dia=hoy;
 
-/* GitHub */
 const api=p=>`https://api.github.com/repos/${cfg.repo}/${p}`;
 const hd=()=>Object.assign({'Accept':'application/vnd.github+json'},cfg.tok?{'Authorization':'Bearer '+cfg.tok}:{});
 const b64=s=>btoa(unescape(encodeURIComponent(s)));const unb64=s=>decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
+function pedirToken(){if(!cfg.tok){const t=prompt('Pega tu token de GitHub (solo se guarda en este dispositivo):');if(t){cfg.tok=t.trim();store.set('tok',cfg.tok)}}return !!cfg.tok}
 async function leer(path){const r=await fetch(api(`contents/${path}?ref=${cfg.rama}`),{headers:hd()});if(r.status===404)return null;if(!r.ok)throw new Error('GitHub '+r.status);return r.json()}
 async function escribir(path,texto,msg){const ex=await leer(path).catch(()=>null);
  const r=await fetch(api('contents/'+path),{method:'PUT',headers:Object.assign({'Content-Type':'application/json'},hd()),body:JSON.stringify({message:msg,content:b64(texto),branch:cfg.rama,sha:ex?ex.sha:undefined})});
- if(!r.ok)throw new Error(r.status===401||r.status===403||r.status===404?'Token sin permiso o mal configurado ('+r.status+')':'GitHub '+r.status);return r.json()}
+ if(!r.ok){if(r.status===401||r.status===403||r.status===404){cfg.tok='';store.set('tok','');throw new Error('Token sin permiso o caducado. Inténtalo de nuevo y pega un token válido.')}throw new Error('GitHub '+r.status)}return r.json()}
 
-/* ejercicios */
 let ejCargado=false;
 const opts=Object.keys(MAT).map(k=>`<option value="${k}">${k} · ${MAT[k].n}</option>`).join('');
 $('#e-mat').innerHTML=opts;$('#t-mat').innerHTML='<option value="">Sin asignatura</option>'+opts;
@@ -178,13 +161,13 @@ async function cargarEj(){const box=$('#e-lista');box.textContent='Cargando…';
  }catch(e){box.textContent='No se pudo leer el repositorio: '+e.message}}
 $('#e-recargar').onclick=()=>{ejCargado=false;cargarEj()};
 $('#e-guardar').onclick=async()=>{const m=$('#e-mat').value,t=$('#e-tit').value.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''),c=$('#e-cod').value;
- const out=$('#e-msg');if(!cfg.tok){out.textContent='Primero añade tu token en Ajustes.';return}
+ const out=$('#e-msg');
  if(!t||!c.trim()){out.textContent='Pon un título y el contenido del ejercicio.';return}
+ if(!pedirToken()){out.textContent='Sin token no se puede guardar en GitHub.';return}
  out.textContent='Guardando…';
  try{await escribir(`ejercicios/${m}/${t}.${$('#e-ext').value}`,c,`Ejercicio ${m}: ${t}`);out.textContent='Guardado en GitHub.';$('#e-tit').value='';$('#e-cod').value='';ejCargado=false;cargarEj()}
  catch(e){out.textContent='No se pudo guardar: '+e.message}};
 
-/* tareas (localStorage + data/tareas.json en el repo) */
 let tareas=store.get('tareas',[]);
 function pintaTareas(){const l=$('#t-lista');l.innerHTML=tareas.length?'':'<p class="msg">Sin tareas. Añade la primera arriba.</p>';
  tareas.slice().sort((a,b)=>a.ok-b.ok||(a.f||'9').localeCompare(b.f||'9')).forEach(t=>{const d=document.createElement('div');d.className='tarea'+(t.ok?' ok':'');
@@ -195,9 +178,6 @@ async function guardaT(){store.set('tareas',tareas);pintaTareas();if(!cfg.tok)re
 $('#t-add').onclick=()=>{const t=$('#t-txt').value.trim();if(!t)return;tareas.push({t,m:$('#t-mat').value,f:$('#t-fecha').value,ok:false});$('#t-txt').value='';guardaT()};
 (async()=>{try{const j=await leer('data/tareas.json');if(j){tareas=JSON.parse(unb64(j.content));store.set('tareas',tareas)}}catch(e){}pintaTareas()})();
 
-/* ajustes y tema */
-$('#c-repo').value=cfg.repo;$('#c-rama').value=cfg.rama;$('#c-tok').value=cfg.tok;
-$('#c-guardar').onclick=()=>{Object.assign(cfg,{repo:$('#c-repo').value.trim(),rama:$('#c-rama').value.trim()||'main',tok:$('#c-tok').value.trim()});store.set('cfg',cfg);ejCargado=false;$('#c-msg').textContent='Ajustes guardados.'};
 $('#tema').onclick=()=>{const r=document.documentElement,osDark=matchMedia('(prefers-color-scheme:dark)').matches;
  const oscuro=r.dataset.theme?r.dataset.theme==='dark':osDark;r.dataset.theme=oscuro?'light':'dark';$('#tema').textContent=oscuro?'Modo oscuro':'Modo claro';store.set('tema',r.dataset.theme)};
 const tm=store.get('tema',null);if(tm){document.documentElement.dataset.theme=tm;$('#tema').textContent=tm==='dark'?'Modo claro':'Modo oscuro'}

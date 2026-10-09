@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1d5bd8">
+<title>Mi clase · 2DAM</title>
+<style>
+:root{--bg:#eaf1fe;--card:#fff;--ink:#0f2347;--mut:#6b7fa3;--line:#d3dff5;--acc:#1d5bd8;--accink:#fff;
+ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1526;--card:#16213a;--ink:#e6edfb;--mut:#8da2c9;--line:#27385c;--acc:#5b8cff;--accink:#0d1526}}
+:root[data-theme="dark"]{--bg:#0d1526;--card:#16213a;--ink:#e6edfb;--mut:#8da2c9;--line:#27385c;--acc:#5b8cff;--accink:#0d1526}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:18px 16px 8px;max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+h1{margin:0;font-size:26px;letter-spacing:-.02em}
+.sub{color:var(--mut);font-size:13px}
+nav{max-width:1100px;margin:auto;padding:6px 16px;display:flex;gap:6px;flex-wrap:wrap}
+button,select,input,textarea{font:inherit;color:inherit}
+.btn,nav button{border:1px solid var(--line);background:var(--card);padding:7px 14px;border-radius:10px;cursor:pointer}
+nav button[aria-selected="true"],.btn.pri{background:var(--acc);color:var(--accink);border-color:var(--acc)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+main{max-width:1100px;margin:auto;padding:8px 16px 40px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.hide{display:none!important}
+/* horario */
+.grid{display:grid;grid-template-columns:62px repeat(5,1fr);gap:6px}
+.dh{text-align:center;font-weight:600;padding:8px 0;border-radius:8px;color:var(--mut)}
+.dh.hoy{background:var(--acc);color:var(--accink)}
+.hr{font-size:12px;color:var(--mut);text-align:right;padding-top:8px}.hr b{display:block;color:var(--ink);font-size:13px}
+.cl{border-radius:10px;padding:8px 10px;background:hsl(var(--h) 70% 90%);color:hsl(var(--h) 55% 22%);border:1px solid hsl(var(--h) 50% 80%);min-height:64px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .cl{background:hsl(var(--h) 35% 22%);color:hsl(var(--h) 70% 88%);border-color:hsl(var(--h) 30% 32%)}}
+:root[data-theme="dark"] .cl{background:hsl(var(--h) 35% 22%);color:hsl(var(--h) 70% 88%);border-color:hsl(var(--h) 30% 32%)}
+.cl small{display:block;font-weight:700;font-size:11px;opacity:.75}.cl span{font-size:12px;opacity:.7}
+.cl.ahora{outline:3px solid var(--acc)}
+.rec{grid-column:1/-1;text-align:center;color:var(--mut);font-size:12px;letter-spacing:.1em;padding:4px;background:var(--card);border-radius:8px}
+.dias{display:flex;gap:6px;margin-bottom:10px}.dias button{flex:1}
+.lista .cl{margin-bottom:8px;display:flex;gap:12px;align-items:center}.lista .hr{width:50px;padding:0}
+@media (min-width:760px){.lista,.dias{display:none!important}}
+@media (max-width:759px){.grid{display:none}}
+/* ejercicios y tareas */
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+input,select,textarea{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:7px 10px}
+textarea{width:100%;min-height:140px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px}
+details{border-top:1px solid var(--line);padding:8px 0}summary{cursor:pointer;font-weight:600}
+pre{background:var(--bg);padding:10px;border-radius:8px;overflow-x:auto;font-size:13px;margin:8px 0 0}
+.chip{display:inline-block;border-radius:6px;padding:1px 7px;font-size:12px;font-weight:700;background:hsl(var(--h) 70% 90%);color:hsl(var(--h) 55% 22%)}
+.tarea{display:flex;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.tarea.ok .t{text-decoration:line-through;color:var(--mut)}.tarea .t{flex:1}
+.msg{color:var(--mut);font-size:13px;margin:6px 0}
+h2{font-size:17px;margin:14px 0 8px}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>Mi clase · 2DAM</h1><div class="sub">Curso 2026/27 · Victoria Institute of Technology, Sanlúcar</div></div>
+  <button class="btn" id="tema">Modo oscuro</button>
+</header>
+<nav role="tablist" id="tabs"></nav>
+<main>
+  <section id="v-horario"><div class="dias" id="dias"></div><div class="lista" id="lista"></div><div class="grid" id="grid"></div></section>
+
+  <section id="v-ejercicios" class="hide">
+    <div class="panel">
+      <h2 style="margin-top:0">Añadir ejercicio</h2>
+      <div class="row">
+        <select id="e-mat"></select>
+        <input id="e-tit" placeholder="Título (ej. bucles-for)" style="flex:1;min-width:160px">
+        <select id="e-ext"><option>py</option><option>js</option><option>java</option><option>md</option></select>
+      </div>
+      <textarea id="e-cod" placeholder="Pega aquí el código o los apuntes"></textarea>
+      <div class="row" style="margin-top:8px"><button class="btn pri" id="e-guardar">Guardar en GitHub</button><button class="btn" id="e-recargar">Recargar lista</button></div>
+      <div class="msg" id="e-msg"></div>
+    </div>
+    <h2>Ejercicios del repositorio</h2>
+    <div class="panel" id="e-lista">Cargando…</div>
+  </section>
+
+  <section id="v-tareas" class="hide">
+    <div class="panel">
+      <div class="row">
+        <input id="t-txt" placeholder="Nueva tarea" style="flex:1;min-width:180px">
+        <select id="t-mat"></select>
+        <input id="t-fecha" type="date">
+        <button class="btn pri" id="t-add">Añadir tarea</button>
+      </div>
+      <div class="msg" id="t-msg"></div>
+      <div id="t-lista"></div>
+    </div>
+  </section>
+
+  <section id="v-ajustes" class="hide">
+    <div class="panel">
+      <h2 style="margin-top:0">Conexión con GitHub</h2>
+      <p class="msg">Para guardar ejercicios y tareas desde la app necesitas un token personal. Créalo en GitHub → Settings → Developer settings → Fine-grained tokens, solo para el repositorio indicado y con permiso <b>Contents: Read and write</b>. Se guarda solo en este dispositivo.</p>
+      <div class="row"><input id="c-repo" placeholder="usuario/repositorio" style="min-width:220px"><input id="c-rama" placeholder="rama" style="width:90px"></div>
+      <div class="row"><input id="c-tok" type="password" placeholder="Token github_pat_…" style="flex:1;min-width:240px"></div>
+      <button class="btn pri" id="c-guardar">Guardar ajustes</button>
+      <div class="msg" id="c-msg"></div>
+    </div>
+  </section>
+</main>
+
+<script>
+const MAT={
+ 'ING-PRO':{n:'Inglés profesional',p:'Profesor/a de Inglés',h:350},
+ 'DI':{n:'Desarrollo de Interfaces',p:'Daniel Toro',h:12},
+ 'SGE':{n:'Sistemas de Gestión Empresarial',p:'Francisco Yuste',h:65},
+ 'AD':{n:'Acceso a Datos',p:'Patricia Pazos',h:290},
+ 'PSP':{n:'Programación de Servicios y Procesos',p:'Juan Sevillano',h:172},
+ 'PMDM':{n:'Programación Multimedia y Dispositivos Móviles',p:'Daniel Toro',h:255},
+ 'ITE-II':{n:'Itinerario personal para la empleabilidad II',p:'Beatriz González',h:215},
+ 'OPT_PY':{n:'Optativa: Introducción a Python',p:'Juan Sevillano',h:45},
+ 'PROY':{n:'Proyecto Intermodular',p:'Patricia Pazos',h:35}
+};
+const DIAS=['Lunes','Martes','Miércoles','Jueves','Viernes'];
+// 6 franjas por día (el recreo va entre la 3ª y la 4ª)
+const HOR=[['ING-PRO','DI','SGE','AD','PSP','PSP'],
+           ['ITE-II','PMDM','AD','OPT_PY','PROY','DI'],
+           ['DI','AD','OPT_PY','SGE','PMDM','ITE-II'],
+           ['SGE','PSP','AD','ING-PRO','DI','DI'],
+           ['SGE','PMDM','DI','OPT_PY','ITE-II','PROY']];
+const FR=[[8,0,9,0],[9,0,10,0],[10,0,11,0],[11,30,12,30],[12,30,13,30],[13,30,14,30]];
+const hh=(a,b)=>a+':'+String(b).padStart(2,'0');
+const $=s=>document.querySelector(s);
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const cfg=Object.assign({repo:'ErBala3/python',rama:'main',tok:''},store.get('cfg',{}));
+const hoy=(()=>{const d=new Date().getDay();return d>=1&&d<=5?d-1:0})();
+
+/* pestañas */
+const TABS=[['horario','Horario'],['ejercicios','Ejercicios'],['tareas','Tareas'],['ajustes','Ajustes']];
+TABS.forEach(([id,t])=>{const b=document.createElement('button');b.textContent=t;b.setAttribute('role','tab');b.dataset.id=id;b.onclick=()=>ver(id);$('#tabs').append(b)});
+function ver(id){TABS.forEach(([i])=>$('#v-'+i).classList.toggle('hide',i!==id));
+ document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.id===id));
+ if(id==='ejercicios'&&!ejCargado)cargarEj()}
+
+/* horario */
+function bloques(d){const r=[];let i=0;while(i<6){let j=i;while(j+1<6&&HOR[d][j+1]===HOR[d][i])j++;r.push([HOR[d][i],i,j]);i=j+1}return r}
+const fila=i=>i<3?i+2:i+3; // filas del grid (fila 1 = cabecera, fila 5 = recreo)
+function ahora(d,i){const n=new Date(),m=n.getHours()*60+n.getMinutes();if(n.getDay()-1!==d)return false;const f=FR[i];return m>=f[0]*60+f[1]&&m<f[2]*60+f[3]}
+function clase(c,extra=''){const m=MAT[c];return `<div class="cl ${extra}" style="--h:${m.h}"><small>${c}</small><b>${m.n}</b><br><span>${m.p}</span></div>`}
+function pintaHorario(){
+ const g=$('#grid');g.innerHTML='<div></div>'+DIAS.map((d,i)=>`<div class="dh ${i===hoy?'hoy':''}">${d}</div>`).join('');
+ FR.forEach((f,i)=>{const r=fila(i);g.insertAdjacentHTML('beforeend',`<div class="hr" style="grid-row:${r}"><b>${hh(f[0],f[1])}</b>${hh(f[2],f[3])}</div>`)});
+ g.insertAdjacentHTML('beforeend','<div class="rec" style="grid-row:5">RECREO · 11:00 – 11:30</div>');
+ DIAS.forEach((_,d)=>bloques(d).forEach(([c,a,b])=>{
+  const e=document.createElement('div');e.style.cssText=`grid-column:${d+2};grid-row:${fila(a)}/${fila(b)+1}`;
+  e.innerHTML=clase(c,ahora(d,a)||ahora(d,b)?'ahora':'');e.firstChild.style.height='100%';g.append(e)}));
+ $('#dias').innerHTML=DIAS.map((d,i)=>`<button class="btn ${i===dia?'pri':''}" data-d="${i}">${d.slice(0,3)}</button>`).join('');
+ $('#dias').querySelectorAll('button').forEach(b=>b.onclick=()=>{dia=+b.dataset.d;pintaHorario()});
+ let h='';bloques(dia).forEach(([c,a,b])=>{h+=`<div style="display:flex;gap:8px"><div class="hr" style="width:52px"><b>${hh(FR[a][0],FR[a][1])}</b>${hh(FR[b][2],FR[b][3])}</div><div style="flex:1">${clase(c,ahora(dia,a)||ahora(dia,b)?'ahora':'')}</div></div>`;if(b===2)h+='<div class="rec" style="margin:6px 0">RECREO · 11:00 – 11:30</div>'});
+ $('#lista').innerHTML=h}
+let dia=hoy;
+
+/* GitHub */
+const api=p=>`https://api.github.com/repos/${cfg.repo}/${p}`;
+const hd=()=>Object.assign({'Accept':'application/vnd.github+json'},cfg.tok?{'Authorization':'Bearer '+cfg.tok}:{});
+const b64=s=>btoa(unescape(encodeURIComponent(s)));const unb64=s=>decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
+async function leer(path){const r=await fetch(api(`contents/${path}?ref=${cfg.rama}`),{headers:hd()});if(r.status===404)return null;if(!r.ok)throw new Error('GitHub '+r.status);return r.json()}
+async function escribir(path,texto,msg){const ex=await leer(path).catch(()=>null);
+ const r=await fetch(api('contents/'+path),{method:'PUT',headers:Object.assign({'Content-Type':'application/json'},hd()),body:JSON.stringify({message:msg,content:b64(texto),branch:cfg.rama,sha:ex?ex.sha:undefined})});
+ if(!r.ok)throw new Error(r.status===401||r.status===403||r.status===404?'Token sin permiso o mal configurado ('+r.status+')':'GitHub '+r.status);return r.json()}
+
+/* ejercicios */
+let ejCargado=false;
+const opts=Object.keys(MAT).map(k=>`<option value="${k}">${k} · ${MAT[k].n}</option>`).join('');
+$('#e-mat').innerHTML=opts;$('#t-mat').innerHTML='<option value="">Sin asignatura</option>'+opts;
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+async function cargarEj(){const box=$('#e-lista');box.textContent='Cargando…';
+ try{const r=await fetch(api(`git/trees/${cfg.rama}?recursive=1`),{headers:hd()});if(!r.ok)throw new Error('GitHub '+r.status);
+  const fs=(await r.json()).tree.filter(f=>f.type==='blob'&&f.path.startsWith('ejercicios/'));ejCargado=true;
+  if(!fs.length){box.innerHTML='Todavía no hay ejercicios. Guarda el primero con el formulario de arriba.';return}
+  const por={};fs.forEach(f=>{const [,m,...n]=f.path.split('/');(por[m]=por[m]||[]).push({path:f.path,nombre:n.join('/')})});
+  box.innerHTML=Object.keys(por).sort().map(m=>`<h2 style="margin:6px 0"><span class="chip" style="--h:${(MAT[m]||{h:220}).h}">${m}</span></h2>`+por[m].map(f=>`<details data-p="${f.path}"><summary>${f.nombre}</summary><pre>Pulsa para cargar…</pre></details>`).join('')).join('');
+  box.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',async()=>{if(!d.open||d.dataset.ok)return;
+   try{const j=await leer(d.dataset.p);d.querySelector('pre').textContent=unb64(j.content);d.dataset.ok=1}catch(e){d.querySelector('pre').textContent='No se pudo cargar: '+e.message}}))
+ }catch(e){box.textContent='No se pudo leer el repositorio: '+e.message}}
+$('#e-recargar').onclick=()=>{ejCargado=false;cargarEj()};
+$('#e-guardar').onclick=async()=>{const m=$('#e-mat').value,t=$('#e-tit').value.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''),c=$('#e-cod').value;
+ const out=$('#e-msg');if(!cfg.tok){out.textContent='Primero añade tu token en Ajustes.';return}
+ if(!t||!c.trim()){out.textContent='Pon un título y el contenido del ejercicio.';return}
+ out.textContent='Guardando…';
+ try{await escribir(`ejercicios/${m}/${t}.${$('#e-ext').value}`,c,`Ejercicio ${m}: ${t}`);out.textContent='Guardado en GitHub.';$('#e-tit').value='';$('#e-cod').value='';ejCargado=false;cargarEj()}
+ catch(e){out.textContent='No se pudo guardar: '+e.message}};
+
+/* tareas (localStorage + data/tareas.json en el repo) */
+let tareas=store.get('tareas',[]);
+function pintaTareas(){const l=$('#t-lista');l.innerHTML=tareas.length?'':'<p class="msg">Sin tareas. Añade la primera arriba.</p>';
+ tareas.slice().sort((a,b)=>a.ok-b.ok||(a.f||'9').localeCompare(b.f||'9')).forEach(t=>{const d=document.createElement('div');d.className='tarea'+(t.ok?' ok':'');
+  d.innerHTML=`<input type="checkbox" ${t.ok?'checked':''} aria-label="Hecha"><div class="t">${esc(t.t)}</div>${t.m?`<span class="chip" style="--h:${MAT[t.m].h}">${t.m}</span>`:''}<span class="msg">${t.f||''}</span><button class="btn" aria-label="Borrar">✕</button>`;
+  d.querySelector('input').onchange=()=>{t.ok=!t.ok;guardaT()};d.querySelector('button').onclick=()=>{tareas=tareas.filter(x=>x!==t);guardaT()};l.append(d)})}
+async function guardaT(){store.set('tareas',tareas);pintaTareas();if(!cfg.tok)return;
+ try{await escribir('data/tareas.json',JSON.stringify(tareas,null,2),'Actualizar tareas');$('#t-msg').textContent='Tareas sincronizadas con GitHub.'}catch(e){$('#t-msg').textContent='Guardadas en este dispositivo; no se pudo sincronizar: '+e.message}}
+$('#t-add').onclick=()=>{const t=$('#t-txt').value.trim();if(!t)return;tareas.push({t,m:$('#t-mat').value,f:$('#t-fecha').value,ok:false});$('#t-txt').value='';guardaT()};
+(async()=>{try{const j=await leer('data/tareas.json');if(j){tareas=JSON.parse(unb64(j.content));store.set('tareas',tareas)}}catch(e){}pintaTareas()})();
+
+/* ajustes y tema */
+$('#c-repo').value=cfg.repo;$('#c-rama').value=cfg.rama;$('#c-tok').value=cfg.tok;
+$('#c-guardar').onclick=()=>{Object.assign(cfg,{repo:$('#c-repo').value.trim(),rama:$('#c-rama').value.trim()||'main',tok:$('#c-tok').value.trim()});store.set('cfg',cfg);ejCargado=false;$('#c-msg').textContent='Ajustes guardados.'};
+$('#tema').onclick=()=>{const r=document.documentElement,osDark=matchMedia('(prefers-color-scheme:dark)').matches;
+ const oscuro=r.dataset.theme?r.dataset.theme==='dark':osDark;r.dataset.theme=oscuro?'light':'dark';$('#tema').textContent=oscuro?'Modo oscuro':'Modo claro';store.set('tema',r.dataset.theme)};
+const tm=store.get('tema',null);if(tm){document.documentElement.dataset.theme=tm;$('#tema').textContent=tm==='dark'?'Modo claro':'Modo oscuro'}
+pintaHorario();ver('horario');
+</script>
+</body>
+</html>

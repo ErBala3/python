@@ -4,184 +4,1678 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#1d5bd8">
+<meta name="theme-color" content="#161a20">
+<meta name="description" content="Horario, tareas y ejercicios compartidos de la clase de 2º DAM.">
 <title>Mi clase · 2DAM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  // Aplica el tema guardado antes de pintar para evitar parpadeos.
+  try{
+    var t = JSON.parse(localStorage.getItem('clase2dam.tema') || localStorage.getItem('tema') || 'null');
+    if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+  }catch(e){}
+</script>
 <style>
-:root{--bg:#eaf1fe;--card:#fff;--ink:#0f2347;--mut:#6b7fa3;--line:#d3dff5;--acc:#1d5bd8;--accink:#fff;
- box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1526;--card:#16213a;--ink:#e6edfb;--mut:#8da2c9;--line:#27385c;--acc:#5b8cff;--accink:#0d1526}}
-:root[data-theme="dark"]{--bg:#0d1526;--card:#16213a;--ink:#e6edfb;--mut:#8da2c9;--line:#27385c;--acc:#5b8cff;--accink:#0d1526}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-header{padding:18px 16px 8px;max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-h1{margin:0;font-size:26px;letter-spacing:-.02em}
-.sub{color:var(--mut);font-size:13px}
-nav{max-width:1100px;margin:auto;padding:6px 16px;display:flex;gap:6px;flex-wrap:wrap}
-button,select,input,textarea{font:inherit;color:inherit}
-.btn,nav button{border:1px solid var(--line);background:var(--card);padding:7px 14px;border-radius:10px;cursor:pointer}
-nav button[aria-selected="true"],.btn.pri{background:var(--acc);color:var(--accink);border-color:var(--acc)}
-:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
-main{max-width:1100px;margin:auto;padding:8px 16px 40px}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
-.hide{display:none!important}
-.grid{display:grid;grid-template-columns:62px repeat(5,1fr);gap:6px}
-.dh{text-align:center;font-weight:600;padding:8px 0;border-radius:8px;color:var(--mut)}
-.dh.hoy{background:var(--acc);color:var(--accink)}
-.hr{font-size:12px;color:var(--mut);text-align:right;padding-top:8px}.hr b{display:block;color:var(--ink);font-size:13px}
-.cl{border-radius:10px;padding:8px 10px;background:hsl(var(--h) 70% 90%);color:hsl(var(--h) 55% 22%);border:1px solid hsl(var(--h) 50% 80%);min-height:64px}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .cl{background:hsl(var(--h) 35% 22%);color:hsl(var(--h) 70% 88%);border-color:hsl(var(--h) 30% 32%)}}
-:root[data-theme="dark"] .cl{background:hsl(var(--h) 35% 22%);color:hsl(var(--h) 70% 88%);border-color:hsl(var(--h) 30% 32%)}
-.cl small{display:block;font-weight:700;font-size:11px;opacity:.75}.cl span{font-size:12px;opacity:.7}
-.cl.ahora{outline:3px solid var(--acc)}
-.rec{grid-column:1/-1;text-align:center;color:var(--mut);font-size:12px;letter-spacing:.1em;padding:4px;background:var(--card);border-radius:8px}
-.dias{display:flex;gap:6px;margin-bottom:10px}.dias button{flex:1}
-.lista .cl{margin-bottom:8px;display:flex;gap:12px;align-items:center}.lista .hr{width:50px;padding:0}
-@media (min-width:760px){.lista,.dias{display:none!important}}
-@media (max-width:759px){.grid{display:none}}
-.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
-input,select,textarea{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:7px 10px}
-textarea{width:100%;min-height:140px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px}
-details{border-top:1px solid var(--line);padding:8px 0}summary{cursor:pointer;font-weight:600}
-pre{background:var(--bg);padding:10px;border-radius:8px;overflow-x:auto;font-size:13px;margin:8px 0 0}
-.chip{display:inline-block;border-radius:6px;padding:1px 7px;font-size:12px;font-weight:700;background:hsl(var(--h) 70% 90%);color:hsl(var(--h) 55% 22%)}
-.tarea{display:flex;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
-.tarea.ok .t{text-decoration:line-through;color:var(--mut)}.tarea .t{flex:1}
-.msg{color:var(--mut);font-size:13px;margin:6px 0}
-h2{font-size:17px;margin:14px 0 8px}
+  /* Paleta de ErBala3/python (index.html raíz). Igual que allí, el modo oscuro es el predeterminado. */
+  :root{
+    --bg:#f6f7f9; --panel:#ffffff; --panel-2:#eef0f3; --border:#dde1e7;
+    --text:#171a1f; --muted:#5b6270;
+    --code-bg:#0d1117; --code-text:#d7dee8; --code-comment:#7c8594;
+    --accent:#2f6f4f; --accent-soft:rgba(47,111,79,.12); --on-accent:#ffffff;
+    --py:#2f6fb0; --js:#a3790c; --java:#b3492a;
+    --warn:#765705; --warn-soft:rgba(163,121,12,.14);
+    --danger:#a03e22; --danger-soft:rgba(179,73,42,.12);
+    --shadow:0 1px 2px rgba(20,22,26,.04), 0 8px 24px rgba(20,22,26,.06);
+    --radius:10px;
+    color-scheme:light;
+  }
+  :root:not([data-theme="light"]){
+    --bg:#0f1216; --panel:#161a20; --panel-2:#1c2129; --border:#2a303a;
+    --text:#e7eaee; --muted:#929aa6;
+    --code-bg:#0a0d12; --code-text:#d7dee8; --code-comment:#6d7686;
+    --accent:#5fb98a; --accent-soft:rgba(95,185,138,.14); --on-accent:#0b1410;
+    --py:#6fa8dc; --js:#e0b84a; --java:#e0785a;
+    --warn:#e0b84a; --warn-soft:rgba(224,184,74,.14);
+    --danger:#e0785a; --danger-soft:rgba(224,120,90,.14);
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    color-scheme:dark;
+  }
+  /* Color de cada asignatura: --c es el color guardado; --cc se ajusta al tema para que se lea bien. */
+  .sc{--cc:color-mix(in srgb, var(--c, #7c8594) 76%, #000)}
+  :root:not([data-theme="light"]) .sc{--cc:color-mix(in srgb, var(--c, #7c8594) 68%, #fff)}
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--text); min-height:100vh;
+    font:14.5px/1.55 "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono, code, pre, kbd{font-family:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+  button, input, select, textarea{font:inherit; color:inherit}
+  a{color:var(--accent)}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  [hidden]{display:none !important}
+  .muted{color:var(--muted)}
+
+  /* ---------- Cabecera ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:40;
+    background:var(--panel); border-bottom:1px solid var(--border);
+    padding-top:env(safe-area-inset-top, 0px);
+  }
+  .topbar-in{max-width:1180px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 22px 8px}
+  .brand{display:flex; align-items:center; gap:10px; min-width:0; color:inherit; text-decoration:none}
+  .mark{
+    width:30px; height:30px; border-radius:8px; flex:none;
+    background:linear-gradient(135deg, var(--py), var(--accent));
+    display:flex; align-items:center; justify-content:center;
+    font:700 13px "JetBrains Mono", monospace; color:#fff;
+  }
+  .brand-text{min-width:0}
+  .brand .t{font-weight:700; font-size:15px; letter-spacing:-.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .brand .s{font-size:12.5px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .acts{display:flex; align-items:center; gap:8px; flex:none}
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:6px;
+    font-size:13px; font-weight:600; line-height:1.3; white-space:nowrap; text-decoration:none;
+    padding:7px 12px; border:1px solid var(--border); border-radius:8px;
+    background:var(--panel-2); color:var(--text); cursor:pointer;
+  }
+  .btn:hover{border-color:var(--accent)}
+  .btn.pri{background:var(--accent); border-color:var(--accent); color:var(--on-accent)}
+  .btn.pri:hover{filter:brightness(1.06)}
+  .btn.ghost{background:transparent; border-color:transparent}
+  .btn.ghost:hover{background:var(--panel-2); border-color:var(--border)}
+  .btn.danger{color:var(--danger)}
+  .btn.danger:hover{border-color:var(--danger); background:var(--danger-soft)}
+  .btn.sm{font-size:12px; padding:5px 9px}
+  .btn.icon{width:34px; height:34px; padding:0; font-size:15px}
+  .btn:disabled{opacity:.55; cursor:not-allowed; filter:none}
+
+  .pill{
+    display:inline-flex; align-items:center; gap:7px; white-space:nowrap;
+    font:500 11.5px "JetBrains Mono", monospace; color:var(--muted);
+    padding:5px 10px; border:1px solid var(--border); border-radius:999px; background:var(--panel-2);
+  }
+  .pill .dot{width:7px; height:7px; border-radius:50%; background:var(--muted); flex:none}
+  .pill.ok .dot{background:var(--accent); animation:pulse 1.6s infinite}
+  .pill.offline .dot, .pill.demo .dot{background:var(--warn)}
+  .pill.error .dot{background:var(--danger)}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 var(--accent-soft)} 70%{box-shadow:0 0 0 6px transparent} 100%{box-shadow:0 0 0 0 transparent}}
+
+  .user{position:relative}
+  .avatar{
+    width:22px; height:22px; border-radius:50%; flex:none;
+    display:inline-flex; align-items:center; justify-content:center;
+    background:var(--accent-soft); color:var(--accent); font:700 10.5px "JetBrains Mono", monospace;
+  }
+  .menu{
+    position:absolute; right:0; top:calc(100% + 6px); z-index:60; min-width:220px;
+    background:var(--panel); border:1px solid var(--border); border-radius:10px; box-shadow:var(--shadow);
+    padding:6px;
+  }
+  .menu .who{padding:8px 10px 10px; font-size:12.5px; color:var(--muted); border-bottom:1px solid var(--border); margin-bottom:6px}
+  .menu .who b{display:block; color:var(--text); font-size:13.5px}
+  .menu .btn{width:100%; justify-content:flex-start}
+
+  /* ---------- Pestañas ---------- */
+  .tabs{max-width:1180px; margin:0 auto; padding:0 14px; display:flex; gap:2px; overflow-x:auto; scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{
+    position:relative; display:inline-flex; align-items:center; gap:7px; white-space:nowrap;
+    background:none; border:none; padding:9px 10px 11px; cursor:pointer; text-decoration:none;
+    font-size:13.5px; font-weight:600; color:var(--muted);
+  }
+  .tab:hover{color:var(--text)}
+  .tab[aria-selected="true"]{color:var(--text)}
+  .tab[aria-selected="true"]::after{content:""; position:absolute; left:8px; right:8px; bottom:-1px; height:2px; border-radius:2px; background:var(--accent)}
+  .tabs .spacer{flex:1}
+  .count{
+    font:600 10.5px "JetBrains Mono", monospace; color:var(--muted);
+    padding:1px 7px; border-radius:999px; background:var(--panel-2); border:1px solid var(--border);
+  }
+  .count:empty{display:none}
+  .count.hot{background:var(--warn-soft); border-color:transparent; color:var(--warn)}
+
+  /* ---------- Contenido ---------- */
+  main{max-width:1180px; margin:0 auto; padding:24px 22px 80px}
+  .vhead{display:flex; align-items:flex-end; justify-content:space-between; gap:12px 16px; flex-wrap:wrap; margin-bottom:16px}
+  .vhead h1{font-size:24px; margin:0 0 4px; letter-spacing:-.01em}
+  .vhead p{margin:0; color:var(--muted); font-size:13.5px; max-width:62ch}
+  .vacts{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+  .card{background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:14px}
+  .empty{font:12.5px "JetBrains Mono", monospace; color:var(--muted); text-align:center; padding:26px 8px; margin:0}
+  .spin{width:16px; height:16px; border:2px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin .8s linear infinite; display:inline-block; vertical-align:middle; margin-right:8px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .callout{
+    display:flex; align-items:center; justify-content:space-between; gap:10px 14px; flex-wrap:wrap;
+    background:var(--accent-soft); border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+    border-radius:10px; padding:11px 14px; margin-bottom:14px; font-size:13.5px;
+  }
+  .callout.warn{background:var(--warn-soft); border-color:color-mix(in srgb, var(--warn) 35%, transparent)}
+  .callout .acts{gap:6px}
+
+  /* Semana */
+  .weeknav{display:flex; align-items:center; gap:6px}
+  .weeknav .lbl{font:600 12.5px "JetBrains Mono", monospace; min-width:150px; text-align:center}
+
+  /* ---------- Horario ---------- */
+  .grid{
+    display:grid; gap:6px;
+    grid-template-columns:58px repeat(5, minmax(0, 1fr));
+    grid-template-rows:auto repeat(3, minmax(84px, auto)) auto repeat(3, minmax(84px, auto));
+  }
+  .dh{text-align:center; padding:6px 4px 8px; border-radius:8px; font-size:12px; color:var(--muted)}
+  .dh b{display:block; color:var(--text); font-size:13.5px}
+  .dh.hoy{background:var(--accent-soft); color:var(--accent)}
+  .dh.hoy b{color:var(--accent)}
+  .hr{font:500 11px "JetBrains Mono", monospace; color:var(--muted); text-align:right; padding:8px 4px 0 0}
+  .hr b{display:block; color:var(--text); font-size:12px; font-weight:600}
+  .rec{
+    grid-column:1 / -1; text-align:center; padding:4px;
+    font:600 10.5px "JetBrains Mono", monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--muted);
+    border:1px dashed var(--border); border-radius:8px;
+  }
+  .cell{display:flex; min-width:0}
+  .cl{
+    --tint:color-mix(in srgb, var(--cc) 13%, var(--panel));
+    display:flex; flex-direction:column; align-items:flex-start; gap:1px; flex:1; min-width:0;
+    text-align:left; padding:8px 10px; border-radius:9px; cursor:pointer; color:var(--text);
+    background:var(--tint); border:1px solid color-mix(in srgb, var(--cc) 28%, var(--border)); border-left:3px solid var(--cc);
+    transition:transform .12s, box-shadow .12s;
+  }
+  .cl:hover{box-shadow:var(--shadow); transform:translateY(-1px)}
+  .cl .sig{font:700 10.5px "JetBrains Mono", monospace; color:var(--cc); letter-spacing:.02em}
+  .cl .nom{font-weight:600; font-size:13px; line-height:1.3; overflow-wrap:anywhere}
+  .cl .prof{font-size:11.5px; color:var(--muted)}
+  .cl.libre{background:transparent; border:1px dashed var(--border); cursor:default; justify-content:center; align-items:center}
+  .cl.libre:hover{box-shadow:none; transform:none}
+  .cl.ahora, .cl.ahora:hover{box-shadow:0 0 0 2px var(--accent)}
+  .badges{margin-top:auto; padding-top:6px; display:flex; gap:4px; flex-wrap:wrap}
+  .bdg{
+    font:600 10.5px "JetBrains Mono", monospace; white-space:nowrap;
+    padding:2px 7px; border-radius:999px; background:var(--panel); border:1px solid var(--border); color:var(--text);
+  }
+  .bdg.pend{background:var(--warn-soft); border-color:transparent; color:var(--warn)}
+  .bdg.entrega{background:var(--danger-soft); border-color:transparent; color:var(--danger)}
+  .bdg.ok{background:var(--accent-soft); border-color:transparent; color:var(--accent)}
+  .bdg.now{background:var(--accent); border-color:var(--accent); color:var(--on-accent)}
+  .legend{display:flex; gap:6px 14px; flex-wrap:wrap; align-items:center; font-size:12px; color:var(--muted); margin:10px 2px 18px}
+
+  .mob{display:none}
+  .dias{display:grid; grid-template-columns:repeat(5, 1fr); gap:6px; margin-bottom:12px}
+  .dia{
+    display:flex; flex-direction:column; align-items:center; padding:6px 0; cursor:pointer;
+    border:1px solid var(--border); border-radius:9px; background:var(--panel-2); font-size:11.5px; color:var(--muted);
+  }
+  .dia b{font-size:13px; color:var(--text)}
+  .dia.hoy{border-color:var(--accent)}
+  .dia[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--on-accent)}
+  .dia[aria-pressed="true"] b{color:var(--on-accent)}
+  .mrow{display:flex; gap:8px; margin-bottom:8px}
+  .mrow .hr{width:46px; flex:none; padding-top:6px}
+  .mrow .cell{flex:1}
+  .mrow .cl{min-height:70px}
+  #lista .rec{margin:2px 0 10px}
+
+  /* Agenda semanal */
+  .ag-h{display:flex; align-items:center; gap:10px; margin:2px 2px 10px}
+  .ag-h h2{font-size:15px; margin:0}
+  .ag-day{display:flex; gap:12px; padding:10px 2px; border-top:1px solid var(--border)}
+  .ag-d{width:62px; flex:none; font-size:12px; color:var(--muted); padding-top:2px}
+  .ag-d b{display:block; color:var(--text); font-size:13px; text-transform:capitalize}
+  .ag-day.today .ag-d b{color:var(--accent)}
+  .ag-day.past{opacity:.7}
+  .ag-items{flex:1; min-width:0}
+
+  /* ---------- Selector de asignatura ---------- */
+  .chips{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px}
+  .chip{
+    display:inline-flex; align-items:center; gap:7px; white-space:nowrap; cursor:pointer;
+    padding:6px 11px; border-radius:999px; border:1px solid var(--border); background:var(--panel);
+    font-size:12.5px; font-weight:600; color:var(--text);
+  }
+  .chip:hover{border-color:var(--cc, var(--accent))}
+  .chip .d{width:8px; height:8px; border-radius:50%; background:var(--cc)}
+  .chip .n{font:500 10.5px "JetBrains Mono", monospace; color:var(--muted)}
+  .chip[aria-pressed="true"]{background:color-mix(in srgb, var(--cc, var(--accent)) 16%, var(--panel)); border-color:var(--cc, var(--accent))}
+  .tag{
+    display:inline-flex; align-items:center; white-space:nowrap;
+    font:700 10.5px "JetBrains Mono", monospace; padding:2px 8px; border-radius:999px;
+    color:var(--cc, var(--muted)); background:color-mix(in srgb, var(--cc, var(--muted)) 15%, transparent);
+  }
+  .tag.plain{color:var(--muted); background:var(--panel-2)}
+
+  /* ---------- Tareas ---------- */
+  .group-h{
+    display:flex; align-items:center; gap:8px; margin:20px 4px 8px;
+    font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); font-weight:700;
+  }
+  .group-h.late{color:var(--danger)}
+  details.group > summary{cursor:pointer; list-style:none}
+  details.group > summary::-webkit-details-marker{display:none}
+  details.group > summary::before{content:"▸"; margin-right:2px}
+  details.group[open] > summary::before{content:"▾"}
+  .task{
+    display:flex; gap:12px; align-items:flex-start;
+    padding:12px 14px; margin-bottom:6px;
+    background:var(--panel); border:1px solid var(--border); border-radius:10px;
+  }
+  .task .chk{width:18px; height:18px; margin:2px 0 0; flex:none; accent-color:var(--accent); cursor:pointer}
+  .task .body{flex:1; min-width:0}
+  .task .tt{font-weight:600; overflow-wrap:anywhere}
+  .task.done .tt{text-decoration:line-through; color:var(--muted)}
+  .task .meta{display:flex; flex-wrap:wrap; align-items:center; gap:5px 10px; margin-top:4px; font-size:12px; color:var(--muted)}
+  .task .desc{margin-top:6px; font-size:13px; color:var(--muted); white-space:pre-wrap; overflow-wrap:anywhere}
+  .task .ops{display:flex; gap:2px; flex:none}
+  .task.compact{padding:8px 10px; margin-bottom:4px; box-shadow:none}
+  .task.compact .meta{margin-top:2px}
+  .task.flash{animation:flash 1.8s ease-out}
+  @keyframes flash{0%{box-shadow:0 0 0 3px var(--accent)} 100%{box-shadow:0 0 0 0 transparent}}
+  .due.late{color:var(--danger); font-weight:600}
+  .due.soon{color:var(--warn); font-weight:600}
+  .linkish{background:none; border:none; padding:0; margin:0; font:inherit; font-weight:600; color:inherit; text-align:left; cursor:pointer}
+  .linkish:hover{text-decoration:underline}
+
+  /* ---------- Ejercicios ---------- */
+  .search{
+    display:flex; align-items:center; gap:8px; margin-bottom:14px;
+    background:var(--panel); border:1px solid var(--border); border-radius:9px; padding:9px 13px;
+  }
+  .search:focus-within{border-color:var(--accent)}
+  .search svg{flex:none; color:var(--muted)}
+  .search input{flex:1; min-width:0; background:none; border:none; outline:none; font:12.5px "JetBrains Mono", monospace}
+  .ex-group{margin-bottom:18px}
+  .ex-group .group-h{margin-top:4px}
+  .ex{
+    display:flex; align-items:center; gap:10px; width:100%; text-align:left; cursor:pointer;
+    padding:10px 12px; margin-bottom:6px; color:var(--text);
+    background:var(--panel); border:1px solid var(--border); border-radius:9px;
+  }
+  .ex:hover{border-color:var(--accent); background:var(--panel-2)}
+  .ex .ic{font-size:15px; flex:none}
+  .ex .nm{flex:1; min-width:0; font:600 12.5px "JetBrains Mono", monospace; overflow-wrap:anywhere}
+  .ex .nm small{display:block; font:400 11.5px "Inter", sans-serif; color:var(--muted); margin-top:2px}
+  .lang{font:700 9.5px "JetBrains Mono", monospace; padding:2px 7px; border-radius:999px; flex:none; color:var(--muted); background:var(--panel-2)}
+  .lang.python{color:var(--py); background:color-mix(in srgb, var(--py) 14%, transparent)}
+  .lang.javascript{color:var(--js); background:color-mix(in srgb, var(--js) 14%, transparent)}
+  .lang.java{color:var(--java); background:color-mix(in srgb, var(--java) 14%, transparent)}
+  .new{font:700 9.5px "JetBrains Mono", monospace; padding:2px 7px; border-radius:999px; color:var(--on-accent); background:var(--accent); flex:none}
+
+  pre.code{
+    margin:0; padding:14px 16px; max-height:58vh; overflow:auto; white-space:pre; tab-size:4;
+    background:var(--code-bg); color:var(--code-text); border:1px solid var(--border); border-radius:9px;
+    font-size:12.5px; line-height:1.65;
+  }
+  .tk-k{color:#c084fc} .tk-s{color:#86efac} .tk-c{color:var(--code-comment); font-style:italic}
+  .tk-n{color:#fbbf24} .tk-t{color:#67e8f9}
+
+  /* ---------- Diálogos ---------- */
+  dialog{
+    width:min(520px, calc(100vw - 24px)); max-height:calc(100vh - 32px); padding:0;
+    background:var(--panel); color:var(--text); border:1px solid var(--border); border-radius:14px; box-shadow:var(--shadow);
+  }
+  dialog.wide{width:min(880px, calc(100vw - 24px))}
+  dialog::backdrop{background:rgba(10,12,16,.6); backdrop-filter:blur(3px)}
+  dialog > form, dialog > .dlg{display:flex; flex-direction:column; max-height:calc(100vh - 34px); margin:0}
+  .dlg-h{display:flex; align-items:center; gap:10px; padding:14px 18px; border-bottom:1px solid var(--border)}
+  .dlg-h h2{flex:1; min-width:0; margin:0; font-size:16px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; overflow-wrap:anywhere}
+  .x{background:none; border:none; color:var(--muted); font-size:16px; cursor:pointer; padding:4px 6px; border-radius:6px}
+  .x:hover{color:var(--text); background:var(--panel-2)}
+  .dlg-b{padding:16px 18px; display:flex; flex-direction:column; gap:12px; overflow:auto; min-height:0; overscroll-behavior:contain}
+  .dlg-b > *{flex-shrink:0}
+  .dlg-b h3{font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin:6px 0 -4px}
+  .dlg-f{display:flex; align-items:center; justify-content:flex-end; gap:8px; flex-wrap:wrap; padding:12px 18px; border-top:1px solid var(--border)}
+  .dlg-f .info{margin-right:auto; font-size:12px; color:var(--muted)}
+  label.f{display:flex; flex-direction:column; gap:5px; font:600 10.5px "JetBrains Mono", monospace; text-transform:uppercase; letter-spacing:.05em; color:var(--muted)}
+  .inp{
+    width:100%; padding:9px 11px; border-radius:8px; outline:none;
+    background:var(--panel-2); border:1px solid var(--border); color:var(--text);
+    font:400 13.5px "Inter", ui-sans-serif, system-ui, sans-serif; text-transform:none; letter-spacing:normal;
+  }
+  .inp:focus{border-color:var(--accent)}
+  textarea.inp{resize:vertical; min-height:80px}
+  textarea.inp.code{font:12.5px/1.55 "JetBrains Mono", monospace; min-height:220px; tab-size:4}
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  .row-name{display:grid; grid-template-columns:1fr 110px; gap:8px}
+  .seg{display:flex; gap:6px}
+  .seg button{flex:1; padding:8px; border-radius:8px; border:1px solid var(--border); background:var(--panel-2); color:var(--muted); font-size:12.5px; font-weight:600; cursor:pointer}
+  .seg button[aria-pressed="true"]{border-color:var(--accent); color:var(--text); background:var(--accent-soft)}
+  .hint{font-size:12px; color:var(--muted); margin:0}
+  .msg{font-size:12.5px; min-height:18px; margin:0}
+  .msg.err{color:var(--danger)} .msg.ok{color:var(--accent)}
+  .file-list{font:11.5px "JetBrains Mono", monospace; color:var(--muted); background:var(--panel-2); border-radius:8px; padding:8px 10px; max-height:130px; overflow:auto}
+  .ej-meta{display:flex; flex-wrap:wrap; gap:6px 12px; align-items:center; font-size:12.5px; color:var(--muted)}
+
+  /* Editor de asignaturas */
+  .cfg-row{display:grid; grid-template-columns:38px 96px minmax(0, 1.6fr) minmax(0, 1fr) 34px; gap:6px; align-items:center; margin-bottom:6px}
+  .cfg-row input[type="color"]{width:38px; height:36px; padding:2px; border:1px solid var(--border); border-radius:8px; background:var(--panel-2); cursor:pointer}
+  .cfg-row .sig{font-family:"JetBrains Mono", monospace; font-size:12.5px; text-transform:uppercase}
+  .cfg-row .sig[readonly]{color:var(--muted)}
+  .cfg-scroll{overflow-x:auto}
+  table.cfg-h{border-collapse:separate; border-spacing:4px; width:100%; min-width:560px}
+  table.cfg-h th{font:600 11px "JetBrains Mono", monospace; color:var(--muted); text-align:center; padding:2px}
+  table.cfg-h td{padding:0}
+  table.cfg-h select{padding:6px 6px; font:600 12px "JetBrains Mono", monospace; border-left:3px solid var(--cc, var(--border))}
+  table.cfg-h .rec-td{text-align:center; font:600 10px "JetBrains Mono", monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); border:1px dashed var(--border); border-radius:6px; padding:2px}
+
+  .toast{
+    position:fixed; left:50%; bottom:calc(20px + env(safe-area-inset-bottom, 0px)); z-index:300;
+    transform:translate(-50%, 16px); opacity:0; pointer-events:none; transition:opacity .2s, transform .2s;
+    max-width:calc(100vw - 32px); padding:10px 16px; border-radius:10px;
+    background:var(--text); color:var(--bg); font-size:13px; font-weight:600; box-shadow:var(--shadow);
+  }
+  .toast.show{opacity:1; transform:translate(-50%, 0)}
+  .toast.err{background:var(--danger); color:#fff}
+
+  footer.pagefoot{max-width:1180px; margin:0 auto; padding:20px 22px calc(36px + env(safe-area-inset-bottom, 0px)); border-top:1px solid var(--border); color:var(--muted); font-size:12.5px}
+  footer.pagefoot a{color:var(--muted)}
+
+  /* ---------- Móvil ---------- */
+  @media (max-width:760px){
+    .topbar-in{padding:10px 14px 6px}
+    .brand .s{font-size:11.5px}
+    .pill .txt, .user-name, .largo{display:none}
+    .pill{padding:7px}
+    .tabs{padding:0 6px}
+    main{padding:16px 16px 70px}
+    .vhead h1{font-size:21px}
+    .grid{display:none}
+    .mob{display:block}
+    .card.tt{padding:12px}
+    .weeknav .lbl{min-width:0; flex:1}
+    .vacts, .weeknav{width:100%}
+    .vacts > .btn{flex:1}
+    .chips{flex-wrap:nowrap; overflow-x:auto; padding-bottom:4px; margin-left:-16px; margin-right:-16px; padding-left:16px; padding-right:16px; scrollbar-width:none}
+    .chips::-webkit-scrollbar{display:none}
+    .row2{grid-template-columns:1fr}
+    .cfg-row{grid-template-columns:38px minmax(0, 1fr) 34px; grid-template-areas:"c s x" "n n n" "p p p"; padding-bottom:8px; border-bottom:1px solid var(--border); margin-bottom:10px}
+    .cfg-row [data-k="c"]{grid-area:c} .cfg-row [data-k="sig"]{grid-area:s} .cfg-row [data-k="n"]{grid-area:n}
+    .cfg-row [data-k="p"]{grid-area:p} .cfg-row [data-del]{grid-area:x}
+    .ag-d{width:50px}
+    footer.pagefoot{padding-left:16px; padding-right:16px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important; transition:none !important}
+  }
 </style>
 </head>
 <body>
-<header>
-  <div><h1>Mi clase · 2DAM</h1><div class="sub">Curso 2026/27 · Victoria Institute of Technology, Sanlúcar</div></div>
-  <button class="btn" id="tema">Modo oscuro</button>
-</header>
-<nav role="tablist" id="tabs"></nav>
-<main>
-  <section id="v-horario"><div class="dias" id="dias"></div><div class="lista" id="lista"></div><div class="grid" id="grid"></div></section>
 
-  <section id="v-ejercicios" class="hide">
-    <div class="panel">
-      <h2 style="margin-top:0">Añadir ejercicio</h2>
-      <div class="row">
-        <select id="e-mat"></select>
-        <input id="e-tit" placeholder="Título (ej. bucles-for)" style="flex:1;min-width:160px">
-        <select id="e-ext"><option>py</option><option>js</option><option>java</option><option>md</option></select>
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="#horario">
+      <div class="mark" aria-hidden="true">2D</div>
+      <div class="brand-text">
+        <div class="t">Mi clase · 2DAM</div>
+        <div class="s">Curso 2026/27 · Victoria Institute of Technology, Sanlúcar</div>
       </div>
-      <textarea id="e-cod" placeholder="Pega aquí el código o los apuntes"></textarea>
-      <div class="row" style="margin-top:8px"><button class="btn pri" id="e-guardar">Guardar en GitHub</button><button class="btn" id="e-recargar">Recargar lista</button></div>
-      <div class="msg" id="e-msg">La primera vez te pedirá tu token de GitHub.</div>
+    </a>
+    <div class="acts">
+      <span class="pill" id="sync" role="status" aria-live="polite" title="Conectando…"><span class="dot"></span><span class="txt">Conectando…</span></span>
+      <button class="btn ghost icon" id="tema" type="button" aria-label="Cambiar a modo claro">☀</button>
+      <div class="user">
+        <button class="btn" id="user-btn" type="button" aria-haspopup="true">Iniciar sesión</button>
+        <div class="menu" id="user-menu" hidden>
+          <div class="who" id="user-who"></div>
+          <button class="btn ghost" type="button" id="logout">Cerrar sesión</button>
+        </div>
+      </div>
     </div>
-    <h2>Ejercicios del repositorio</h2>
-    <div class="panel" id="e-lista">Cargando…</div>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="Secciones">
+    <button class="tab" role="tab" type="button" id="tab-horario" data-v="horario" aria-controls="v-horario">Horario</button>
+    <button class="tab" role="tab" type="button" id="tab-tareas" data-v="tareas" aria-controls="v-tareas">Tareas <span class="count" id="n-tareas"></span></button>
+    <button class="tab" role="tab" type="button" id="tab-ejercicios" data-v="ejercicios" aria-controls="v-ejercicios">Ejercicios <span class="count" id="n-ej"></span></button>
+    <span class="spacer"></span>
+    <a class="tab" href="../">Guías<span class="largo">de lenguajes</span>↗</a>
+  </nav>
+</header>
+
+<main>
+  <!-- ============ HORARIO ============ -->
+  <section id="v-horario" role="tabpanel" aria-labelledby="tab-horario">
+    <div class="vhead">
+      <div>
+        <h1>Horario</h1>
+        <p id="ahora">&nbsp;</p>
+      </div>
+      <div class="vacts">
+        <div class="weeknav" role="group" aria-label="Semana">
+          <button class="btn sm" type="button" id="sem-prev" aria-label="Semana anterior">‹</button>
+          <span class="lbl" id="sem-lbl" aria-live="polite"></span>
+          <button class="btn sm" type="button" id="sem-next" aria-label="Semana siguiente">›</button>
+          <button class="btn sm" type="button" id="sem-hoy">Hoy</button>
+        </div>
+        <button class="btn" type="button" id="btn-cfg">✎ Cambiar asignaturas</button>
+      </div>
+    </div>
+    <div class="card tt">
+      <div class="grid" id="grid"></div>
+      <div class="mob"><div class="dias" id="dias" role="group" aria-label="Día"></div><div id="lista"></div></div>
+    </div>
+    <div class="legend">
+      <span><span class="bdg pend">📌 N</span> tareas pendientes de esa asignatura esta semana</span>
+      <span><span class="bdg entrega">⏰ Entrega</span> se entrega ese día</span>
+      <span>Pulsa una asignatura para ver sus tareas y ejercicios.</span>
+    </div>
+    <div class="card" id="agenda"></div>
   </section>
 
-  <section id="v-tareas" class="hide">
-    <div class="panel">
-      <div class="row">
-        <input id="t-txt" placeholder="Nueva tarea" style="flex:1;min-width:180px">
-        <select id="t-mat"></select>
-        <input id="t-fecha" type="date">
-        <button class="btn pri" id="t-add">Añadir tarea</button>
+  <!-- ============ TAREAS ============ -->
+  <section id="v-tareas" role="tabpanel" aria-labelledby="tab-tareas" hidden>
+    <div class="vhead">
+      <div>
+        <h1>Tareas</h1>
+        <p>Las tareas de clase las ve todo el mundo y se actualizan en vivo. Cada uno marca las suyas como hechas.</p>
       </div>
-      <div class="msg" id="t-msg"></div>
-      <div id="t-lista"></div>
+      <div class="vacts"><button class="btn pri" type="button" id="btn-nueva">＋ Nueva tarea</button></div>
     </div>
+    <div class="chips" id="chips-t" role="group" aria-label="Cambiar de asignatura"></div>
+    <div id="t-aviso"></div>
+    <div id="t-lista"></div>
+  </section>
+
+  <!-- ============ EJERCICIOS ============ -->
+  <section id="v-ejercicios" role="tabpanel" aria-labelledby="tab-ejercicios" hidden>
+    <div class="vhead">
+      <div>
+        <h1>Ejercicios</h1>
+        <p>Código y apuntes de la clase, ordenados por asignatura. Lo que sube cualquiera aparece al momento para todos.</p>
+      </div>
+      <div class="vacts"><button class="btn pri" type="button" id="btn-subir">⬆ Subir ejercicio</button></div>
+    </div>
+    <div class="chips" id="chips-e" role="group" aria-label="Cambiar de asignatura"></div>
+    <label class="search">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="search" id="e-busca" placeholder="Buscar ejercicio, autor o descripción…" aria-label="Buscar ejercicios">
+    </label>
+    <div id="e-lista"></div>
   </section>
 </main>
 
-<script>
-const MAT={
- 'ING-PRO':{n:'Inglés profesional',p:'Profesor/a de Inglés',h:350},
- 'DI':{n:'Desarrollo de Interfaces',p:'Daniel Toro',h:12},
- 'SGE':{n:'Sistemas de Gestión Empresarial',p:'Francisco Yuste',h:65},
- 'AD':{n:'Acceso a Datos',p:'Patricia Pazos',h:290},
- 'PSP':{n:'Programación de Servicios y Procesos',p:'Juan Sevillano',h:172},
- 'PMDM':{n:'Programación Multimedia y Dispositivos Móviles',p:'Daniel Toro',h:255},
- 'ITE-II':{n:'Itinerario personal para la empleabilidad II',p:'Beatriz González',h:215},
- 'OPT_PY':{n:'Optativa: Introducción a Python',p:'Juan Sevillano',h:45},
- 'PROY':{n:'Proyecto Intermodular',p:'Patricia Pazos',h:35}
+<footer class="pagefoot">
+  Horario, tareas y ejercicios compartidos de 2º DAM · los datos se guardan en la base de datos común de la clase ·
+  <a href="https://github.com/ErBala3/python/tree/main/clase" target="_blank" rel="noopener">código en GitHub ↗</a>
+</footer>
+
+<!-- ===== Inicio de sesión ===== -->
+<dialog id="dlg-login" aria-labelledby="login-h">
+  <form id="f-login" novalidate>
+    <div class="dlg-h"><h2 id="login-h">Iniciar sesión</h2><button type="button" class="x" data-close aria-label="Cerrar">✕</button></div>
+    <div class="dlg-b">
+      <div class="seg" role="group" aria-label="Modo">
+        <button type="button" data-modo="entrar" aria-pressed="true">Entrar</button>
+        <button type="button" data-modo="registro" aria-pressed="false">Crear cuenta</button>
+      </div>
+      <label class="f">Usuario<input class="inp" id="l-user" autocomplete="username" maxlength="20" placeholder="ej. ana_garcia" autocapitalize="none" spellcheck="false"></label>
+      <label class="f reg" hidden>Nombre visible<input class="inp" id="l-nombre" maxlength="40" placeholder="Ana García" autocomplete="name"></label>
+      <label class="f">Contraseña<input class="inp" id="l-pass" type="password" autocomplete="current-password"></label>
+      <label class="f reg" hidden>Repite la contraseña<input class="inp" id="l-pass2" type="password" autocomplete="new-password"></label>
+      <p class="hint reg" hidden>Tu usuario y tu nombre serán visibles para la clase. Usa una contraseña que no uses en ningún otro sitio.</p>
+      <p class="msg" id="l-msg" role="alert"></p>
+    </div>
+    <div class="dlg-f">
+      <button type="button" class="btn" data-close>Cancelar</button>
+      <button type="submit" class="btn pri" id="l-ok">Entrar</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- ===== Nueva / editar tarea ===== -->
+<dialog id="dlg-tarea" aria-labelledby="tarea-h">
+  <form id="f-tarea" novalidate>
+    <div class="dlg-h"><h2 id="tarea-h">Nueva tarea</h2><button type="button" class="x" data-close aria-label="Cerrar">✕</button></div>
+    <div class="dlg-b">
+      <label class="f">Título<input class="inp" id="ta-tit" maxlength="140" placeholder="ej. Práctica de hilos en Java"></label>
+      <div class="row2">
+        <label class="f">Asignatura<select class="inp" id="ta-asig"></select></label>
+        <label class="f">Fecha de entrega<input class="inp" id="ta-fecha" type="date"></label>
+      </div>
+      <div class="seg" role="group" aria-label="Para quién">
+        <button type="button" data-tipo="clase" aria-pressed="true">👥 Para toda la clase</button>
+        <button type="button" data-tipo="personal" aria-pressed="false">👤 Solo en mi lista</button>
+      </div>
+      <label class="f">Detalles (opcional)<textarea class="inp" id="ta-desc" maxlength="2000" placeholder="Enunciado, enlaces, apartados…"></textarea></label>
+      <p class="msg" id="ta-msg" role="alert"></p>
+    </div>
+    <div class="dlg-f">
+      <button type="button" class="btn" data-close>Cancelar</button>
+      <button type="submit" class="btn pri" id="ta-ok">Añadir tarea</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- ===== Detalle de asignatura (al pulsar el horario) ===== -->
+<dialog id="dlg-celda" data-light aria-labelledby="c-h">
+  <div class="dlg">
+    <div class="dlg-h"><h2 id="c-h"></h2><button type="button" class="x" data-close aria-label="Cerrar">✕</button></div>
+    <div class="dlg-b" id="c-b"></div>
+    <div class="dlg-f">
+      <button type="button" class="btn" id="c-ej">🗂 Ejercicios</button>
+      <button type="button" class="btn" id="c-tareas">Ver todas sus tareas</button>
+      <button type="button" class="btn pri" id="c-nueva">＋ Tarea</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- ===== Ver ejercicio ===== -->
+<dialog id="dlg-ej" class="wide" data-light aria-labelledby="ej-h">
+  <div class="dlg">
+    <div class="dlg-h"><h2 id="ej-h" class="mono"></h2><button type="button" class="x" data-close aria-label="Cerrar">✕</button></div>
+    <div class="dlg-b">
+      <div class="ej-meta" id="ej-meta"></div>
+      <p class="hint" id="ej-desc" hidden></p>
+      <pre class="code" id="ej-code"></pre>
+    </div>
+    <div class="dlg-f">
+      <button type="button" class="btn danger" id="ej-borrar">🗑 Borrar</button>
+      <button type="button" class="btn" id="ej-editar">✎ Editar</button>
+      <span class="info"></span>
+      <button type="button" class="btn" id="ej-descargar">⬇ Descargar</button>
+      <button type="button" class="btn pri" id="ej-copiar">📋 Copiar</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- ===== Subir / editar ejercicio ===== -->
+<dialog id="dlg-subir" class="wide" aria-labelledby="s-h">
+  <form id="f-subir" novalidate>
+    <div class="dlg-h"><h2 id="s-h">Subir ejercicio</h2><button type="button" class="x" data-close aria-label="Cerrar">✕</button></div>
+    <div class="dlg-b">
+      <div class="row2">
+        <label class="f">Asignatura<select class="inp" id="s-asig"></select></label>
+        <div class="seg" id="s-modos" role="group" aria-label="Cómo subirlo" style="align-self:end">
+          <button type="button" data-modo="pegar" aria-pressed="true">Pegar código</button>
+          <button type="button" data-modo="archivos" aria-pressed="false">Subir archivos</button>
+        </div>
+      </div>
+      <div id="s-pegar">
+        <label class="f" style="margin-bottom:10px">Nombre del archivo
+          <span class="row-name">
+            <input class="inp mono" id="s-nombre" maxlength="80" placeholder="ej. Ejercicio1" spellcheck="false">
+            <select class="inp mono" id="s-ext" aria-label="Extensión">
+              <option>java</option><option>py</option><option>js</option><option>kt</option><option>ts</option>
+              <option>html</option><option>css</option><option>xml</option><option>sql</option><option>json</option>
+              <option>md</option><option>txt</option>
+            </select>
+          </span>
+        </label>
+        <label class="f">Código o apuntes<textarea class="inp code" id="s-code" spellcheck="false" placeholder="Pega aquí el código"></textarea></label>
+      </div>
+      <div id="s-archivos" hidden>
+        <label class="f">Archivos (de texto o código)<input class="inp" id="s-files" type="file" multiple></label>
+        <div class="file-list" id="s-lista" hidden></div>
+      </div>
+      <label class="f">Descripción (opcional)<input class="inp" id="s-desc" maxlength="300" placeholder="ej. Solución del ejercicio 3 del tema 2"></label>
+      <p class="msg" id="s-msg" role="alert"></p>
+    </div>
+    <div class="dlg-f">
+      <button type="button" class="btn" data-close>Cancelar</button>
+      <button type="submit" class="btn pri" id="s-ok">Subir para la clase</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- ===== Cambiar asignaturas ===== -->
+<dialog id="dlg-cfg" class="wide" aria-labelledby="cfg-h">
+  <form id="f-cfg" novalidate>
+    <div class="dlg-h"><h2 id="cfg-h">Cambiar asignaturas</h2><button type="button" class="x" data-close aria-label="Cerrar">✕</button></div>
+    <div class="dlg-b">
+      <p class="hint">Los cambios se guardan para toda la clase: nombre, profesor/a, color y en qué hora va cada asignatura.</p>
+      <h3>Asignaturas</h3>
+      <div id="cfg-rows"></div>
+      <div><button type="button" class="btn sm" id="cfg-add">＋ Añadir asignatura</button></div>
+      <h3>Horario semanal</h3>
+      <div class="cfg-scroll" id="cfg-hor"></div>
+      <p class="msg" id="cfg-msg" role="alert"></p>
+    </div>
+    <div class="dlg-f">
+      <span class="info" id="cfg-info"></span>
+      <button type="button" class="btn" id="cfg-reset">Restablecer</button>
+      <button type="button" class="btn" data-close>Cancelar</button>
+      <button type="submit" class="btn pri" id="cfg-ok">Guardar para todos</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<noscript><p style="text-align:center;padding:20px">Esta página necesita JavaScript.</p></noscript>
+
+<script type="module">
+/* =====================================================================
+   Mi clase · 2DAM
+   - Horario con las tareas de la semana marcadas en cada asignatura.
+   - Tareas y ejercicios compartidos en vivo (Firestore, el mismo proyecto
+     que usan index.html y ErBala3/DAM).
+   - Inicio de sesión de la clase y editor de asignaturas.
+   Añade ?demo a la URL para probar sin tocar la base de datos real.
+   ===================================================================== */
+
+const FIREBASE = {
+  apiKey: "AIzaSyD4RDqcQYH_8fNPbo6d_K9GFgQiPh-3Cno",
+  authDomain: "dam-calendario.firebaseapp.com",
+  projectId: "dam-calendario",
+  storageBucket: "dam-calendario.firebasestorage.app",
+  messagingSenderId: "600293382813",
+  appId: "1:600293382813:web:c927c927445a9d03d09274"
 };
-const DIAS=['Lunes','Martes','Miércoles','Jueves','Viernes'];
-const HOR=[['ING-PRO','DI','SGE','AD','PSP','PSP'],
-           ['ITE-II','PMDM','AD','OPT_PY','PROY','DI'],
-           ['DI','AD','OPT_PY','SGE','PMDM','ITE-II'],
-           ['SGE','PSP','AD','ING-PRO','DI','DI'],
-           ['SGE','PMDM','DI','OPT_PY','ITE-II','PROY']];
-const FR=[[8,0,9,0],[9,0,10,0],[10,0,11,0],[11,30,12,30],[12,30,13,30],[13,30,14,30]];
-const hh=(a,b)=>a+':'+String(b).padStart(2,'0');
-const $=s=>document.querySelector(s);
-const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-const cfg={repo:'ErBala3/python',rama:'main',tok:store.get('tok','')};
-const hoy=(()=>{const d=new Date().getDay();return d>=1&&d<=5?d-1:0})();
+const DEMO = new URLSearchParams(location.search).has('demo');
+const CLAVE_SESION = DEMO ? 'sesionDemo' : 'sesion';   // la sesión de prueba nunca se mezcla con la real
 
-const TABS=[['horario','Horario'],['ejercicios','Ejercicios'],['tareas','Tareas']];
-TABS.forEach(([id,t])=>{const b=document.createElement('button');b.textContent=t;b.setAttribute('role','tab');b.dataset.id=id;b.onclick=()=>ver(id);$('#tabs').append(b)});
-function ver(id){TABS.forEach(([i])=>$('#v-'+i).classList.toggle('hide',i!==id));
- document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.id===id));
- if(id==='ejercicios'&&!ejCargado)cargarEj()}
+/* ---------- Valores por defecto ---------- */
+const CONFIG_DEF = {
+  asignaturas: {
+    'ING-PRO': { n: 'Inglés profesional', p: 'Profesor/a de Inglés', c: '#5a62c9' },
+    'DI':      { n: 'Desarrollo de Interfaces', p: 'Daniel Toro', c: '#16858a' },
+    'SGE':     { n: 'Sistemas de Gestión Empresarial', p: 'Francisco Yuste', c: '#a3790c' },
+    'AD':      { n: 'Acceso a Datos', p: 'Patricia Pazos', c: '#b3492a' },
+    'PSP':     { n: 'Programación de Servicios y Procesos', p: 'Juan Sevillano', c: '#2f7a52' },
+    'PMDM':    { n: 'Programación Multimedia y Dispositivos Móviles', p: 'Daniel Toro', c: '#c03f74' },
+    'ITE-II':  { n: 'Itinerario personal para la empleabilidad II', p: 'Beatriz González', c: '#7d8b1c' },
+    'OPT_PY':  { n: 'Optativa: Introducción a Python', p: 'Juan Sevillano', c: '#2f6fb0' },
+    'PROY':    { n: 'Proyecto Intermodular', p: 'Patricia Pazos', c: '#8e4fc2' }
+  },
+  orden: ['ING-PRO', 'DI', 'SGE', 'AD', 'PSP', 'PMDM', 'ITE-II', 'OPT_PY', 'PROY'],
+  horario: {
+    d0: ['ING-PRO', 'DI', 'SGE', 'AD', 'PSP', 'PSP'],
+    d1: ['ITE-II', 'PMDM', 'AD', 'OPT_PY', 'PROY', 'DI'],
+    d2: ['DI', 'AD', 'OPT_PY', 'SGE', 'PMDM', 'ITE-II'],
+    d3: ['SGE', 'PSP', 'AD', 'ING-PRO', 'DI', 'DI'],
+    d4: ['SGE', 'PMDM', 'DI', 'OPT_PY', 'ITE-II', 'PROY']
+  },
+  actualizado: 0, por: ''
+};
+const COLORES_EXTRA = ['#2f6fb0', '#16858a', '#2f7a52', '#7d8b1c', '#a3790c', '#b3492a', '#c03f74', '#8e4fc2', '#5a62c9'];
+const FRANJAS = [['8:00', '9:00'], ['9:00', '10:00'], ['10:00', '11:00'], ['11:30', '12:30'], ['12:30', '13:30'], ['13:30', '14:30']];
+const RECREO = ['11:00', '11:30'];
+const DIAS = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
+const DIAS_SEM = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+const CARPETA = '2DAM';              // carpeta de los ejercicios dentro de Codigo/Codigos/Archivos
+const MAX_ARCHIVO = 500 * 1024;      // Firestore admite documentos de hasta 1 MiB
 
-function bloques(d){const r=[];let i=0;while(i<6){let j=i;while(j+1<6&&HOR[d][j+1]===HOR[d][i])j++;r.push([HOR[d][i],i,j]);i=j+1}return r}
-const fila=i=>i<3?i+2:i+3;
-function ahora(d,i){const n=new Date(),m=n.getHours()*60+n.getMinutes();if(n.getDay()-1!==d)return false;const f=FR[i];return m>=f[0]*60+f[1]&&m<f[2]*60+f[3]}
-function clase(c,extra=''){const m=MAT[c];return `<div class="cl ${extra}" style="--h:${m.h}"><small>${c}</small><b>${m.n}</b><br><span>${m.p}</span></div>`}
-function pintaHorario(){
- const g=$('#grid');g.innerHTML='<div></div>'+DIAS.map((d,i)=>`<div class="dh ${i===hoy?'hoy':''}">${d}</div>`).join('');
- FR.forEach((f,i)=>{const r=fila(i);g.insertAdjacentHTML('beforeend',`<div class="hr" style="grid-row:${r}"><b>${hh(f[0],f[1])}</b>${hh(f[2],f[3])}</div>`)});
- g.insertAdjacentHTML('beforeend','<div class="rec" style="grid-row:5">RECREO · 11:00 – 11:30</div>');
- DIAS.forEach((_,d)=>bloques(d).forEach(([c,a,b])=>{
-  const e=document.createElement('div');e.style.cssText=`grid-column:${d+2};grid-row:${fila(a)}/${fila(b)+1}`;
-  e.innerHTML=clase(c,ahora(d,a)||ahora(d,b)?'ahora':'');e.firstChild.style.height='100%';g.append(e)}));
- $('#dias').innerHTML=DIAS.map((d,i)=>`<button class="btn ${i===dia?'pri':''}" data-d="${i}">${d.slice(0,3)}</button>`).join('');
- $('#dias').querySelectorAll('button').forEach(b=>b.onclick=()=>{dia=+b.dataset.d;pintaHorario()});
- let h='';bloques(dia).forEach(([c,a,b])=>{h+=`<div style="display:flex;gap:8px"><div class="hr" style="width:52px"><b>${hh(FR[a][0],FR[a][1])}</b>${hh(FR[b][2],FR[b][3])}</div><div style="flex:1">${clase(c,ahora(dia,a)||ahora(dia,b)?'ahora':'')}</div></div>`;if(b===2)h+='<div class="rec" style="margin:6px 0">RECREO · 11:00 – 11:30</div>'});
- $('#lista').innerHTML=h}
-let dia=hoy;
+/* ---------- Utilidades ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('clase2dam.' + k); return v == null ? d : JSON.parse(v) } catch (e) { return d } },
+  set(k, v) { try { v == null ? localStorage.removeItem('clase2dam.' + k) : localStorage.setItem('clase2dam.' + k, JSON.stringify(v)) } catch (e) {} }
+};
+const nuevoId = p => p + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const desdeISO = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d) };
+const sumaDias = (d, n) => { const r = new Date(d); r.setDate(r.getDate() + n); return r };
+const lunesDe = d => { const r = new Date(d.getFullYear(), d.getMonth(), d.getDate()); r.setDate(r.getDate() - (r.getDay() + 6) % 7); return r };
+const hoyISO = () => iso(new Date());
+const diasEntre = (a, b) => Math.round((desdeISO(b) - desdeISO(a)) / 864e5);
+const minutos = s => { const [h, m] = s.split(':').map(Number); return h * 60 + m };
+const plural = (n, s, p = s + 's') => `${n} ${n === 1 ? s : p}`;
+const fechaCorta = f => { const d = desdeISO(f); return `${DIAS_SEM[d.getDay()].slice(0, 3)} ${d.getDate()} ${MESES[d.getMonth()]}` };
+function fechaRelativa(f) {
+  const n = diasEntre(hoyISO(), f);
+  if (n === 0) return 'hoy';
+  if (n === 1) return 'mañana';
+  if (n === -1) return 'ayer';
+  if (n > 1 && n < 7) return 'el ' + DIAS_SEM[desdeISO(f).getDay()];
+  return n < 0 ? `hace ${-n} días` : `en ${n} días`;
+}
+function hace(ms) {
+  if (!ms) return '';
+  const s = (Date.now() - ms) / 1000;
+  if (s < 60) return 'ahora mismo';
+  if (s < 3600) return `hace ${Math.floor(s / 60)} min`;
+  if (s < 86400) return `hace ${Math.floor(s / 3600)} h`;
+  if (s < 7 * 86400) return 'hace ' + plural(Math.floor(s / 86400), 'día');
+  return new Date(ms).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+const enlazar = html => html.replace(/https?:\/\/[^\s<]+/g, u => `<a href="${u}" target="_blank" rel="noopener">${u}</a>`);
 
-const api=p=>`https://api.github.com/repos/${cfg.repo}/${p}`;
-const hd=()=>Object.assign({'Accept':'application/vnd.github+json'},cfg.tok?{'Authorization':'Bearer '+cfg.tok}:{});
-const b64=s=>btoa(unescape(encodeURIComponent(s)));const unb64=s=>decodeURIComponent(escape(atob(s.replace(/\n/g,''))));
-function pedirToken(){if(!cfg.tok){const t=prompt('Pega tu token de GitHub (solo se guarda en este dispositivo):');if(t){cfg.tok=t.trim();store.set('tok',cfg.tok)}}return !!cfg.tok}
-async function leer(path){const r=await fetch(api(`contents/${path}?ref=${cfg.rama}`),{headers:hd()});if(r.status===404)return null;if(!r.ok)throw new Error('GitHub '+r.status);return r.json()}
-async function escribir(path,texto,msg){const ex=await leer(path).catch(()=>null);
- const r=await fetch(api('contents/'+path),{method:'PUT',headers:Object.assign({'Content-Type':'application/json'},hd()),body:JSON.stringify({message:msg,content:b64(texto),branch:cfg.rama,sha:ex?ex.sha:undefined})});
- if(!r.ok){if(r.status===401||r.status===403||r.status===404){cfg.tok='';store.set('tok','');throw new Error('Token sin permiso o caducado. Inténtalo de nuevo y pega un token válido.')}throw new Error('GitHub '+r.status)}return r.json()}
+/* ---------- Estado ---------- */
+const S = {
+  sesion: store.get(CLAVE_SESION, null),      // { u, nombre }
+  config: CONFIG_DEF,
+  tareas: [], ejercicios: [],
+  cargado: { tareas: false, ejercicios: false },
+  error: { tareas: '', ejercicios: '' },
+  vista: 'horario', filtro: store.get('filtro', ''), busca: '',
+  semana: 0, dia: 0
+};
+if (!S.sesion?.u || !S.sesion?.nombre) S.sesion = null;
+const yo = () => S.sesion?.u || null;
+const asig = s => S.config.asignaturas[s] || { n: s || 'Sin asignatura', p: '', c: '#7c8594' };
+const siglas = () => S.config.orden.filter(s => S.config.asignaturas[s]);
+const hecha = t => !!(yo() && t.hechas[yo()]);
+const visibles = () => S.tareas.filter(t => t.tipo !== 'personal' || t.autor === yo());
+const porFecha = (a, b) => (a.fecha || '9999').localeCompare(b.fecha || '9999') || a.creado - b.creado;
 
-let ejCargado=false;
-const opts=Object.keys(MAT).map(k=>`<option value="${k}">${k} · ${MAT[k].n}</option>`).join('');
-$('#e-mat').innerHTML=opts;$('#t-mat').innerHTML='<option value="">Sin asignatura</option>'+opts;
-const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-async function cargarEj(){const box=$('#e-lista');box.textContent='Cargando…';
- try{const r=await fetch(api(`git/trees/${cfg.rama}?recursive=1`),{headers:hd()});if(!r.ok)throw new Error('GitHub '+r.status);
-  const fs=(await r.json()).tree.filter(f=>f.type==='blob'&&f.path.startsWith('ejercicios/'));ejCargado=true;
-  if(!fs.length){box.innerHTML='Todavía no hay ejercicios. Guarda el primero con el formulario de arriba.';return}
-  const por={};fs.forEach(f=>{const [,m,...n]=f.path.split('/');(por[m]=por[m]||[]).push({path:f.path,nombre:n.join('/')})});
-  box.innerHTML=Object.keys(por).sort().map(m=>`<h2 style="margin:6px 0"><span class="chip" style="--h:${(MAT[m]||{h:220}).h}">${m}</span></h2>`+por[m].map(f=>`<details data-p="${f.path}"><summary>${f.nombre}</summary><pre>Pulsa para cargar…</pre></details>`).join('')).join('');
-  box.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',async()=>{if(!d.open||d.dataset.ok)return;
-   try{const j=await leer(d.dataset.p);d.querySelector('pre').textContent=unb64(j.content);d.dataset.ok=1}catch(e){d.querySelector('pre').textContent='No se pudo cargar: '+e.message}}))
- }catch(e){box.textContent='No se pudo leer el repositorio: '+e.message}}
-$('#e-recargar').onclick=()=>{ejCargado=false;cargarEj()};
-$('#e-guardar').onclick=async()=>{const m=$('#e-mat').value,t=$('#e-tit').value.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''),c=$('#e-cod').value;
- const out=$('#e-msg');
- if(!t||!c.trim()){out.textContent='Pon un título y el contenido del ejercicio.';return}
- if(!pedirToken()){out.textContent='Sin token no se puede guardar en GitHub.';return}
- out.textContent='Guardando…';
- try{await escribir(`ejercicios/${m}/${t}.${$('#e-ext').value}`,c,`Ejercicio ${m}: ${t}`);out.textContent='Guardado en GitHub.';$('#e-tit').value='';$('#e-cod').value='';ejCargado=false;cargarEj()}
- catch(e){out.textContent='No se pudo guardar: '+e.message}};
+function normConfig(raw) {
+  if (!raw || typeof raw.asignaturas !== 'object') return CONFIG_DEF;
+  const asignaturas = {};
+  for (const [k, v] of Object.entries(raw.asignaturas)) {
+    if (!/^[A-Z0-9_-]{1,12}$/.test(k) || !v) continue;
+    asignaturas[k] = { n: String(v.n || k).slice(0, 80), p: String(v.p || '').slice(0, 60), c: /^#[0-9a-f]{6}$/i.test(v.c) ? v.c : '#7c8594' };
+  }
+  if (!Object.keys(asignaturas).length) return CONFIG_DEF;
+  const orden = (Array.isArray(raw.orden) ? raw.orden : []).filter((k, i, a) => asignaturas[k] && a.indexOf(k) === i);
+  Object.keys(asignaturas).forEach(k => orden.includes(k) || orden.push(k));
+  const horario = {};
+  for (let d = 0; d < 5; d++) {
+    const h = raw.horario?.['d' + d];
+    horario['d' + d] = Array.from({ length: 6 }, (_, i) => Array.isArray(h) && asignaturas[h[i]] ? h[i] : '');
+  }
+  return { asignaturas, orden, horario, actualizado: +raw.actualizado || 0, por: String(raw.por || '') };
+}
+function normTarea(t) {
+  if (!t || !t.titulo) return null;
+  return {
+    _id: t._id, titulo: String(t.titulo).slice(0, 200), desc: String(t.desc || '').slice(0, 3000),
+    asig: String(t.asig || ''), fecha: /^\d{4}-\d{2}-\d{2}$/.test(t.fecha) ? t.fecha : '',
+    tipo: t.tipo === 'personal' ? 'personal' : 'clase',
+    autor: String(t.autor || ''), autorNombre: String(t.autorNombre || t.autor || ''),
+    creado: +t.creado || 0, hechas: t.hechas && typeof t.hechas === 'object' ? t.hechas : {}
+  };
+}
+// Ejercicios de la clase: los subidos desde aquí (asignatura) o desde index.html a la carpeta 2DAM/<SIGLA>.
+function ejerciciosClase() {
+  return S.ejercicios
+    .filter(e => e.name && (e.asignatura || String(e.carpeta || '').startsWith(CARPETA + '/')))
+    .map(e => ({ ...e, _asig: e.asignatura || String(e.carpeta).split('/')[1] || '' }));
+}
 
-let tareas=store.get('tareas',[]);
-function pintaTareas(){const l=$('#t-lista');l.innerHTML=tareas.length?'':'<p class="msg">Sin tareas. Añade la primera arriba.</p>';
- tareas.slice().sort((a,b)=>a.ok-b.ok||(a.f||'9').localeCompare(b.f||'9')).forEach(t=>{const d=document.createElement('div');d.className='tarea'+(t.ok?' ok':'');
-  d.innerHTML=`<input type="checkbox" ${t.ok?'checked':''} aria-label="Hecha"><div class="t">${esc(t.t)}</div>${t.m?`<span class="chip" style="--h:${MAT[t.m].h}">${t.m}</span>`:''}<span class="msg">${t.f||''}</span><button class="btn" aria-label="Borrar">✕</button>`;
-  d.querySelector('input').onchange=()=>{t.ok=!t.ok;guardaT()};d.querySelector('button').onclick=()=>{tareas=tareas.filter(x=>x!==t);guardaT()};l.append(d)})}
-async function guardaT(){store.set('tareas',tareas);pintaTareas();if(!cfg.tok)return;
- try{await escribir('data/tareas.json',JSON.stringify(tareas,null,2),'Actualizar tareas');$('#t-msg').textContent='Tareas sincronizadas con GitHub.'}catch(e){$('#t-msg').textContent='Guardadas en este dispositivo; no se pudo sincronizar: '+e.message}}
-$('#t-add').onclick=()=>{const t=$('#t-txt').value.trim();if(!t)return;tareas.push({t,m:$('#t-mat').value,f:$('#t-fecha').value,ok:false});$('#t-txt').value='';guardaT()};
-(async()=>{try{const j=await leer('data/tareas.json');if(j){tareas=JSON.parse(unb64(j.content));store.set('tareas',tareas)}}catch(e){}pintaTareas()})();
+/* ---------- Base de datos ---------- */
+async function backendFirebase() {
+  const [{ initializeApp }, fs] = await Promise.all([
+    import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js'),
+    import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js')
+  ]);
+  const { getFirestore, collection, doc, query, where, onSnapshot, setDoc, updateDoc, deleteDoc, getDoc, deleteField, FieldPath, runTransaction } = fs;
+  const db = getFirestore(initializeApp(FIREBASE));
+  const clase = doc(db, 'Clase', '2DAM');
+  const tareas = collection(clase, 'Tareas');
+  const usuarios = collection(clase, 'Usuarios');
+  const archivos = collection(db, 'Codigo', 'Codigos', 'Archivos');
+  // La colección es compartida con index.html y ErBala3/DAM (miles de archivos): solo se piden los de la carpeta 2DAM/.
+  const archivosClase = query(archivos, where('carpeta', '>=', CARPETA + '/'), where('carpeta', '<', CARPETA + '0'));
+  const vivo = (ref, ok, ko) => onSnapshot(ref, { includeMetadataChanges: true },
+    s => ok(s.docs ? s.docs.map(d => ({ ...d.data(), _id: d.id })) : (s.exists() ? s.data() : null), s.metadata.fromCache), ko);
+  return {
+    onConfig: (ok, ko) => vivo(clase, ok, ko),
+    guardarConfig: data => setDoc(clase, data),
+    onTareas: (ok, ko) => vivo(tareas, ok, ko),
+    crearTarea: t => setDoc(doc(tareas, t.id), t),
+    editarTarea: (id, cambios) => updateDoc(doc(tareas, id), cambios),
+    borrarTarea: id => deleteDoc(doc(tareas, id)),
+    marcar: (id, u, si) => updateDoc(doc(tareas, id), new FieldPath('hechas', u), si ? Date.now() : deleteField()),
+    onEjercicios: (ok, ko) => vivo(archivosClase, ok, ko),
+    guardarEjercicio: e => setDoc(doc(archivos, e.id), e),
+    borrarEjercicio: id => deleteDoc(doc(archivos, id)),
+    leerUsuario: async u => { const s = await getDoc(doc(usuarios, u)); return s.exists() ? s.data() : null },
+    crearUsuario: (u, datos) => runTransaction(db, async tx => {
+      const ref = doc(usuarios, u);
+      if ((await tx.get(ref)).exists()) throw new Error('existe');
+      tx.set(ref, datos);
+    })
+  };
+}
 
-$('#tema').onclick=()=>{const r=document.documentElement,osDark=matchMedia('(prefers-color-scheme:dark)').matches;
- const oscuro=r.dataset.theme?r.dataset.theme==='dark':osDark;r.dataset.theme=oscuro?'light':'dark';$('#tema').textContent=oscuro?'Modo oscuro':'Modo claro';store.set('tema',r.dataset.theme)};
-const tm=store.get('tema',null);if(tm){document.documentElement.dataset.theme=tm;$('#tema').textContent=tm==='dark'?'Modo claro':'Modo oscuro'}
-pintaHorario();ver('horario');
+// Modo demo (?demo): misma interfaz, datos en este navegador y sincronizados entre pestañas.
+function backendDemo() {
+  const KEY = 'clase2dam.demo';
+  const leer = () => { try { return { config: null, tareas: {}, archivos: {}, usuarios: {}, ...JSON.parse(localStorage.getItem(KEY) || '{}') } } catch (e) { return { config: null, tareas: {}, archivos: {}, usuarios: {} } } };
+  let db = leer();
+  const subs = { config: [], tareas: [], archivos: [] };
+  const copia = o => JSON.parse(JSON.stringify(o));
+  const valor = k => k === 'config' ? copia(db.config) : Object.entries(db[k]).map(([id, v]) => ({ ...copia(v), _id: id }));
+  const emitir = k => subs[k].forEach(f => f(valor(k), false));
+  const todo = () => Object.keys(subs).forEach(emitir);
+  const canal = 'BroadcastChannel' in window ? new BroadcastChannel(KEY) : null;
+  if (canal) canal.onmessage = () => { db = leer(); todo() };
+  const guardar = () => { try { localStorage.setItem(KEY, JSON.stringify(db)) } catch (e) {} canal?.postMessage(1); todo() };
+  const on = k => ok => { subs[k].push(ok); setTimeout(() => ok(valor(k), false), 150) };
+  return {
+    onConfig: on('config'),
+    guardarConfig: async d => { db.config = copia(d); guardar() },
+    onTareas: on('tareas'),
+    crearTarea: async t => { db.tareas[t.id] = copia(t); guardar() },
+    editarTarea: async (id, c) => { Object.assign(db.tareas[id], copia(c)); guardar() },
+    borrarTarea: async id => { delete db.tareas[id]; guardar() },
+    marcar: async (id, u, si) => { const t = db.tareas[id]; t.hechas = t.hechas || {}; if (si) t.hechas[u] = Date.now(); else delete t.hechas[u]; guardar() },
+    onEjercicios: on('archivos'),
+    guardarEjercicio: async e => { db.archivos[e.id] = copia(e); guardar() },
+    borrarEjercicio: async id => { delete db.archivos[id]; guardar() },
+    leerUsuario: async u => db.usuarios[u] || null,
+    crearUsuario: async (u, d) => { if (db.usuarios[u]) throw new Error('existe'); db.usuarios[u] = d; guardar() }
+  };
+}
+
+let B = null;
+function mensajeError(e) {
+  const c = e?.code || '';
+  if (c.includes('permission-denied')) return 'La base de datos ha rechazado la operación (permiso denegado).';
+  if (c.includes('unavailable')) return 'No hay conexión con la base de datos. Revisa tu conexión.';
+  return e?.message || String(e);
+}
+function setSync(estado) {
+  const txt = { conectando: 'Conectando…', ok: 'En vivo', offline: 'Sin conexión', error: 'Error de conexión', demo: 'Modo demo' }[estado];
+  const el = $('#sync');
+  el.className = 'pill ' + estado;
+  el.title = estado === 'offline' ? 'Sin conexión: los cambios se enviarán al volver' : estado === 'demo' ? 'Modo demo: los datos solo se guardan en este navegador' : txt;
+  $('.txt', el).textContent = txt;
+}
+const cache = { tareas: false, ejercicios: false };
+function actualizarSync() {
+  if (DEMO) return setSync('demo');
+  if (S.error.tareas || S.error.ejercicios) return setSync('error');
+  if (!S.cargado.tareas || !S.cargado.ejercicios) return setSync('conectando');
+  setSync(cache.tareas || cache.ejercicios ? 'offline' : 'ok');
+}
+async function conectar() {
+  try {
+    B = DEMO ? backendDemo() : await backendFirebase();
+  } catch (e) {
+    S.error.tareas = S.error.ejercicios = 'No se pudo cargar la base de datos: ' + mensajeError(e);
+    S.cargado.tareas = S.cargado.ejercicios = true;
+    actualizarSync(); renderTodo();
+    return;
+  }
+  actualizarSync();
+  B.onConfig(raw => { S.config = normConfig(raw); renderTodo() }, e => console.warn('Configuración:', e));
+  B.onTareas((lista, deCache) => {
+    S.tareas = lista.map(normTarea).filter(Boolean);
+    S.cargado.tareas = true; S.error.tareas = ''; cache.tareas = deCache;
+    actualizarSync(); renderTodo();
+  }, e => { S.cargado.tareas = true; S.error.tareas = mensajeError(e); actualizarSync(); renderTodo() });
+  B.onEjercicios((lista, deCache) => {
+    S.ejercicios = lista;
+    S.cargado.ejercicios = true; S.error.ejercicios = ''; cache.ejercicios = deCache;
+    actualizarSync(); renderTodo();
+  }, e => { S.cargado.ejercicios = true; S.error.ejercicios = mensajeError(e); actualizarSync(); renderTodo() });
+}
+
+/* ---------- Inicio de sesión ----------
+   Cuentas propias de la clase guardadas en Clase/2DAM/Usuarios. La contraseña nunca se guarda:
+   solo un hash PBKDF2-SHA256 con sal aleatoria. */
+const ITER = 150000;
+const b64 = u8 => btoa(String.fromCharCode(...u8));
+const unb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+async function derivar(pass, sal, iter) {
+  if (!globalThis.crypto?.subtle) throw new Error('El navegador no permite iniciar sesión de forma segura aquí (abre la página con https).');
+  const clave = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveBits']);
+  const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: unb64(sal), iterations: iter }, clave, 256);
+  return b64(new Uint8Array(bits));
+}
+async function registrar(usuario, nombre, pass) {
+  const sal = b64(crypto.getRandomValues(new Uint8Array(16)));
+  const hash = await derivar(pass, sal, ITER);
+  await B.crearUsuario(usuario, { usuario, nombre, sal, hash, iter: ITER, creado: Date.now() });
+  return { usuario, nombre };
+}
+async function entrar(usuario, pass) {
+  const u = await B.leerUsuario(usuario);
+  if (!u) throw new Error('No existe ese usuario. Si es tu primera vez, pulsa «Crear cuenta».');
+  if (await derivar(pass, u.sal, u.iter || ITER) !== u.hash) throw new Error('Contraseña incorrecta.');
+  return u;
+}
+
+let modoLogin = 'entrar', trasLogin = null;
+function abrirLogin(despues = null) {
+  trasLogin = despues;
+  $('#f-login').reset();
+  setModoLogin('entrar');
+  $('#l-msg').textContent = '';
+  $('#dlg-login').showModal();
+  $('#l-user').focus();
+}
+function setModoLogin(m) {
+  modoLogin = m;
+  $$('#dlg-login [data-modo]').forEach(b => b.setAttribute('aria-pressed', b.dataset.modo === m));
+  $$('#dlg-login .reg').forEach(e => e.hidden = m !== 'registro');
+  $('#login-h').textContent = m === 'registro' ? 'Crear cuenta' : 'Iniciar sesión';
+  $('#l-ok').textContent = m === 'registro' ? 'Crear cuenta' : 'Entrar';
+  $('#l-pass').autocomplete = m === 'registro' ? 'new-password' : 'current-password';
+  $('#l-msg').textContent = '';
+}
+$$('#dlg-login [data-modo]').forEach(b => b.onclick = () => setModoLogin(b.dataset.modo));
+$('#f-login').onsubmit = async e => {
+  e.preventDefault();
+  const msg = $('#l-msg'), btn = $('#l-ok');
+  const fallo = t => { msg.className = 'msg err'; msg.textContent = t };
+  const u = $('#l-user').value.trim().toLowerCase(), p = $('#l-pass').value;
+  if (!/^[a-z0-9_-]{3,20}$/.test(u)) return fallo('El usuario debe tener entre 3 y 20 caracteres: letras sin tildes, números, guion o guion bajo.');
+  if (p.length < 6) return fallo('La contraseña debe tener al menos 6 caracteres.');
+  if (modoLogin === 'registro' && p !== $('#l-pass2').value) return fallo('Las contraseñas no coinciden.');
+  if (!B) return fallo('Todavía no hay conexión con la base de datos. Espera un momento y vuelve a intentarlo.');
+  btn.disabled = true; msg.className = 'msg'; msg.textContent = 'Comprobando…';
+  try {
+    const datos = modoLogin === 'registro'
+      ? await registrar(u, $('#l-nombre').value.trim().slice(0, 40) || u, p)
+      : await entrar(u, p);
+    S.sesion = { u: datos.usuario || u, nombre: datos.nombre || u };
+    store.set(CLAVE_SESION, S.sesion);
+    $('#dlg-login').close();
+    toast(`Hola, ${S.sesion.nombre} 👋`);
+    renderTodo();
+    const sigue = trasLogin; trasLogin = null; sigue?.();
+  } catch (x) {
+    fallo(x.message === 'existe' ? 'Ese usuario ya existe. Elige otro o inicia sesión.' : mensajeError(x));
+  } finally { btn.disabled = false }
+};
+const conSesion = fn => (...a) => yo() ? fn(...a) : abrirLogin(() => fn(...a));
+function cerrarSesion() {
+  S.sesion = null; store.set(CLAVE_SESION, null);
+  $('#user-menu').hidden = true;
+  toast('Sesión cerrada');
+  renderTodo();
+}
+
+/* ---------- Render general ---------- */
+function renderTodo() {
+  renderUsuario(); renderHorario(); renderTareas(); renderEjercicios(); renderContadores();
+  if ($('#dlg-celda').open && celda) pintarCelda();
+}
+function renderUsuario() {
+  const b = $('#user-btn');
+  if (yo()) {
+    const ini = S.sesion.nombre.split(/\s+/).map(p => p[0]).join('').slice(0, 2).toUpperCase();
+    b.innerHTML = `<span class="avatar">${esc(ini)}</span><span class="user-name">${esc(S.sesion.nombre)}</span>`;
+    b.setAttribute('aria-label', 'Cuenta de ' + S.sesion.nombre);
+    $('#user-who').innerHTML = `Sesión iniciada como<b>${esc(S.sesion.nombre)}</b><span class="mono">@${esc(S.sesion.u)}</span>`;
+  } else {
+    b.innerHTML = '<span aria-hidden="true">👤</span><span class="user-name">Iniciar sesión</span>';
+    b.setAttribute('aria-label', 'Iniciar sesión');
+    $('#user-menu').hidden = true;
+  }
+}
+function renderContadores() {
+  const hoy = hoyISO();
+  const pronto = visibles().filter(t => !hecha(t) && t.fecha && diasEntre(hoy, t.fecha) <= 6);
+  const n = $('#n-tareas');
+  n.textContent = pronto.length || '';
+  n.className = 'count' + (pronto.some(t => diasEntre(hoy, t.fecha) <= 1) ? ' hot' : '');
+  n.title = pronto.length ? `${plural(pronto.length, 'tarea pendiente', 'tareas pendientes')} en los próximos 7 días` : '';
+  $('#n-ej').textContent = ejerciciosClase().length || '';
+}
+function ir(v, cambiarHash = true) {
+  if (!['horario', 'tareas', 'ejercicios'].includes(v)) v = 'horario';
+  S.vista = v;
+  $$('.tab[data-v]').forEach(b => { b.setAttribute('aria-selected', b.dataset.v === v); b.tabIndex = b.dataset.v === v ? 0 : -1 });
+  $$('main > section').forEach(s => s.hidden = s.id !== 'v-' + v);
+  if (cambiarHash && location.hash !== '#' + v) history.replaceState(null, '', '#' + v);
+  window.scrollTo({ top: 0 });
+}
+function setFiltro(f) {
+  S.filtro = S.config.asignaturas[f] ? f : '';
+  store.set('filtro', S.filtro);
+  renderTareas(); renderEjercicios();
+}
+function chipsHTML(cuenta) {
+  const otras = S.filtro && !S.config.asignaturas[S.filtro];
+  if (otras) S.filtro = '';
+  return `<button type="button" class="chip" data-f="" aria-pressed="${!S.filtro}">Todas</button>` +
+    siglas().map(s => `<button type="button" class="chip sc" style="--c:${asig(s).c}" data-f="${esc(s)}" aria-pressed="${S.filtro === s}" title="${esc(asig(s).n)}"><span class="d"></span>${esc(s)}${cuenta[s] ? `<span class="n">${cuenta[s]}</span>` : ''}</button>`).join('');
+}
+const tagHTML = s => s ? `<span class="tag sc" style="--c:${asig(s).c}" title="${esc(asig(s).n)}">${esc(s)}</span>` : '';
+const cargandoHTML = t => `<p class="empty"><span class="spin"></span>${t}</p>`;
+
+/* ---------- Horario ---------- */
+function semana() {
+  const l = sumaDias(lunesDe(new Date()), S.semana * 7);
+  return { ini: iso(l), fin: iso(sumaDias(l, 6)), dias: [0, 1, 2, 3, 4].map(i => iso(sumaDias(l, i))) };
+}
+function semanaPorDefecto() {
+  const dow = new Date().getDay();
+  S.semana = dow === 0 || dow === 6 ? 1 : 0;      // en fin de semana se enseña la semana que viene
+  S.dia = dow >= 1 && dow <= 5 ? dow - 1 : 0;
+}
+function bloques(d) {
+  const h = S.config.horario['d' + d] || [], r = [];
+  for (let i = 0; i < 6;) {
+    let j = i;
+    while (j + 1 < 6 && j !== 2 && h[j + 1] === h[i]) j++;   // no se juntan horas a través del recreo
+    r.push([h[i] || '', i, j]); i = j + 1;
+  }
+  return r;
+}
+const fila = i => i < 3 ? i + 2 : i + 3;
+function esAhora(f, a, b) {
+  if (f !== hoyISO()) return false;
+  const n = new Date(), m = n.getHours() * 60 + n.getMinutes();
+  return m >= minutos(FRANJAS[a][0]) && m < minutos(FRANJAS[b][1]);
+}
+// Tareas de una asignatura que quedan por entregar desde ese día hasta el domingo de la semana mostrada.
+const tareasCelda = (sig, f, fin) => visibles().filter(t => t.asig === sig && t.fecha && t.fecha >= f && t.fecha <= fin);
+function celdaHTML(sig, f, a, b, sem) {
+  if (!sig) return '<div class="cl libre"><span class="prof">Libre</span></div>';
+  const m = asig(sig), ahora = esAhora(f, a, b);
+  const ts = tareasCelda(sig, f, sem.fin);
+  const entrega = ts.filter(t => t.fecha === f), pendEntrega = entrega.filter(t => !hecha(t));
+  const despues = f >= hoyISO() ? ts.filter(t => t.fecha !== f && !hecha(t)) : [];   // no recordar en días ya pasados
+  let bd = ahora ? '<span class="bdg now">Ahora</span>' : '';
+  if (pendEntrega.length) bd += `<span class="bdg entrega">⏰ Entrega${f === hoyISO() ? ' hoy' : ''}${pendEntrega.length > 1 ? ' ×' + pendEntrega.length : ''}</span>`;
+  else if (entrega.length) bd += '<span class="bdg ok">✓ Entregado</span>';
+  if (despues.length) bd += `<span class="bdg pend">📌 ${despues.length}</span>`;
+  const lista = ts.map(t => `\n• ${t.titulo} (${fechaCorta(t.fecha)})${hecha(t) ? ' ✓' : ''}`).join('');
+  const aria = `${m.n}, ${FRANJAS[a][0]} a ${FRANJAS[b][1]}` + (ts.length ? `. ${plural(ts.length, 'tarea')} esta semana` : '');
+  return `<button type="button" class="cl sc${ahora ? ' ahora' : ''}" style="--c:${m.c}" data-sig="${esc(sig)}" data-fecha="${f}" title="${esc(m.n + (m.p ? ' · ' + m.p : '') + lista)}" aria-label="${esc(aria)}">
+    <span class="sig">${esc(sig)}</span><span class="nom">${esc(m.n)}</span><span class="prof">${esc(m.p)}</span>${bd ? `<span class="badges">${bd}</span>` : ''}</button>`;
+}
+function textoSemana(sem) {
+  const a = desdeISO(sem.dias[0]), b = desdeISO(sem.dias[4]);
+  return a.getMonth() === b.getMonth()
+    ? `${a.getDate()} – ${b.getDate()} ${MESES[b.getMonth()]} ${b.getFullYear()}`
+    : `${a.getDate()} ${MESES[a.getMonth()]} – ${b.getDate()} ${MESES[b.getMonth()]} ${b.getFullYear()}`;
+}
+function textoAhora() {
+  const n = new Date(), dow = n.getDay(), m = n.getHours() * 60 + n.getMinutes();
+  if (dow === 0 || dow === 6) return 'Fin de semana · mostrando la semana que viene.';
+  const bs = bloques(dow - 1).filter(([s]) => s);
+  const actual = bs.find(([, a, b]) => m >= minutos(FRANJAS[a][0]) && m < minutos(FRANJAS[b][1]));
+  if (actual) return `Ahora: ${asig(actual[0]).n} · hasta las ${FRANJAS[actual[2]][1]}`;
+  const sig = bs.find(([, a]) => minutos(FRANJAS[a][0]) > m);
+  if (sig) return `Siguiente: ${asig(sig[0]).n} a las ${FRANJAS[sig[1]][0]}`;
+  return 'Las clases de hoy han terminado.';
+}
+function renderHorario() {
+  const sem = semana(), hoy = hoyISO();
+  const rel = S.semana === 0 ? 'Esta semana' : S.semana === 1 ? 'Semana que viene' : S.semana === -1 ? 'Semana pasada'
+    : S.semana > 0 ? `Dentro de ${S.semana} semanas` : `Hace ${-S.semana} semanas`;
+  $('#sem-lbl').textContent = textoSemana(sem);
+  $('#sem-lbl').title = rel;
+  $('#ahora').textContent = textoAhora() + (S.semana !== 0 && new Date().getDay() % 6 !== 0 ? ` · Viendo: ${rel.toLowerCase()}` : '');
+
+  let h = '<div></div>' + sem.dias.map((f, i) => { const d = desdeISO(f); return `<div class="dh${f === hoy ? ' hoy' : ''}"><b>${DIAS[i]}</b>${d.getDate()} ${MESES[d.getMonth()]}</div>` }).join('');
+  FRANJAS.forEach((fr, i) => { h += `<div class="hr" style="grid-row:${fila(i)}"><b>${fr[0]}</b>${fr[1]}</div>` });
+  h += `<div class="rec" style="grid-row:5">Recreo · ${RECREO[0]} – ${RECREO[1]}</div>`;
+  for (let d = 0; d < 5; d++) {
+    bloques(d).forEach(([sig, a, b]) => {
+      h += `<div class="cell" style="grid-column:${d + 2};grid-row:${fila(a)} / ${fila(b) + 1}">${celdaHTML(sig, sem.dias[d], a, b, sem)}</div>`;
+    });
+  }
+  $('#grid').innerHTML = h;
+
+  $('#dias').innerHTML = sem.dias.map((f, i) => `<button type="button" class="dia${f === hoy ? ' hoy' : ''}" data-d="${i}" aria-pressed="${i === S.dia}" aria-label="${DIAS[i]} ${desdeISO(f).getDate()}"><b>${DIAS[i].slice(0, 3)}</b>${desdeISO(f).getDate()}</button>`).join('');
+  let m = '';
+  bloques(S.dia).forEach(([sig, a, b]) => {
+    m += `<div class="mrow"><div class="hr"><b>${FRANJAS[a][0]}</b>${FRANJAS[b][1]}</div><div class="cell">${celdaHTML(sig, sem.dias[S.dia], a, b, sem)}</div></div>`;
+    if (b === 2) m += `<div class="rec">Recreo · ${RECREO[0]} – ${RECREO[1]}</div>`;
+  });
+  $('#lista').innerHTML = m;
+  renderAgenda(sem);
+}
+function renderAgenda(sem) {
+  const hoy = hoyISO(), el = $('#agenda');
+  const ts = visibles().filter(t => t.fecha && t.fecha >= sem.ini && t.fecha <= sem.fin).sort(porFecha);
+  const pend = ts.filter(t => !hecha(t)).length;
+  let h = `<div class="ag-h"><h2>Entregas de la semana</h2><span class="count${pend ? ' hot' : ''}">${ts.length ? plural(pend, 'pendiente') : ''}</span></div>`;
+  if (!S.cargado.tareas) h += cargandoHTML('Cargando tareas…');
+  else if (S.error.tareas) h += `<p class="empty">⚠ ${esc(S.error.tareas)}</p>`;
+  else if (!ts.length) h += '<p class="empty">Nada que entregar esta semana 🎉</p>';
+  else {
+    const dias = [...new Set(ts.map(t => t.fecha))];
+    h += dias.map(f => {
+      const d = desdeISO(f);
+      return `<div class="ag-day${f < hoy ? ' past' : ''}${f === hoy ? ' today' : ''}"><div class="ag-d"><b>${f === hoy ? 'Hoy' : DIAS_SEM[d.getDay()].slice(0, 3)}</b>${d.getDate()} ${MESES[d.getMonth()]}</div>
+        <div class="ag-items">${ts.filter(t => t.fecha === f).map(t => tareaHTML(t, { compacta: true, fecha: false })).join('')}</div></div>`;
+    }).join('');
+  }
+  if (S.semana === 0 && S.cargado.tareas) {
+    const venc = visibles().filter(t => t.fecha && t.fecha < sem.ini && !hecha(t)).length;
+    if (venc) h += `<div style="margin-top:10px"><button type="button" class="btn sm danger" data-act="vencidas">⚠ ${plural(venc, 'tarea vencida', 'tareas vencidas')} de semanas anteriores</button></div>`;
+  }
+  el.innerHTML = h;
+}
+
+/* Detalle de una asignatura (al pulsar un cuadro del horario) */
+let celda = null;
+function abrirCelda(sig, fecha) { celda = { sig, fecha }; pintarCelda(); $('#dlg-celda').showModal() }
+function pintarCelda() {
+  const { sig, fecha } = celda, m = asig(sig), sem = semana();
+  const ts = visibles().filter(t => t.asig === sig && t.fecha && t.fecha >= sem.ini && t.fecha <= sem.fin).sort(porFecha);
+  const luego = visibles().filter(t => t.asig === sig && !hecha(t) && (!t.fecha || t.fecha > sem.fin)).sort(porFecha);
+  const horas = Object.values(S.config.horario).flat().filter(s => s === sig).length;
+  const nEj = ejerciciosClase().filter(e => e._asig === sig).length;
+  $('#c-h').innerHTML = `${tagHTML(sig)}<span>${esc(m.n)}</span>`;
+  $('#c-b').innerHTML = `<p class="hint">👤 ${esc(m.p || 'Sin profesor/a asignado')} · ${plural(horas, 'hora')} a la semana · ${plural(nEj, 'ejercicio')} compartido${nEj === 1 ? '' : 's'}</p>
+    <h3>Esta semana (${textoSemana(sem)})</h3>
+    ${ts.length ? `<div>${ts.map(t => tareaHTML(t, { compacta: true })).join('')}</div>` : '<p class="hint">No hay nada para esta semana.</p>'}
+    ${luego.length ? `<h3>Más adelante</h3><div>${luego.slice(0, 6).map(t => tareaHTML(t, { compacta: true })).join('')}</div>` : ''}`;
+  $('#c-nueva').onclick = () => { $('#dlg-celda').close(); nuevaTarea({ asig: sig, fecha: fecha >= hoyISO() ? fecha : '' }) };
+  $('#c-tareas').onclick = () => { $('#dlg-celda').close(); setFiltro(sig); ir('tareas') };
+  $('#c-ej').onclick = () => { $('#dlg-celda').close(); setFiltro(sig); ir('ejercicios') };
+}
+
+/* ---------- Tareas ---------- */
+function tareaHTML(t, { compacta = false, fecha = true } = {}) {
+  const h = hecha(t), n = Object.keys(t.hechas).length, mia = yo() && t.autor === yo();
+  let due = '';
+  if (t.fecha && fecha) {
+    const d = diasEntre(hoyISO(), t.fecha);
+    due = `<span class="due${!h && d < 0 ? ' late' : !h && d <= 1 ? ' soon' : ''}">📅 ${fechaCorta(t.fecha)} · ${fechaRelativa(t.fecha)}</span>`;
+  }
+  const titulo = compacta ? `<button type="button" class="linkish" data-act="ver">${esc(t.titulo)}</button>` : esc(t.titulo);
+  return `<div class="task${compacta ? ' compact' : ''}${h ? ' done' : ''}" data-id="${esc(t._id)}">
+    <input type="checkbox" class="chk" data-act="marcar"${h ? ' checked' : ''} aria-label="${h ? 'Desmarcar' : 'Marcar como hecha'}: ${esc(t.titulo)}">
+    <div class="body">
+      <div class="tt">${titulo}</div>
+      <div class="meta">${tagHTML(t.asig)}${due}${t.tipo === 'personal' ? '<span class="tag plain">👤 Solo en tu lista</span>' : ''}<span>por ${esc(t.autorNombre || 'anónimo')}</span>${t.tipo === 'clase' && n ? `<span title="Compañeros que ya la han hecho">✓ ${n} ${n === 1 ? 'la ha hecho' : 'la han hecho'}</span>` : ''}</div>
+      ${!compacta && t.desc ? `<div class="desc">${enlazar(esc(t.desc))}</div>` : ''}
+    </div>
+    ${!compacta && mia ? `<div class="ops"><button type="button" class="btn ghost sm" data-act="editar" aria-label="Editar tarea">✎</button><button type="button" class="btn ghost sm danger" data-act="borrar" aria-label="Borrar tarea">🗑</button></div>` : ''}
+  </div>`;
+}
+function tareasAntiguas() {
+  try { const v = JSON.parse(localStorage.getItem('tareas') || '[]'); return Array.isArray(v) ? v.filter(x => x && x.t) : [] } catch (e) { return [] }
+}
+function renderTareas() {
+  const cuenta = {};
+  visibles().filter(t => !hecha(t)).forEach(t => cuenta[t.asig] = (cuenta[t.asig] || 0) + 1);
+  $('#chips-t').innerHTML = chipsHTML(cuenta);
+
+  let aviso = '';
+  if (!yo()) aviso = `<div class="callout"><span>Inicia sesión para crear tareas para la clase y marcar las que ya has hecho.</span><button type="button" class="btn pri sm" data-act="login">Iniciar sesión</button></div>`;
+  else {
+    const viejas = tareasAntiguas();
+    if (viejas.length) aviso = `<div class="callout warn"><span>Tienes ${plural(viejas.length, 'tarea guardada', 'tareas guardadas')} solo en este navegador (versión anterior de la web).</span>
+      <span class="acts"><button type="button" class="btn sm" data-act="importar">Pasarlas a mi lista</button><button type="button" class="btn ghost sm" data-act="descartar">Descartar</button></span></div>`;
+  }
+  $('#t-aviso').innerHTML = aviso;
+
+  const el = $('#t-lista');
+  if (!S.cargado.tareas) { el.innerHTML = cargandoHTML('Cargando tareas…'); return }
+  if (S.error.tareas) { el.innerHTML = `<p class="empty">⚠ ${esc(S.error.tareas)}</p>`; return }
+  const hoy = hoyISO();
+  const ts = visibles().filter(t => !S.filtro || t.asig === S.filtro).sort(porFecha);
+  const pend = ts.filter(t => !hecha(t));
+  const grupos = [
+    ['Vencidas', pend.filter(t => t.fecha && t.fecha < hoy), 'late'],
+    ['Próximos 7 días', pend.filter(t => t.fecha && t.fecha >= hoy && diasEntre(hoy, t.fecha) <= 6)],
+    ['Más adelante', pend.filter(t => t.fecha && diasEntre(hoy, t.fecha) > 6)],
+    ['Sin fecha', pend.filter(t => !t.fecha)]
+  ];
+  let h = grupos.filter(g => g[1].length).map(([tit, l, cls]) => `<div class="group-h ${cls || ''}">${tit} <span class="count">${l.length}</span></div>${l.map(t => tareaHTML(t)).join('')}`).join('');
+  const hechas = ts.filter(hecha).sort((a, b) => b.hechas[yo()] - a.hechas[yo()]);
+  if (hechas.length) h += `<details class="group"><summary class="group-h">Hechas <span class="count">${hechas.length}</span></summary>${hechas.map(t => tareaHTML(t)).join('')}</details>`;
+  if (!ts.length) h = `<p class="empty">${S.filtro ? `No hay tareas de ${esc(S.filtro)}.` : 'Todavía no hay tareas.'} ${yo() ? 'Pulsa «Nueva tarea» para añadir la primera.' : ''}</p>`;
+  else if (!pend.length) h = '<p class="empty">¡Todo hecho! 🎉</p>' + h;
+  el.innerHTML = h;
+}
+function verTarea(id) {
+  const t = S.tareas.find(x => x._id === id);
+  if (!t) return;
+  $$('dialog[open]').forEach(d => d.close());
+  if (S.filtro && S.filtro !== t.asig) setFiltro('');
+  ir('tareas');
+  const el = $(`#t-lista [data-id="${CSS.escape(id)}"]`);
+  if (!el) return;
+  const det = el.closest('details'); if (det) det.open = true;
+  el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+}
+
+let editandoTarea = null, tipoTarea = 'clase';
+function opcionesAsig(sel, valor, vacia) {
+  sel.innerHTML = (vacia ? `<option value="">${vacia}</option>` : '') + siglas().map(s => `<option value="${esc(s)}">${esc(s)} · ${esc(asig(s).n)}</option>`).join('');
+  sel.value = valor && S.config.asignaturas[valor] ? valor : (vacia ? '' : siglas()[0] || '');
+}
+function setTipoTarea(t) { tipoTarea = t; $$('#dlg-tarea [data-tipo]').forEach(b => b.setAttribute('aria-pressed', b.dataset.tipo === t)) }
+$$('#dlg-tarea [data-tipo]').forEach(b => b.onclick = () => setTipoTarea(b.dataset.tipo));
+const nuevaTarea = conSesion((pre = {}) => abrirTarea(null, pre));
+function abrirTarea(t, pre = {}) {
+  editandoTarea = t;
+  $('#tarea-h').textContent = t ? 'Editar tarea' : 'Nueva tarea';
+  $('#ta-ok').textContent = t ? 'Guardar cambios' : 'Añadir tarea';
+  $('#ta-tit').value = t?.titulo || '';
+  opcionesAsig($('#ta-asig'), t ? t.asig : (pre.asig || S.filtro), 'Sin asignatura');
+  $('#ta-fecha').value = t ? t.fecha : (pre.fecha || '');
+  $('#ta-desc').value = t?.desc || '';
+  setTipoTarea(t?.tipo || 'clase');
+  $('#ta-msg').textContent = '';
+  $('#dlg-tarea').showModal();
+  $('#ta-tit').focus();
+}
+$('#f-tarea').onsubmit = async e => {
+  e.preventDefault();
+  const titulo = $('#ta-tit').value.trim(), msg = $('#ta-msg');
+  if (!titulo) { msg.className = 'msg err'; msg.textContent = 'Escribe un título para la tarea.'; return }
+  const datos = { titulo, asig: $('#ta-asig').value, fecha: $('#ta-fecha').value, tipo: tipoTarea, desc: $('#ta-desc').value.trim() };
+  $('#ta-ok').disabled = true;
+  try {
+    if (editandoTarea) await B.editarTarea(editandoTarea._id, { ...datos, editado: Date.now() });
+    else await B.crearTarea({ id: nuevoId('tarea_'), ...datos, autor: yo(), autorNombre: S.sesion.nombre, creado: Date.now(), hechas: {} });
+    $('#dlg-tarea').close();
+    toast(editandoTarea ? 'Tarea actualizada' : tipoTarea === 'clase' ? 'Tarea añadida para toda la clase' : 'Tarea añadida a tu lista');
+  } catch (x) { msg.className = 'msg err'; msg.textContent = mensajeError(x) }
+  finally { $('#ta-ok').disabled = false }
+};
+async function importarAntiguas() {
+  const viejas = tareasAntiguas();
+  try {
+    for (const v of viejas) {
+      await B.crearTarea({
+        id: nuevoId('tarea_'), titulo: String(v.t).slice(0, 140), asig: S.config.asignaturas[v.m] ? v.m : '',
+        fecha: /^\d{4}-\d{2}-\d{2}$/.test(v.f) ? v.f : '', tipo: 'personal', desc: '',
+        autor: yo(), autorNombre: S.sesion.nombre, creado: Date.now(), hechas: v.ok ? { [yo()]: Date.now() } : {}
+      });
+    }
+    localStorage.removeItem('tareas');
+    toast(`${plural(viejas.length, 'tarea pasada', 'tareas pasadas')} a tu lista`);
+    renderTareas();
+  } catch (x) { toast('⚠ ' + mensajeError(x), 'err') }
+}
+
+/* ---------- Ejercicios ---------- */
+const ICONOS = { java: '☕', py: '🐍', js: '🟨', ts: '🟦', kt: '🟣', html: '🌐', css: '🎨', xml: '📋', sql: '🗄️', json: '🔧', md: '📝', txt: '📄', drawio: '📐' };
+const extDe = n => n.includes('.') ? n.split('.').pop().toLowerCase() : '';
+// Mismo campo "lang" que usa index.html para sus etiquetas.
+function langDe(n) {
+  const e = extDe(n);
+  return e === 'py' ? 'python' : ['js', 'jsx', 'ts', 'tsx'].includes(e) ? 'javascript' : e === 'java' ? 'java'
+    : e === 'html' ? 'html' : e === 'css' ? 'css' : e === 'drawio' ? 'drawio' : 'other';
+}
+const limpiaNombre = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^\w.-]+/g, '-').replace(/^[-.]+|-+$/g, '').slice(0, 80);
+const puedeEditarEj = e => !!yo() && (!e.autor || e.autor === yo());
+
+function renderEjercicios() {
+  const todos = ejerciciosClase(), cuenta = {};
+  todos.forEach(e => cuenta[e._asig] = (cuenta[e._asig] || 0) + 1);
+  $('#chips-e').innerHTML = chipsHTML(cuenta);
+  const el = $('#e-lista');
+  if (!S.cargado.ejercicios) { el.innerHTML = cargandoHTML('Cargando ejercicios…'); return }
+  if (S.error.ejercicios) { el.innerHTML = `<p class="empty">⚠ ${esc(S.error.ejercicios)}</p>`; return }
+  const q = S.busca.trim().toLowerCase();
+  let es = todos.filter(e => !S.filtro || e._asig === S.filtro);
+  if (q) es = es.filter(e => [e.name, e.descripcion, e.autorNombre, e.carpeta].some(v => String(v || '').toLowerCase().includes(q)));
+  if (!es.length) {
+    el.innerHTML = `<p class="empty">${q ? 'Sin resultados.' : S.filtro ? `Todavía no hay ejercicios de ${esc(S.filtro)}. ¡Sube el primero!` : 'Todavía no hay ejercicios. ¡Sube el primero!'}</p>`;
+    return;
+  }
+  const grupos = [...siglas(), ...new Set(es.map(e => e._asig).filter(s => !S.config.asignaturas[s]))];
+  el.innerHTML = grupos.map(s => {
+    const l = es.filter(e => e._asig === s).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+    if (!l.length) return '';
+    return `<div class="ex-group"><div class="group-h">${tagHTML(s)} ${esc(asig(s).n)} <span class="count">${l.length}</span></div>${l.map(e => {
+      const sub = String(e.carpeta || '').split('/').slice(2).join('/');
+      const lang = langDe(e.name), nuevo = e.updatedAt && Date.now() - e.updatedAt < 3 * 864e5;
+      const info = [sub && '📁 ' + sub, e.descripcion, e.autorNombre && 'por ' + e.autorNombre, hace(e.updatedAt)].filter(Boolean).join(' · ');
+      return `<button type="button" class="ex" data-ej="${esc(e._id)}"><span class="ic" aria-hidden="true">${ICONOS[extDe(e.name)] || '📄'}</span><span class="nm">${esc(e.name)}${info ? `<small>${esc(info)}</small>` : ''}</span>${nuevo ? '<span class="new">NUEVO</span>' : ''}${lang !== 'other' ? `<span class="lang ${lang}">${lang}</span>` : ''}</button>`;
+    }).join('')}</div>`;
+  }).join('');
+}
+
+/* Resaltado de sintaxis: un solo recorrido por el texto, así nunca se rompe el HTML. */
+const W = s => new Set(s.split(/\s+/));
+const LEX = {
+  py: { re: /(?<c>#[^\n]*)|(?<s>"""[\s\S]*?"""|'''[\s\S]*?'''|"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*')|(?<n>\b\d+(?:\.\d+)?\b)|(?<w>[A-Za-z_]\w*)/g,
+    kw: W('and as assert async await break case class continue def del elif else except finally for from global if import in is lambda match nonlocal not or pass raise return try while with yield None True False self'),
+    ty: W('int float str bool list dict set tuple range len print input open type') },
+  js: { re: /(?<c>\/\/[^\n]*|\/\*[\s\S]*?\*\/)|(?<s>"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|`(?:[^`\\]|\\.)*`)|(?<n>\b\d+(?:\.\d+)?\b)|(?<w>[A-Za-z_$][\w$]*)/g,
+    kw: W('async await break case catch class const continue default delete do else export extends finally for from function if import in instanceof let new null of return static super switch this throw try typeof undefined var void while yield true false interface type enum implements private public protected readonly'),
+    ty: W('console document window Math JSON Array Object String Number Boolean Promise Map Set Date Error') },
+  java: { re: /(?<c>\/\/[^\n]*|\/\*[\s\S]*?\*\/)|(?<s>"""[\s\S]*?"""|"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*')|(?<n>\b\d+(?:\.\d+)?[fFdDlL]?\b)|(?<w>[A-Za-z_$][\w$]*)/g,
+    kw: W('abstract assert break case catch class continue default do else enum extends final finally for if implements import instanceof interface native new null package private protected public record return static super switch synchronized this throw throws try void volatile while true false var fun val when object data sealed open override companion internal suspend is as in lateinit'),
+    ty: W('int long double float boolean char byte short String Object Integer Double Boolean Character Long List ArrayList LinkedList Map HashMap Set HashSet Scanner System Math Thread Runnable Exception Int Unit Any MutableList Array') },
+  sql: { re: /(?<c>--[^\n]*|\/\*[\s\S]*?\*\/)|(?<s>'(?:[^']|'')*'|"[^"\n]*")|(?<n>\b\d+(?:\.\d+)?\b)|(?<w>[A-Za-z_]\w*)/g, ci: true,
+    kw: W('select from where insert into values update set delete create table drop alter add primary key foreign references join left right inner outer full on group by order having and or not null is as distinct limit offset union all exists in like between case when then else end default unique index view database use if constraint check'),
+    ty: W('int integer bigint smallint varchar char text date datetime timestamp time decimal numeric float double boolean auto_increment serial') },
+  html: { re: /(?<c><!--[\s\S]*?-->)|(?<t><\/?[A-Za-z][\w:.-]*|\/?>)|(?<s>"[^"]*"|'[^']*')/g },
+  css: { re: /(?<c>\/\*[\s\S]*?\*\/)|(?<s>"[^"\n]*"|'[^'\n]*')|(?<t>[^{}\n;]+(?=\{))|(?<p>[A-Za-z-]+(?=\s*:))|(?<n>#[0-9a-fA-F]{3,8}\b|-?\b\d+(?:\.\d+)?(?:px|em|rem|%|vh|vw|s|ms|deg|fr)?)/g }
+};
+const EXT_LEX = { py: 'py', js: 'js', mjs: 'js', cjs: 'js', jsx: 'js', ts: 'js', tsx: 'js', json: 'js', php: 'js', java: 'java', kt: 'java', kts: 'java', c: 'java', h: 'java', cpp: 'java', cs: 'java', sql: 'sql', html: 'html', htm: 'html', xml: 'html', svg: 'html', drawio: 'html', fxml: 'html', css: 'css' };
+function resaltar(code, ext) {
+  const L = LEX[EXT_LEX[ext]];
+  if (!L) return esc(code);
+  let out = '', i = 0;
+  for (const m of code.matchAll(L.re)) {
+    const g = m.groups, txt = m[0];
+    let cls = g.c ? 'c' : g.s ? 's' : g.n ? 'n' : g.t ? 'k' : g.p ? 't' : '';
+    if (g.w) { const w = L.ci ? txt.toLowerCase() : txt; cls = L.kw?.has(w) ? 'k' : L.ty?.has(w) ? 't' : '' }
+    out += esc(code.slice(i, m.index)) + (cls ? `<span class="tk-${cls}">${esc(txt)}</span>` : esc(txt));
+    i = m.index + txt.length;
+  }
+  return out + esc(code.slice(i));
+}
+
+let ejActual = null, ejTexto = '';
+async function abrirEj(id) {
+  const e = ejerciciosClase().find(x => x._id === id);
+  if (!e) return;
+  ejActual = e; ejTexto = e.content || '';
+  $('#ej-h').textContent = e.name;
+  $('#ej-meta').innerHTML = [tagHTML(e._asig), e.autorNombre && `por ${esc(e.autorNombre)}`, e.updatedAt && `actualizado ${hace(e.updatedAt)}`, ejTexto && plural(ejTexto.split('\n').length, 'línea')].filter(Boolean).map(x => `<span>${x}</span>`).join('');
+  $('#ej-desc').hidden = !e.descripcion;
+  $('#ej-desc').textContent = e.descripcion || '';
+  $('#ej-editar').hidden = $('#ej-borrar').hidden = !puedeEditarEj(e);
+  const code = $('#ej-code');
+  code.innerHTML = ejTexto ? resaltar(ejTexto, extDe(e.name)) : '';
+  $('#dlg-ej').showModal();
+  if (!ejTexto && e.download_url) {
+    code.textContent = 'Cargando…';
+    try { const r = await fetch(e.download_url); if (!r.ok) throw new Error(r.statusText); ejTexto = await r.text(); code.innerHTML = resaltar(ejTexto, extDe(e.name)) }
+    catch (x) { code.textContent = 'No se pudo cargar el archivo: ' + x.message }
+  } else if (!ejTexto) code.textContent = '(archivo vacío)';
+}
+$('#ej-copiar').onclick = async () => {
+  if (!ejTexto) return;
+  try { await navigator.clipboard.writeText(ejTexto) }
+  catch (e) { const t = document.createElement('textarea'); t.value = ejTexto; document.body.append(t); t.select(); document.execCommand('copy'); t.remove() }
+  toast('Copiado al portapapeles');
+};
+$('#ej-descargar').onclick = () => {
+  if (!ejTexto) return;
+  const url = URL.createObjectURL(new Blob([ejTexto], { type: 'text/plain;charset=utf-8' }));
+  const a = Object.assign(document.createElement('a'), { href: url, download: ejActual.name });
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+};
+$('#ej-borrar').onclick = async () => {
+  if (!ejActual || !confirm(`¿Borrar «${ejActual.name}» para toda la clase? No se puede deshacer.`)) return;
+  try { await B.borrarEjercicio(ejActual._id); $('#dlg-ej').close(); toast('Ejercicio borrado') }
+  catch (x) { toast('⚠ ' + mensajeError(x), 'err') }
+};
+$('#ej-editar').onclick = () => { const e = ejActual; $('#dlg-ej').close(); abrirSubida(e) };
+
+let modoSubida = 'pegar', editandoEj = null;
+function setModoSubida(m) {
+  modoSubida = m;
+  $$('#s-modos [data-modo]').forEach(b => b.setAttribute('aria-pressed', b.dataset.modo === m));
+  $('#s-pegar').hidden = m !== 'pegar';
+  $('#s-archivos').hidden = m !== 'archivos';
+}
+$$('#s-modos [data-modo]').forEach(b => b.onclick = () => setModoSubida(b.dataset.modo));
+const abrirSubida = conSesion((e = null) => {
+  editandoEj = e;
+  $('#f-subir').reset();
+  $('#s-h').textContent = e ? 'Editar ejercicio' : 'Subir ejercicio';
+  $('#s-ok').textContent = e ? 'Guardar cambios' : 'Subir para la clase';
+  $('#s-modos').hidden = !!e;
+  opcionesAsig($('#s-asig'), e ? e._asig : S.filtro);
+  setModoSubida('pegar');
+  $('#s-lista').hidden = true;
+  $('#s-msg').textContent = '';
+  if (e) {
+    const ext = extDe(e.name);
+    if (![...$('#s-ext').options].some(o => o.value === ext)) $('#s-ext').append(new Option(ext || 'txt'));
+    $('#s-ext').value = ext || 'txt';
+    $('#s-nombre').value = ext ? e.name.slice(0, -(ext.length + 1)) : e.name;
+    $('#s-code').value = e.content || '';
+    $('#s-desc').value = e.descripcion || '';
+  }
+  $('#dlg-subir').showModal();
+});
+$('#s-files').onchange = function () {
+  const fs = [...this.files];
+  $('#s-lista').hidden = !fs.length;
+  $('#s-lista').innerHTML = fs.map(f => `<div>${ICONOS[extDe(f.name)] || '📄'} ${esc(f.name)} <span class="muted">· ${Math.ceil(f.size / 1024)} KB</span></div>`).join('');
+};
+$('#s-nombre').addEventListener('change', function () {
+  // Si escriben "Main.java" se separa la extensión sola.
+  const ext = extDe(this.value);
+  if (ext && [...$('#s-ext').options].some(o => o.value === ext)) { $('#s-ext').value = ext; this.value = this.value.slice(0, -(ext.length + 1)) }
+});
+$('#f-subir').onsubmit = async ev => {
+  ev.preventDefault();
+  const msg = $('#s-msg'), btn = $('#s-ok'), sig = $('#s-asig').value;
+  const fallo = t => { msg.className = 'msg err'; msg.textContent = t };
+  if (!sig) return fallo('Elige una asignatura.');
+  const items = [];
+  if (modoSubida === 'pegar') {
+    let base = limpiaNombre($('#s-nombre').value), ext = $('#s-ext').value;
+    const content = $('#s-code').value, e2 = extDe(base);
+    if (e2 && [...$('#s-ext').options].some(o => o.value === e2)) { ext = e2; base = base.slice(0, -(e2.length + 1)) }
+    if (!base) return fallo('Ponle un nombre al archivo.');
+    if (!content.trim()) return fallo('Pega el código o los apuntes.');
+    if (new Blob([content]).size > MAX_ARCHIVO) return fallo('El texto es demasiado largo (máximo 500 KB).');
+    items.push({ name: `${base}.${ext}`, content });
+  } else {
+    const fs = [...$('#s-files').files];
+    if (!fs.length) return fallo('Selecciona uno o varios archivos.');
+    for (const f of fs) {
+      if (f.size > MAX_ARCHIVO) return fallo(`«${f.name}» es demasiado grande (máximo 500 KB).`);
+      const content = await f.text();
+      if (content.includes('\u0000')) return fallo(`«${f.name}» no es un archivo de texto o código.`);
+      items.push({ name: limpiaNombre(f.name) || 'archivo.txt', content });
+    }
+  }
+  const desc = $('#s-desc').value.trim().slice(0, 300), carpeta = `${CARPETA}/${sig}`;
+  btn.disabled = true; msg.className = 'msg'; msg.textContent = 'Guardando…';
+  try {
+    let n = 0;
+    for (const it of items) {
+      let previo = editandoEj;
+      if (!previo) {
+        const igual = ejerciciosClase().find(x => x.carpeta === carpeta && x.name === it.name);
+        if (igual && puedeEditarEj(igual) && confirm(`Ya existe «${it.name}» en ${sig}. ¿Reemplazarlo por la versión nueva?`)) previo = igual;
+      }
+      const id = previo?._id || nuevoId('ejercicio_');
+      await B.guardarEjercicio({
+        id, name: it.name, path: `${carpeta}/${it.name}`, carpeta, lang: langDe(it.name),
+        download_url: '', html_url: '', content: it.content, updatedAt: Date.now(), origen: 'clase-2dam',
+        asignatura: sig, descripcion: desc,
+        autor: previo?.autor || yo(), autorNombre: previo?.autorNombre || S.sesion.nombre, editadoPor: S.sesion.nombre
+      });
+      n++;
+    }
+    $('#dlg-subir').close();
+    toast(editandoEj ? 'Ejercicio actualizado para todos' : `${plural(n, 'ejercicio subido', 'ejercicios subidos')} para la clase`);
+    if (S.filtro && S.filtro !== sig) setFiltro(sig);
+  } catch (x) { fallo(mensajeError(x)) }
+  finally { btn.disabled = false }
+};
+
+/* ---------- Cambiar asignaturas ---------- */
+let borrador = null;
+const abrirCfg = conSesion(() => {
+  const c = S.config;
+  borrador = { filas: c.orden.map(s => ({ sig: s, ...c.asignaturas[s], fija: true })), horario: JSON.parse(JSON.stringify(c.horario)) };
+  pintarCfg();
+  $('#cfg-msg').textContent = '';
+  $('#cfg-info').textContent = c.por ? `Último cambio: ${c.por}, ${hace(c.actualizado)}` : 'Valores originales del curso';
+  $('#dlg-cfg').showModal();
+});
+function pintarCfg() {
+  $('#cfg-rows').innerHTML = borrador.filas.map((r, i) => `<div class="cfg-row" data-i="${i}">
+    <input type="color" value="${esc(r.c)}" data-k="c" aria-label="Color de ${esc(r.sig || 'la nueva asignatura')}">
+    <input class="inp sig" value="${esc(r.sig)}" data-k="sig" placeholder="SIGLA" maxlength="10" spellcheck="false" aria-label="Sigla"${r.fija ? ' readonly title="La sigla no se cambia porque las tareas y ejercicios la usan"' : ''}>
+    <input class="inp" value="${esc(r.n)}" data-k="n" placeholder="Nombre de la asignatura" maxlength="80" aria-label="Nombre">
+    <input class="inp" value="${esc(r.p)}" data-k="p" placeholder="Profesor/a" maxlength="60" aria-label="Profesor/a">
+    <button type="button" class="btn ghost sm danger" data-del="${i}" aria-label="Quitar ${esc(r.sig || 'asignatura')}">✕</button>
+  </div>`).join('');
+  pintarCfgHorario();
+}
+function pintarCfgHorario() {
+  const filas = borrador.filas.filter(r => r.sig);
+  const color = s => (filas.find(r => r.sig === s) || {}).c || '';
+  let h = '<table class="cfg-h"><thead><tr><th></th>' + DIAS.map(d => `<th>${d.slice(0, 3)}</th>`).join('') + '</tr></thead><tbody>';
+  FRANJAS.forEach((fr, i) => {
+    if (i === 3) h += '<tr><td></td><td colspan="5" class="rec-td">Recreo</td></tr>';
+    h += `<tr><th>${fr[0]}</th>` + [0, 1, 2, 3, 4].map(d => {
+      const v = borrador.horario['d' + d][i];
+      return `<td><select class="inp sc" style="--c:${color(v) || '#7c8594'}" data-d="${d}" data-h="${i}" aria-label="${DIAS[d]} ${fr[0]}"><option value="">— Libre —</option>${filas.map(r => `<option value="${esc(r.sig)}"${r.sig === v ? ' selected' : ''}>${esc(r.sig)}</option>`).join('')}</select></td>`;
+    }).join('') + '</tr>';
+  });
+  $('#cfg-hor').innerHTML = h + '</tbody></table>';
+}
+$('#cfg-rows').addEventListener('input', e => {
+  const k = e.target.dataset.k, r = borrador.filas[e.target.closest('[data-i]')?.dataset.i];
+  if (!k || !r) return;
+  if (k === 'sig') {
+    const viejo = r.sig;
+    r.sig = e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9_-]/g, '');
+    Object.values(borrador.horario).forEach(d => d.forEach((s, i) => { if (s === viejo && viejo) d[i] = r.sig }));
+  } else r[k] = e.target.value;
+  if (k === 'sig' || k === 'c') pintarCfgHorario();
+});
+$('#cfg-rows').addEventListener('click', e => {
+  const b = e.target.closest('[data-del]');
+  if (!b) return;
+  const [r] = borrador.filas.splice(+b.dataset.del, 1);
+  const usos = Object.values(borrador.horario).flat().filter(s => s === r.sig).length;
+  Object.values(borrador.horario).forEach(d => d.forEach((s, i) => { if (s === r.sig) d[i] = '' }));
+  pintarCfg();
+  $('#cfg-msg').className = 'msg';
+  $('#cfg-msg').textContent = r.sig ? `${r.sig} quitada${usos ? ` (sus ${usos} horas quedan libres)` : ''}. No se guarda hasta que pulses «Guardar para todos».` : '';
+});
+$('#cfg-hor').addEventListener('change', e => {
+  const s = e.target;
+  if (s.dataset.d == null) return;
+  borrador.horario['d' + s.dataset.d][+s.dataset.h] = s.value;
+  s.style.setProperty('--c', (borrador.filas.find(r => r.sig === s.value) || {}).c || '#7c8594');
+});
+$('#cfg-add').onclick = () => {
+  const usados = borrador.filas.map(r => r.c);
+  borrador.filas.push({ sig: '', n: '', p: '', c: COLORES_EXTRA.find(c => !usados.includes(c)) || COLORES_EXTRA[borrador.filas.length % COLORES_EXTRA.length], fija: false });
+  pintarCfg();
+  $('#cfg-rows .cfg-row:last-child [data-k="sig"]').focus();
+};
+$('#cfg-reset').onclick = () => {
+  borrador = { filas: CONFIG_DEF.orden.map(s => ({ sig: s, ...CONFIG_DEF.asignaturas[s], fija: !!S.config.asignaturas[s] })), horario: JSON.parse(JSON.stringify(CONFIG_DEF.horario)) };
+  pintarCfg();
+  $('#cfg-msg').className = 'msg';
+  $('#cfg-msg').textContent = 'Valores originales cargados. Pulsa «Guardar para todos» para aplicarlos.';
+};
+$('#f-cfg').onsubmit = async e => {
+  e.preventDefault();
+  const msg = $('#cfg-msg'), fallo = t => { msg.className = 'msg err'; msg.textContent = t };
+  const filas = borrador.filas;
+  if (!filas.length) return fallo('Tiene que haber al menos una asignatura.');
+  for (const r of filas) {
+    if (!/^[A-Z0-9_-]{1,10}$/.test(r.sig)) return fallo('Cada asignatura necesita una sigla (letras, números, - o _).');
+    if (!r.n.trim()) return fallo(`Ponle nombre a ${r.sig}.`);
+  }
+  const rep = filas.find((r, i) => filas.findIndex(x => x.sig === r.sig) !== i);
+  if (rep) return fallo(`La sigla ${rep.sig} está repetida.`);
+  const asignaturas = {};
+  filas.forEach(r => asignaturas[r.sig] = { n: r.n.trim(), p: r.p.trim(), c: /^#[0-9a-f]{6}$/i.test(r.c) ? r.c : '#7c8594' });
+  const horario = {};
+  for (let d = 0; d < 5; d++) horario['d' + d] = borrador.horario['d' + d].map(s => asignaturas[s] ? s : '');
+  $('#cfg-ok').disabled = true;
+  try {
+    await B.guardarConfig({ asignaturas, orden: filas.map(r => r.sig), horario, actualizado: Date.now(), por: S.sesion.nombre });
+    $('#dlg-cfg').close();
+    toast('Asignaturas actualizadas para toda la clase');
+  } catch (x) { fallo(mensajeError(x)) }
+  finally { $('#cfg-ok').disabled = false }
+};
+
+/* ---------- Eventos ---------- */
+document.addEventListener('click', e => {
+  const cl = e.target.closest('.cl[data-sig]');
+  if (cl) return abrirCelda(cl.dataset.sig, cl.dataset.fecha);
+  const chip = e.target.closest('[data-f]');
+  if (chip) return setFiltro(chip.dataset.f);
+  const ej = e.target.closest('[data-ej]');
+  if (ej) return abrirEj(ej.dataset.ej);
+  const dia = e.target.closest('#dias [data-d]');
+  if (dia) { S.dia = +dia.dataset.d; return renderHorario() }
+
+  const a = e.target.closest('[data-act]');
+  if (!a) return;
+  const id = a.closest('[data-id]')?.dataset.id, t = S.tareas.find(x => x._id === id);
+  switch (a.dataset.act) {
+    case 'marcar': if (!yo()) { e.preventDefault(); abrirLogin() } break;
+    case 'ver': verTarea(id); break;
+    case 'editar': if (t) abrirTarea(t); break;
+    case 'borrar':
+      if (t && confirm(`¿Borrar la tarea «${t.titulo}»${t.tipo === 'clase' ? ' para toda la clase' : ''}?`))
+        B.borrarTarea(t._id).then(() => toast('Tarea borrada'), x => toast('⚠ ' + mensajeError(x), 'err'));
+      break;
+    case 'login': abrirLogin(); break;
+    case 'importar': importarAntiguas(); break;
+    case 'descartar': if (confirm('¿Descartar las tareas antiguas de este navegador?')) { localStorage.removeItem('tareas'); renderTareas() } break;
+    case 'vencidas': setFiltro(''); ir('tareas'); break;
+  }
+});
+document.addEventListener('change', e => {
+  if (!e.target.matches('.chk[data-act="marcar"]') || !yo()) return;
+  const id = e.target.closest('[data-id]').dataset.id, si = e.target.checked;
+  B.marcar(id, yo(), si).catch(x => { toast('⚠ ' + mensajeError(x), 'err'); renderTodo() });
+});
+$$('dialog').forEach(d => {
+  $$('[data-close]', d).forEach(b => b.onclick = () => d.close());
+  if (d.hasAttribute('data-light')) {
+    let abajo = null;
+    d.addEventListener('mousedown', e => abajo = e.target);
+    d.addEventListener('click', e => { if (e.target === d && abajo === d) d.close() });
+  }
+});
+$('#dlg-celda').addEventListener('close', () => celda = null);
+
+$$('.tab[data-v]').forEach(b => {
+  b.onclick = () => ir(b.dataset.v);
+  b.onkeydown = e => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    const tabs = $$('.tab[data-v]'), i = tabs.indexOf(b) + (e.key === 'ArrowRight' ? 1 : -1);
+    const sig = tabs[(i + tabs.length) % tabs.length];
+    ir(sig.dataset.v); sig.focus();
+  };
+});
+window.addEventListener('hashchange', () => ir(location.hash.slice(1), false));
+$('#sem-prev').onclick = () => { S.semana--; renderHorario() };
+$('#sem-next').onclick = () => { S.semana++; renderHorario() };
+$('#sem-hoy').onclick = () => { semanaPorDefecto(); renderHorario() };
+$('#btn-cfg').onclick = () => abrirCfg();
+$('#btn-nueva').onclick = () => nuevaTarea();
+$('#btn-subir').onclick = () => abrirSubida();
+$('#e-busca').oninput = e => { S.busca = e.target.value; renderEjercicios() };
+
+$('#user-btn').onclick = e => {
+  if (!yo()) return abrirLogin();
+  e.stopPropagation();
+  $('#user-menu').hidden = !$('#user-menu').hidden;
+};
+$('#logout').onclick = cerrarSesion;
+document.addEventListener('click', e => { if (!e.target.closest('.user')) $('#user-menu').hidden = true });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') $('#user-menu').hidden = true });
+window.addEventListener('storage', e => {
+  if (e.key === 'clase2dam.' + CLAVE_SESION) { S.sesion = store.get(CLAVE_SESION, null); renderTodo() }
+});
+
+/* Tema */
+const temaClaro = () => document.documentElement.dataset.theme === 'light';
+function pintarTema() {
+  const claro = temaClaro();
+  $('#tema').textContent = claro ? '☾' : '☀';
+  $('#tema').setAttribute('aria-label', claro ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro');
+  $('meta[name="theme-color"]').content = claro ? '#ffffff' : '#161a20';
+}
+$('#tema').onclick = () => {
+  const t = temaClaro() ? 'dark' : 'light';
+  document.documentElement.dataset.theme = t;
+  store.set('tema', t);
+  pintarTema();
+};
+
+/* Mensajes */
+let toastT = 0;
+function toast(m, tipo = '') {
+  const t = $('#toast');
+  t.textContent = m; t.className = 'toast show ' + tipo;
+  clearTimeout(toastT); toastT = setTimeout(() => t.className = 'toast', 2800);
+}
+
+/* ---------- Arranque ---------- */
+try {
+  // Restos de la versión anterior: el token de GitHub ya no se usa y no debe quedarse guardado.
+  localStorage.removeItem('tok');
+  const viejo = JSON.parse(localStorage.getItem('tema') || 'null');
+  if (viejo && !store.get('tema', null)) store.set('tema', viejo);
+  localStorage.removeItem('tema');
+} catch (e) {}
+pintarTema();
+semanaPorDefecto();
+ir(location.hash.slice(1) || 'horario', false);
+renderTodo();
+setSync(DEMO ? 'demo' : 'conectando');
+conectar();
+setInterval(() => { renderHorario(); renderContadores() }, 60000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) { renderHorario(); renderContadores() } });
 </script>
 </body>
 </html>

@@ -7,7 +7,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  // Aplica el tema guardado antes de pintar para evitar parpadeos.
+  try{
+    var t = localStorage.getItem('python.tema');
+    if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+  }catch(e){}
+</script>
 <style>
+  /* Modo oscuro por defecto; el botón ☀/☾ de la barra superior cambia a claro y se recuerda. */
   :root{
     --bg: #f6f7f9;
     --panel: #ffffff;
@@ -20,6 +28,7 @@
     --code-comment: #7c8594;
     --accent: #2f6f4f;
     --accent-soft: rgba(47,111,79,0.12);
+    --on-accent: #ffffff;
     --py: #2f6fb0;
     --py-soft: rgba(47,111,176,0.12);
     --js: #a3790c;
@@ -28,6 +37,7 @@
     --java-soft: rgba(179,73,42,0.12);
     --shadow: 0 1px 2px rgba(20,22,26,0.04), 0 8px 24px rgba(20,22,26,0.06);
     --radius: 10px;
+    color-scheme: light;
   }
   :root:not([data-theme="light"]) {
     --bg: #0f1216;
@@ -41,6 +51,7 @@
     --code-comment: #6d7686;
     --accent: #5fb98a;
     --accent-soft: rgba(95,185,138,0.14);
+    --on-accent: #0b1410;
     --py: #6fa8dc;
     --py-soft: rgba(111,168,220,0.14);
     --js: #e0b84a;
@@ -48,48 +59,7 @@
     --java: #e0785a;
     --java-soft: rgba(224,120,90,0.14);
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]) {
-      --bg: #0f1216;
-      --panel: #161a20;
-      --panel-2: #1c2129;
-      --border: #2a303a;
-      --text: #e7eaee;
-      --muted: #929aa6;
-      --code-bg: #0a0d12;
-      --code-text: #d7dee8;
-      --code-comment: #6d7686;
-      --accent: #5fb98a;
-      --accent-soft: rgba(95,185,138,0.14);
-      --py: #6fa8dc;
-      --py-soft: rgba(111,168,220,0.14);
-      --js: #e0b84a;
-      --js-soft: rgba(224,184,74,0.14);
-      --java: #e0785a;
-      --java-soft: rgba(224,120,90,0.14);
-      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #0f1216;
-    --panel: #161a20;
-    --panel-2: #1c2129;
-    --border: #2a303a;
-    --text: #e7eaee;
-    --muted: #929aa6;
-    --code-bg: #0a0d12;
-    --code-text: #d7dee8;
-    --code-comment: #6d7686;
-    --accent: #5fb98a;
-    --accent-soft: rgba(95,185,138,0.14);
-    --py: #6fa8dc;
-    --py-soft: rgba(111,168,220,0.14);
-    --js: #e0b84a;
-    --js-soft: rgba(224,184,74,0.14);
-    --java: #e0785a;
-    --java-soft: rgba(224,120,90,0.14);
-    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    color-scheme: dark;
   }
 
   *{box-sizing:border-box;}
@@ -137,6 +107,14 @@
     white-space:nowrap;
   }
   .repo-link:hover{border-color:var(--accent);}
+  .theme-toggle{
+    display:inline-flex; align-items:center; justify-content:center;
+    min-width:34px; padding:6px 10px;
+    border:1px solid var(--border); border-radius:8px;
+    background:var(--panel-2); color:var(--text);
+    font-family:inherit; font-size:14px; line-height:1.2; cursor:pointer;
+  }
+  .theme-toggle:hover{border-color:var(--accent);}
 
   /* ---------- Layout ---------- */
   .layout{
@@ -330,7 +308,7 @@
     display:inline-flex; align-items:center; gap:7px;
     font-family:"JetBrains Mono", monospace; font-weight:600; font-size:12.5px;
     padding:9px 16px; border-radius:9px; border:1px solid var(--border);
-    background:var(--accent); color:#0b1410; cursor:pointer;
+    background:var(--accent); color:var(--on-accent); cursor:pointer;
   }
   .ex-upload-btn:hover{filter:brightness(1.06);}
 
@@ -483,7 +461,7 @@
     background:var(--panel-2); border-radius:8px; padding:8px 10px;
   }
   .ex-upload-submit{
-    background:var(--accent); color:#0b1410; border:none; border-radius:9px;
+    background:var(--accent); color:var(--on-accent); border:none; border-radius:9px;
     padding:10px 0; font-family:"JetBrains Mono", monospace; font-weight:700; font-size:12.5px;
     cursor:pointer;
   }
@@ -495,6 +473,7 @@
   /* mobile */
   .menu-toggle{display:none;}
   @media (max-width: 860px){
+    .topbar{padding:14px 16px; gap:8px;}
     .layout{grid-template-columns: 1fr;}
     .sidebar{
       position:static; height:auto; width:100%;
@@ -524,6 +503,7 @@
   </div>
   <div class="topbar-actions">
     <button class="menu-toggle" id="menuToggle">☰ Índice</button>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar a modo claro" title="Cambiar a modo claro">☀</button>
     <a class="repo-link" href="https://github.com/ErBala3/python" target="_blank" rel="noopener">Ver en GitHub ↗</a>
   </div>
 </div>
@@ -1153,6 +1133,24 @@ System.out.println(nombres.get(0));</pre>
     sidebar.classList.toggle('open');
   });
 
+  // ---- Tema claro / oscuro ----
+  const themeToggle = document.getElementById('themeToggle');
+  const isLightTheme = () => document.documentElement.dataset.theme === 'light';
+  function paintThemeToggle(){
+    const light = isLightTheme();
+    const label = light ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro';
+    themeToggle.textContent = light ? '☾' : '☀';
+    themeToggle.setAttribute('aria-label', label);
+    themeToggle.title = label;
+  }
+  themeToggle.addEventListener('click', () => {
+    const t = isLightTheme() ? 'dark' : 'light';
+    document.documentElement.dataset.theme = t;
+    try{ localStorage.setItem('python.tema', t); }catch(e){}
+    paintThemeToggle();
+  });
+  paintThemeToggle();
+
   tocContainer.addEventListener('click', (e) => {
     const a = e.target.closest('a[data-target]');
     if (!a) return;
@@ -1219,42 +1217,82 @@ System.out.println(nombres.get(0));</pre>
     return 'other';
   }
 
-  function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function escapeHtml(s){
+    return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+  // Solo enlaces http(s): evita javascript: y similares en datos que cualquiera puede escribir.
+  const safeUrl = u => /^https?:\/\//i.test(u || '') ? u : '';
+
+  // ---- Resaltado de sintaxis ----
+  // Un solo recorrido: una expresión con grupos con nombre reconoce cada token
+  // (comentario, cadena, etiqueta, número o palabra) sobre el código original,
+  // y cada trozo se escapa por separado. Así ninguna regla puede encontrar
+  // coincidencias dentro del HTML que ya insertó otra.
+  const words = s => new Set(s.split(' '));
+  const HL_WORD = /[\p{L}_$][\p{L}\p{N}_$]*/;
+  const HL_NUM  = /0[xX][\da-fA-F]+|\d+(?:\.\d+)?(?:[eE][+-]?\d+)?/;
+  const HL_C_CMT = /\/\/[^\n]*|\/\*[\s\S]*?\*\//;
+  const HL_C_STR = /"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'/;
+  const HL_MARKUP = {
+    cmt: /<!--[\s\S]*?-->/,
+    str: /(?<==\s*)(?:"[^"]*"|'[^']*')/,
+    tag: /<[!?\/]?[A-Za-z][\w:.-]*/,
+    num: HL_NUM, word: HL_WORD
+  };
+  const HL_LANGS = {
+    java: {
+      cmt: HL_C_CMT,
+      str: new RegExp('"""[\\s\\S]*?"""|' + HL_C_STR.source),
+      num: HL_NUM, word: HL_WORD,
+      kw: words('public private protected class interface enum extends implements new return void static final if else for while do switch case default break continue import package try catch finally throws throw this super null true false abstract instanceof var'),
+      typ: words('int long double float boolean char byte short String Object List Map Set ArrayList HashMap Integer Double Boolean Character Scanner')
+    },
+    javascript: {
+      cmt: HL_C_CMT,
+      str: new RegExp(HL_C_STR.source + '|`(?:[^`\\\\]|\\\\.)*`'),
+      num: HL_NUM, word: HL_WORD,
+      kw: words('function const let var return if else for while do switch case default break continue class extends new this super import export from try catch finally throw async await null undefined true false typeof instanceof of in')
+    },
+    python: {
+      cmt: /#[^\n]*/,
+      str: /(?:[rRbBuUfF]{1,2})?(?:"""[\s\S]*?"""|'''[\s\S]*?'''|"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*')/,
+      num: HL_NUM, word: HL_WORD,
+      kw: words('def class return if elif else for while break continue pass import from as try except finally raise with in is not and or lambda yield global nonlocal del assert async await None True False self print')
+    },
+    html: HL_MARKUP,
+    drawio: HL_MARKUP,
+    css: {
+      cmt: /\/\*[\s\S]*?\*\//,
+      str: HL_C_STR,
+      tag: /[.#]?[\w-]+(?=\s*\{)/,
+      num: /#[\da-fA-F]{3,8}\b|\d+(?:\.\d+)?/,
+      word: /[\p{L}_][\p{L}\p{N}_-]*/
+    },
+    other: { num: HL_NUM, word: HL_WORD }
+  };
+  const HL_GROUPS = ['cmt', 'str', 'tag', 'num', 'word'];
+  const HL_CLASS  = { cmt: 'ex-cmt', str: 'ex-str', tag: 'ex-kw', num: 'ex-num' };
+  for (const cfg of Object.values(HL_LANGS)){
+    if (cfg.re) continue;
+    cfg.re = new RegExp(HL_GROUPS.filter(g => cfg[g]).map(g => `(?<${g}>${cfg[g].source})`).join('|'), 'gu');
+  }
+
   function highlightCode(code, lang){
-    let s = escapeHtml(code);
-    if (['java','javascript'].includes(lang)){
-      s = s.replace(/(\/\/[^\n]*)/g, '<span class="ex-cmt">$1</span>');
-      s = s.replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="ex-cmt">$1</span>');
-      s = s.replace(/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`)/g, '<span class="ex-str">$1</span>');
+    code = String(code ?? '');
+    const cfg = HL_LANGS[lang] || HL_LANGS.other;
+    const span = (cls, text) => `<span class="${cls}">${escapeHtml(text)}</span>`;
+    let out = '', last = 0;
+    for (const m of code.matchAll(cfg.re)){
+      out += escapeHtml(code.slice(last, m.index));
+      last = m.index + m[0].length;
+      const g = HL_GROUPS.find(name => m.groups[name] !== undefined);
+      if (g !== 'word') out += span(HL_CLASS[g], m[0]);
+      else if (cfg.kw && cfg.kw.has(m[0])) out += span('ex-kw', m[0]);
+      else if (cfg.typ && cfg.typ.has(m[0])) out += span('ex-typ', m[0]);
+      else out += escapeHtml(m[0]);
     }
-    if (lang === 'java'){
-      s = s.replace(/\b(public|private|protected|class|interface|extends|implements|new|return|void|static|final|if|else|for|while|do|switch|case|break|continue|import|package|try|catch|finally|throws|throw|this|super|null|true|false|abstract)\b/g, '<span class="ex-kw">$1</span>');
-      s = s.replace(/\b(int|long|double|float|boolean|char|byte|short|String|Object|List|Map|Set|ArrayList)\b/g, '<span class="ex-typ">$1</span>');
-    }
-    if (lang === 'javascript'){
-      s = s.replace(/\b(function|const|let|var|return|if|else|for|while|class|extends|new|this|import|export|from|try|catch|finally|async|await|null|true|false|typeof)\b/g, '<span class="ex-kw">$1</span>');
-    }
-    if (lang === 'python'){
-      s = s.replace(/(#[^\n]*)/g, '<span class="ex-cmt">$1</span>');
-      s = s.replace(/("""[\s\S]*?"""|'''[\s\S]*?'''|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g, '<span class="ex-str">$1</span>');
-      s = s.replace(/\b(def|class|return|if|elif|else|for|while|import|from|as|try|except|finally|with|in|is|not|and|or|None|True|False|self|print)\b/g, '<span class="ex-kw">$1</span>');
-    }
-    if (lang === 'html'){
-      s = s.replace(/(&lt;!--[\s\S]*?--&gt;)/g, '<span class="ex-cmt">$1</span>');
-      s = s.replace(/(&lt;\/?[a-zA-Z][a-zA-Z0-9-]*)/g, '<span class="ex-kw">$1</span>');
-      s = s.replace(/(=(?:"[^"]*"|'[^']*'))/g, '<span class="ex-str">$1</span>');
-    }
-    if (lang === 'drawio'){
-      s = s.replace(/(&lt;!--[\s\S]*?--&gt;)/g, '<span class="ex-cmt">$1</span>');
-      s = s.replace(/(&lt;\/?[a-zA-Z][a-zA-Z0-9:_-]*)/g, '<span class="ex-kw">$1</span>');
-      s = s.replace(/(=(?:"[^"]*"|'[^']*'))/g, '<span class="ex-str">$1</span>');
-    }
-    if (lang === 'css'){
-      s = s.replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="ex-cmt">$1</span>');
-      s = s.replace(/([.#]?[\w-]+\s*\{)/g, '<span class="ex-kw">$1</span>');
-    }
-    s = s.replace(/\b(\d+\.?\d*)\b/g, '<span class="ex-num">$1</span>');
-    return s;
+    return out + escapeHtml(code.slice(last));
   }
 
   let allFiles = [];
@@ -1283,7 +1321,7 @@ System.out.println(nombres.get(0));</pre>
       const header = document.createElement('div');
       header.className = 'ex-folder-header';
       const total = countFiles(node);
-      header.innerHTML = `<span>📁</span><span class="ex-folder-name">${name}</span><span class="ex-count-pill">${total} archivo${total!==1?'s':''}</span><button class="ex-del-btn" title="Eliminar carpeta y todo su contenido" data-role="del-folder">🗑️</button><span class="ex-chevron">▶</span>`;
+      header.innerHTML = `<span>📁</span><span class="ex-folder-name">${escapeHtml(name)}</span><span class="ex-count-pill">${total} archivo${total!==1?'s':''}</span><button class="ex-del-btn" title="Eliminar carpeta y todo su contenido" data-role="del-folder">🗑️</button><span class="ex-chevron">▶</span>`;
       const body = document.createElement('div');
       body.className = 'ex-folder-body';
       fillBody(body, node, path);
@@ -1329,7 +1367,7 @@ System.out.println(nombres.get(0));</pre>
     row.dataset.name = (f.name || '').toLowerCase();
     row.dataset.lang = getLang(f.name || '');
     const lang = getLang(f.name || '');
-    row.innerHTML = `<span class="ex-file-icon">${getIcon(f.name||'')}</span><span class="ex-file-name">${f.name}</span>${lang!=='other' ? `<span class="ex-lang-badge ${lang}">${lang}</span>` : ''}<button class="ex-del-btn" title="Eliminar archivo" data-role="del-file">🗑️</button>`;
+    row.innerHTML = `<span class="ex-file-icon">${getIcon(f.name||'')}</span><span class="ex-file-name">${escapeHtml(f.name)}</span>${lang!=='other' ? `<span class="ex-lang-badge ${lang}">${lang}</span>` : ''}<button class="ex-del-btn" title="Eliminar archivo" data-role="del-file">🗑️</button>`;
     row.addEventListener('click', (e) => {
       if (e.target.closest('[data-role="del-file"]')) return;
       openExFile(f);
@@ -1387,7 +1425,7 @@ System.out.println(nombres.get(0));</pre>
   }, err => {
     console.error('Firestore error:', err);
     statusEl.textContent = 'No se pudo conectar con la base de datos';
-    document.getElementById('exTree').innerHTML = `<div class="ex-empty">⚠️ No se pudo conectar con la base de datos.<br>${err.message}</div>`;
+    document.getElementById('exTree').innerHTML = `<div class="ex-empty">⚠️ No se pudo conectar con la base de datos.<br>${escapeHtml(err.message)}</div>`;
   });
 
   // ---- Modal: ver / copiar archivo ----
@@ -1429,14 +1467,15 @@ System.out.println(nombres.get(0));</pre>
     document.getElementById('exModalTitle').textContent = f.name || 'archivo';
     exRawName = f.name || 'archivo.txt';
     const rawLink = document.getElementById('exModalRaw');
-    if (f.html_url){ rawLink.href = f.html_url; rawLink.style.display = ''; }
+    const htmlUrl = safeUrl(f.html_url);
+    if (htmlUrl){ rawLink.href = htmlUrl; rawLink.style.display = ''; }
     else { rawLink.style.display = 'none'; }
 
     const ext = getExt(f.name || '');
     const body = document.getElementById('exModalBody');
-    if (['png','jpg','jpeg','gif','webp','svg'].includes(ext) && f.download_url){
+    if (['png','jpg','jpeg','gif','webp','svg'].includes(ext) && safeUrl(f.download_url)){
       exRawCode = '';
-      body.innerHTML = `<img src="${f.download_url}" style="max-width:100%;border-radius:8px;" alt="${f.name}">`;
+      body.innerHTML = `<img src="${escapeHtml(safeUrl(f.download_url))}" style="max-width:100%;border-radius:8px;" alt="${escapeHtml(f.name)}">`;
       return;
     }
     const drawioNote = ext === 'drawio'
@@ -1455,7 +1494,7 @@ System.out.println(nombres.get(0));</pre>
         exRawCode = await r.text();
         body.innerHTML = `<pre>${highlightCode(exRawCode, getLang(f.name||''))}</pre>${drawioNote}`;
       } catch(err){
-        body.innerHTML = `<div class="ex-empty">No se pudo cargar el archivo.<br>${err.message}</div>`;
+        body.innerHTML = `<div class="ex-empty">No se pudo cargar el archivo.<br>${escapeHtml(err.message)}</div>`;
       }
       return;
     }
@@ -1478,7 +1517,7 @@ System.out.println(nombres.get(0));</pre>
     });
     const sorted = Array.from(folders).sort((a,b) => a.localeCompare(b,'es'));
     sel.innerHTML = '<option value="">📁 Raíz (sin carpeta)</option>' +
-      sorted.map(f => `<option value="${f}">📁 ${f}</option>`).join('') +
+      sorted.map(f => `<option value="${escapeHtml(f)}">📁 ${escapeHtml(f)}</option>`).join('') +
       '<option value="__new__">🆕 Nueva carpeta…</option>';
   }
 

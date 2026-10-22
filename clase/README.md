@@ -2,7 +2,9 @@
 
 Web de la clase: <https://erbala3.github.io/python/clase/>
 
-- **Horario** semanal con navegación entre semanas. Si una asignatura tiene tareas para esa semana, su cuadro lo marca: `📌 N` en las clases anteriores a la entrega y `⏰ Entrega` el día que toca. Pulsando un cuadro se ven sus tareas y ejercicios.
+- **Horario** semanal con navegación entre semanas. Si una asignatura tiene tareas para esa semana, su cuadro lo marca: `N pendientes` en las clases anteriores a la entrega y `Entrega` el día que toca. Pulsando un cuadro se ven sus tareas y ejercicios.
+- **Ahora**: tarjeta con la clase en curso y los minutos que le quedan (o la siguiente). La clase actual se resalta en el horario con una barra de progreso y las que ya han pasado se atenúan.
+- **Fin de semana**: el sábado y el domingo el horario, las entregas, el contador y la lista de tareas pasan a la semana que viene, para no ver lo de la semana ya terminada. También cambia solo si la página se queda abierta del viernes al sábado.
 - **Tareas** compartidas: lo que añade cualquiera aparece al momento para toda la clase. Cada uno marca como hechas las suyas, y también se pueden añadir tareas que solo salen en tu lista.
 - **Ejercicios** por asignatura: se pueden pegar o subir archivos de código, verlos con colores, copiarlos, descargarlos y actualizarlos.
 - **Cambiar asignaturas**: nombre, profesor/a, color y horario, para toda la clase.

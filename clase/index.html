@@ -18,7 +18,7 @@
   }catch(e){}
 </script>
 <style>
-  /* Paleta de ErBala3/python (index.html raíz). Igual que allí, el modo oscuro es el predeterminado. */
+  /* Paleta de SergioJimenezDelOjo3/python (index.html raíz). Igual que allí, el modo oscuro es el predeterminado. */
   :root{
     --bg:#f3f5f8; --panel-solid:#ffffff; --panel:rgba(255,255,255,.74); --panel-2:#eef0f3; --panel-3:#e2e6eb;
     --line:rgba(17,24,39,.08); --border:#dde1e7;
@@ -779,7 +779,7 @@
 
 <footer class="pagefoot">
   <span>2º DAM · Victoria Institute of Technology, Sanlúcar · curso 2026/27</span>
-  <span><a href="../">Guías de lenguajes</a> · <a href="https://github.com/ErBala3/python/tree/main/clase" target="_blank" rel="noopener">Código en GitHub</a></span>
+  <span><a href="../">Guías de lenguajes</a> · <a href="https://github.com/SergioJimenezDelOjo3/python/tree/main/clase" target="_blank" rel="noopener">Código en GitHub</a></span>
 </footer>
 
 <!-- ===== Inicio de sesión ===== -->
@@ -931,7 +931,7 @@
    Mi clase · 2DAM
    - Horario con las tareas de la semana marcadas en cada asignatura.
    - Tareas y ejercicios compartidos en vivo (Firestore, el mismo proyecto
-     que usan index.html y ErBala3/DAM).
+     que usan index.html y SergioJimenezDelOjo3/DAM).
    - Inicio de sesión de la clase y editor de asignaturas.
    Añade ?demo a la URL para probar sin tocar la base de datos real.
    ===================================================================== */
@@ -1108,7 +1108,7 @@ async function backendFirebase() {
   const tareas = collection(clase, 'Tareas');
   const usuarios = collection(clase, 'Usuarios');
   const archivos = collection(db, 'Codigo', 'Codigos', 'Archivos');
-  // La colección es compartida con index.html y ErBala3/DAM (miles de archivos): solo se piden los de la carpeta 2DAM/.
+  // La colección es compartida con index.html y SergioJimenezDelOjo3/DAM (miles de archivos): solo se piden los de la carpeta 2DAM/.
   const archivosClase = query(archivos, where('carpeta', '>=', CARPETA + '/'), where('carpeta', '<', CARPETA + '0'));
   const vivo = (ref, ok, ko) => onSnapshot(ref, { includeMetadataChanges: true },
     s => ok(s.docs ? s.docs.map(d => ({ ...d.data(), _id: d.id })) : (s.exists() ? s.data() : null), s.metadata.fromCache), ko);
